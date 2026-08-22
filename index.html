@@ -134,3 +134,87 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
+<div id="attendance">
+  <h2>📍 Smart Attendance</h2>
+
+  <p id="locationStatus">GPS እየፈተሸ ነው...</p>
+
+  <button onclick="checkLocation()">📍 Check GPS</button>
+  <button onclick="scanQR()">📷 Scan QR</button>
+
+  <div id="qr-reader" style="width:300px;margin-top:15px;"></div>
+
+  <p id="result"></p>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+const WORK_LAT = 6.85;       // የሥራ ቦታ Latitude እዚህ ቀይር
+const WORK_LNG = 38.10;      // የሥራ ቦታ Longitude እዚህ ቀይር
+const MAX_DISTANCE = 100;    // 100 ሜትር
+
+function distance(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const p1 = lat1 * Math.PI / 180;
+  const p2 = lat2 * Math.PI / 180;
+  const dp = (lat2-lat1) * Math.PI / 180;
+  const dl = (lon2-lon1) * Math.PI / 180;
+
+  const a = Math.sin(dp/2)**2 +
+            Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function checkLocation() {
+  if (!navigator.geolocation) {
+    document.getElementById("locationStatus").innerText =
+      "GPS በዚህ መሣሪያ አይደገፍም።";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      const meters = distance(lat, lng, WORK_LAT, WORK_LNG);
+
+      if (meters <= MAX_DISTANCE) {
+        document.getElementById("locationStatus").innerText =
+          "✅ በሥራ ቦታ ውስጥ ነህ (" +
+          Math.round(meters) + " ሜትር)";
+      } else {
+        document.getElementById("locationStatus").innerText =
+          "❌ ከሥራ ቦታ ውጭ ነህ (" +
+          Math.round(meters) + " ሜትር)";
+      }
+    },
+    function() {
+      document.getElementById("locationStatus").innerText =
+        "❌ GPS Location ፍቃድ አልተሰጠም።";
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000
+    }
+  );
+}
+
+function scanQR() {
+  const qr = new Html5Qrcode("qr-reader");
+
+  qr.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    function(decodedText) {
+      document.getElementById("result").innerText =
+        "✅ QR ተነቧል: " + decodedText;
+
+      qr.stop();
+    },
+    function(errorMessage) {}
+  );
+}
+</script>
