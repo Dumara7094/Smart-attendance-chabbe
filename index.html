@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="am">
 <head>
@@ -9,484 +8,134 @@
 
 <style>
 *{box-sizing:border-box}
-body{
-margin:0;
-font-family:Arial,"Noto Sans Ethiopic",sans-serif;
-background:#f3f6f9;
-color:#17212b
-}
-header{
-background:linear-gradient(135deg,#1769aa,#0d47a1);
-color:white;
-padding:25px 18px;
-border-radius:0 0 25px 25px
-}
-.container{
-max-width:900px;
-margin:auto;
-padding:18px
-}
-.card{
-background:white;
-border-radius:18px;
-padding:18px;
-margin:14px 0;
-box-shadow:0 4px 18px #00000012
-}
-h1{margin:0 0 8px}
-input,select{
-width:100%;
-padding:13px;
-margin:7px 0;
-border:1px solid #ccd6df;
-border-radius:10px;
-font-size:16px
-}
-button{
-border:0;
-border-radius:12px;
-padding:13px 18px;
-font-size:16px;
-margin:4px;
-cursor:pointer
-}
-.primary{background:#1769aa;color:white}
-.danger{background:#c62828;color:white}
-.light{background:#e8eef5}
-.hidden{display:none}
-.msg{
-padding:10px;
-margin-top:10px;
-border-radius:10px;
-background:#fff4d6
-}
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:12px
-}
-.stat{
-background:#eef6ff;
-padding:18px;
-border-radius:16px
-}
-.stat b{
-display:block;
-font-size:28px;
-margin-top:6px
-}
-table{
-width:100%;
-border-collapse:collapse
-}
-th,td{
-padding:10px;
-border-bottom:1px solid #e5e5e5;
-text-align:left
-}
-.badge{
-background:#e7f6ea;
-color:#167b2c;
-padding:5px 9px;
-border-radius:20px
-}
-footer{
-text-align:center;
-padding:25px;
-color:#71808f
-}
+body{margin:0;font-family:Arial,"Noto Sans Ethiopic",sans-serif;background:#f3f6f9;color:#17212b}
+header{background:linear-gradient(135deg,#1769aa,#0d47a1);color:#fff;padding:24px 18px;border-radius:0 0 24px 24px}
+h1{margin:0 0 6px;font-size:27px}.sub{opacity:.9}
+.container{max-width:900px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 4px 18px #00000012}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{padding:18px;border-radius:16px;background:#eef6ff}.stat b{font-size:28px;display:block;margin-top:6px}
+button{border:0;border-radius:12px;padding:13px 18px;font-size:16px;cursor:pointer;margin:4px}
+.primary{background:#1769aa;color:white}.danger{background:#c62828;color:white}.light{background:#e8eef5}
+input,select{width:100%;padding:13px;border:1px solid #ccd6df;border-radius:10px;margin:7px 0;font-size:15px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid #e7ebef}
+.badge{padding:5px 9px;border-radius:20px;background:#e7f6ea;color:#167b2c;font-size:13px}
+#login{max-width:430px;margin:35px auto}.hidden{display:none}.msg{padding:10px;border-radius:10px;background:#fff4d6;margin-top:10px}
+footer{text-align:center;color:#71808f;padding:25px}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-
 <div id="login" class="container">
-
 <div class="card">
-
 <h1>📋 Smart Attendance</h1>
+<p>የሠራተኞች መገኘትና መውጫ ስርዓት</p>
 
-<p>
-የሠራተኞች መገኘትና መውጫ ስርዓት
-</p>
+<input id="name" placeholder="የሠራተኛ ስም">
+<input id="id" placeholder="የሠራተኛ ID">
 
-<p>
-<strong>
-ጫቤ ጋምቤልቱ ወረዳ ሥራ፣
-ሠራተኞችና ቴክኖሎጂ ልማት ጽ/ቤት
-</strong>
-</p>
-
-<label>የሠራተኛ ID</label>
-
-<select id="employeeId" onchange="fillName()">
-
-<option value="">-- ID ይምረጡ --</option>
-
-<option value="001">001</option>
-<option value="002">002</option>
-<option value="003">003</option>
-<option value="004">004</option>
-<option value="005">005</option>
-<option value="006">006</option>
-<option value="007">007</option>
-<option value="008">008</option>
-<option value="009">009</option>
-<option value="010">010</option>
-<option value="011">011</option>
-<option value="012">012</option>
-<option value="013">013</option>
-<option value="014">014</option>
-<option value="015">015</option>
-<option value="016">016</option>
-<option value="017">017</option>
-<option value="018">018</option>
-<option value="019">019</option>
-<option value="020">020</option>
-
-</select>
-
-<label>የሠራተኛ ስም</label>
-
-<input
-id="name"
-readonly
-placeholder="ID ይምረጡ"
-/>
-
-<button
-class="primary"
-style="width:100%"
-onclick="login()"
->
-ግባ
-</button>
-
+<button class="primary" style="width:100%" onclick="login()">ግባ</button>
 <div id="loginMsg"></div>
-
 </div>
 </div>
-
-
-<!-- APPLICATION -->
 
 <div id="app" class="hidden">
 
 <header>
-
 <div class="container">
-
 <h1>Smart Attendance</h1>
-
-<div>
-የሠራተኞች መገኘት አስተዳደር
+<div class="sub">የሠራተኞች መገኘት አስተዳደር</div>
 </div>
-
-</div>
-
 </header>
-
 
 <main class="container">
 
-
-<!-- WELCOME -->
-
 <div class="card">
+<h2 id="welcome">እንኳን ደህና መጡ</h2>
 
-<h2 id="welcome">
-እንኳን ደህና መጡ
-</h2>
+<div id="employeeInfo"></div>
+<div id="clock"></div>
 
-<p id="employeeInfo"></p>
-
-<p id="clock"></p>
-
-<button
-class="primary"
-onclick="checkIn()"
->
-🟢 Check In
-</button>
-
-<button
-class="danger"
-onclick="checkOut()"
->
-🔴 Check Out
-</button>
-
-<button
-class="light"
-onclick="checkGPS()"
->
-📍 GPS Check
-</button>
+<button class="primary" onclick="checkIn()">🟢 Check In</button>
+<button class="danger" onclick="checkOut()">🔴 Check Out</button>
+<button class="light" onclick="getLocation()">📍 Location</button>
 
 <div id="status"></div>
-
 </div>
-
-
-<!-- STATISTICS -->
 
 <div class="grid">
-
-<div class="stat">
-የዛሬ መዝገብ
-<b id="today">0</b>
+<div class="stat">ዛሬ <b id="today">0</b> መዝገብ</div>
+<div class="stat">Check In <b id="cin">--</b></div>
+<div class="stat">Check Out <b id="cout">--</b></div>
 </div>
-
-<div class="stat">
-Check In
-<b id="cin">--</b>
-</div>
-
-<div class="stat">
-Check Out
-<b id="cout">--</b>
-</div>
-
-</div>
-
-
-<!-- GPS -->
 
 <div class="card">
-
-<h2>📍 GPS Location</h2>
-
-<p id="gpsStatus">
-GPS እየተጠበቀ ነው...
-</p>
-
-<button
-class="primary"
-onclick="checkGPS()"
->
-📍 Check GPS
-</button>
-
-</div>
-
-
-<!-- QR -->
-
-<div class="card">
-
-<h2>📷 QR Code</h2>
-
-<button
-class="primary"
-onclick="startQR()"
->
-📷 Scan QR
-</button>
-
-<div
-id="qr-reader"
-style="width:300px;max-width:100%;margin-top:15px"
-></div>
-
-<p id="qrResult"></p>
-
-</div>
-
-
-<!-- HISTORY -->
-
-<div class="card">
-
 <h2>📊 Attendance History</h2>
 
-<div style="overflow-x:auto">
-
 <table>
-
 <thead>
-
 <tr>
 <th>ቀን</th>
 <th>Check In</th>
 <th>Check Out</th>
 <th>ሁኔታ</th>
 </tr>
-
 </thead>
 
 <tbody id="history"></tbody>
-
 </table>
-
 </div>
-
-</div>
-
-
-<!-- EMPLOYEES -->
 
 <div class="card">
-
-<h2>👥 የሠራተኞች ዝርዝር</h2>
-
-<button
-class="primary"
-onclick="showEmployees()"
->
-ዝርዝሩን አሳይ
-</button>
-
-<div
-id="employeeList"
-style="display:none;margin-top:15px;overflow-x:auto"
-></div>
-
-</div>
-
-
-<!-- LEAVE -->
-
-<div class="card">
-
 <h2>📝 Leave Request</h2>
 
 <select id="leaveType">
-
 <option>ዓመታዊ ፈቃድ</option>
-
 <option>የህመም ፈቃድ</option>
-
 <option>ልዩ ፈቃድ</option>
-
 </select>
 
-<input
-id="leaveDays"
-type="number"
-min="1"
-placeholder="የቀናት ብዛት"
-/>
+<input id="leaveDays" type="number" min="1" placeholder="የቀናት ብዛት">
 
-<button
-class="primary"
-onclick="requestLeave()"
->
-ፈቃድ ጠይቅ
-</button>
+<button class="primary" onclick="leave()">ፈቃድ ጠይቅ</button>
 
 <div id="leaveMsg"></div>
-
 </div>
 
-
-<button
-class="light"
-onclick="logout()"
->
-ውጣ
-</button>
+<button class="light" onclick="logout()">ውጣ</button>
 
 </main>
 
-
-<footer>
-
-Smart Attendance • Chabe Gambeletu
-
-<br><br>
-
-<strong>
-Application Approved by Dumara Duwe
-</strong>
-
-</footer>
-
+<footer>Smart Attendance • Chabe Gambeletu</footer>
 </div>
-
 
 <script>
 
-/* =========================
-   የሠራተኞች ዝርዝር
-========================= */
+/* ================================
+   SMART ATTENDANCE
+   ================================ */
 
+let user=JSON.parse(localStorage.getItem("saUser")||"null");
+let records=JSON.parse(localStorage.getItem("saRecords")||"[]");
 
-const employees = {
-  "001": "ዱማራ ዱዌ አርሴ",
-  "002": "መስቀል ሳሙኤል ላሚሶ",
-  "003": "መንግስቱ ማቴዎስ",
-  "004": "አሸናፍ ኢንድራስ",
-  "005": "አክልሉ አባዬ",
-  "006": "አየለ አባ",
-  "007": "ሻሻሞ ሻላ",
-  "008": "ዳዊት ቦርሳሞ",
-  "009": "አሥራት አመሎ",
-  "010": "ህሩት ሀላላ",
-  "011": "ታደሠ ጉጆላ",
-  "012": "ደስታ ዳኩራ",
-  "013": "አጥናፉ ሀሮ",
-  "014": "አገኘ በየኔ",
-  "015": "አብነት ላሚሶ",
-  "016": "አበራ አስረስ",
-  "017": "ገናለ ጋጋ",
-  "018": "ሎተር ጌታቸው",
-  "019": "ወንድሙ የተራ",
-  "020": "አሸኛፍ ማጃ"
-};
-
-/* =========================
-   STORAGE
-========================= */
-
-let user=
-JSON.parse(
-localStorage.getItem("saUser")||"null"
-);
-
-let records=
-JSON.parse(
-localStorage.getItem("saRecords")||"[]"
-);
-
-
-/* =========================
-   ID → NAME
-========================= */
-
-function fillName(){
-
-const id=
-document.getElementById("employeeId").value;
-
-document.getElementById("name").value=
-employees[id]||"";
-
-}
-
-
-/* =========================
-   LOGIN
-========================= */
-
+/* LOGIN */
 function login(){
 
-const id=
-document.getElementById("employeeId").value;
+const n=document.getElementById("name").value.trim();
+const id=document.getElementById("id").value.trim();
 
-if(!id){
+if(!n||!id){
 
 document.getElementById("loginMsg").innerHTML=
-'<div class="msg">የሠራተኛ ID ይምረጡ።</div>';
+'<div class="msg">ስምና ID ያስገቡ።</div>';
 
 return;
-
 }
 
 user={
-id:id,
-name:employees[id]
+name:n,
+id:id
 };
 
 localStorage.setItem(
@@ -495,55 +144,35 @@ JSON.stringify(user)
 );
 
 showApp();
-
 }
 
-
-/* =========================
-   SHOW APP
-========================= */
-
+/* SHOW APP */
 function showApp(){
 
-document
-.getElementById("login")
+document.getElementById("login")
 .classList.add("hidden");
 
-document
-.getElementById("app")
+document.getElementById("app")
 .classList.remove("hidden");
 
-document
-.getElementById("welcome")
-.textContent=
+document.getElementById("welcome").textContent=
 "እንኳን ደህና መጡ፣ "+user.name;
 
-document
-.getElementById("employeeInfo")
-.textContent=
-"ID: "+user.id+
-" | "+user.name;
+document.getElementById("employeeInfo").innerHTML=
+`
+<div class="msg">
+<b>👤 የሠራተኛ ስም:</b> ${user.name}<br>
+<b>🆔 የሠራተኛ ID:</b> ${user.id}
+</div>
+`;
 
 render();
-
 }
 
+/* TIME */
+function now(){
 
-/* =========================
-   DATE / TIME
-========================= */
-
-function getDate(){
-
-return new Date()
-.toLocaleDateString("en-CA");
-
-}
-
-function getTime(){
-
-return new Date()
-.toLocaleTimeString(
+return new Date().toLocaleTimeString(
 "am-ET",
 {
 hour:"2-digit",
@@ -553,27 +182,25 @@ minute:"2-digit"
 
 }
 
+/* DATE */
+function date(){
 
-/* =========================
-   CHECK IN
-========================= */
+return new Date().toLocaleDateString("en-CA");
 
+}
+
+/* CHECK IN */
 function checkIn(){
 
-let r=
-records.find(
-x=>x.id===user.id &&
-x.date===getDate()
+let r=records.find(
+x=>x.id===user.id && x.date===date()
 );
 
 if(r && r.in){
 
-showMessage(
-"ዛሬ Check In ተመዝግቧል።"
-);
+msg("ዛሬ Check In ተመዝግቧል።");
 
 return;
-
 }
 
 if(!r){
@@ -581,122 +208,168 @@ if(!r){
 r={
 id:user.id,
 name:user.name,
-date:getDate(),
+date:date(),
 in:"",
-out:""
+out:"",
+latitude:"",
+longitude:""
 };
 
 records.push(r);
 
 }
 
-r.in=getTime();
+r.in=now();
 
-saveRecords();
-
+save();
 render();
 
-showMessage(
-"✅ Check In በትክክል ተመዝግቧል።"
-);
+msg("Check In በትክክል ተመዝግቧል።");
 
 }
 
-
-/* =========================
-   CHECK OUT
-========================= */
-
+/* CHECK OUT */
 function checkOut(){
 
-let r=
-records.find(
-x=>x.id===user.id &&
-x.date===getDate()
+let r=records.find(
+x=>x.id===user.id && x.date===date()
 );
 
 if(!r || !r.in){
 
-showMessage(
-"መጀመሪያ Check In ያድርጉ።"
-);
+msg("መጀመሪያ Check In ያድርጉ።");
 
 return;
-
 }
 
 if(r.out){
 
-showMessage(
-"ዛሬ Check Out ተመዝግቧል።"
-);
+msg("ዛሬ Check Out ተመዝግቧል።");
 
 return;
+}
+
+r.out=now();
+
+save();
+render();
+
+msg("Check Out በትክክል ተመዝግቧል።");
 
 }
 
-r.out=getTime();
+/* GPS */
+function getLocation(){
 
-saveRecords();
+if(!navigator.geolocation){
 
-render();
+msg("የLocation አገልግሎት አይደገፍም።");
 
-showMessage(
-"✅ Check Out በትክክል ተመዝግቧል።"
+return;
+}
+
+navigator.geolocation.getCurrentPosition(
+
+p=>{
+
+let r=records.find(
+x=>x.id===user.id && x.date===date()
+);
+
+if(!r){
+
+r={
+id:user.id,
+name:user.name,
+date:date(),
+in:"",
+out:"",
+latitude:"",
+longitude:""
+};
+
+records.push(r);
+
+}
+
+r.latitude=p.coords.latitude;
+r.longitude=p.coords.longitude;
+
+save();
+
+msg(
+"📍 Location ተገኝቷል:<br>"+
+"Latitude: "+p.coords.latitude.toFixed(5)+"<br>"+
+"Longitude: "+p.coords.longitude.toFixed(5)
+);
+
+},
+
+()=>{
+
+msg("Location ፈቃድ ይስጡ።");
+
+}
+
 );
 
 }
 
+/* LEAVE */
+function leave(){
 
-/* =========================
-   HISTORY
-========================= */
+let d=document.getElementById("leaveDays").value;
 
+if(!d || d<1){
+
+document.getElementById("leaveMsg").textContent=
+"የቀናት ብዛት ያስገቡ።";
+
+return;
+}
+
+document.getElementById("leaveMsg").textContent=
+"የ"+d+" ቀን "+
+document.getElementById("leaveType").value+
+" ጥያቄ ተልኳል።";
+
+}
+
+/* RENDER */
 function render(){
 
-const mine=
-records.filter(
+let mine=records.filter(
 x=>x.id===user.id
 );
 
-const today=
-mine.find(
-x=>x.date===getDate()
+let r=mine.find(
+x=>x.date===date()
 );
 
-document.getElementById("today")
-.textContent=mine.length;
+document.getElementById("today").textContent=
+mine.length;
 
-document.getElementById("cin")
-.textContent=
-today?.in||"--";
+document.getElementById("cin").textContent=
+r?.in || "--";
 
-document.getElementById("cout")
-.textContent=
-today?.out||"--";
+document.getElementById("cout").textContent=
+r?.out || "--";
 
-document.getElementById("history")
-.innerHTML=
+document.getElementById("history").innerHTML=
 
-mine
-.slice()
+mine.slice()
 .reverse()
 .map(x=>`
 
 <tr>
-
 <td>${x.date}</td>
-
-<td>${x.in||"--"}</td>
-
-<td>${x.out||"--"}</td>
-
+<td>${x.in || "--"}</td>
+<td>${x.out || "--"}</td>
 <td>
 <span class="badge">
-${x.out?"ጨርሷል":"በስራ ላይ"}
+${x.out ? "ጨርሷል":"በስራ ላይ"}
 </span>
 </td>
-
 </tr>
 
 `)
@@ -704,283 +377,12 @@ ${x.out?"ጨርሷል":"በስራ ላይ"}
 
 ||
 
-`<tr>
-<td colspan="4">
-ምንም መዝገብ የለም
-</td>
-</tr>`;
+'<tr><td colspan="4">ምንም መዝገብ የለም</td></tr>';
 
 }
 
-
-/* =========================
-   EMPLOYEE LIST
-========================= */
-
-function showEmployees(){
-
-let html=`
-
-<table>
-
-<thead>
-
-<tr>
-<th>ID</th>
-<th>ስም</th>
-</tr>
-
-</thead>
-
-<tbody>
-`;
-
-Object.keys(employees)
-.forEach(id=>{
-
-html+=`
-
-<tr>
-<td>${id}</td>
-<td>${employees[id]}</td>
-</tr>
-
-`;
-
-});
-
-html+=`
-
-</tbody>
-</table>
-`;
-
-document.getElementById(
-"employeeList"
-).innerHTML=html;
-
-document.getElementById(
-"employeeList"
-).style.display="block";
-
-}
-
-
-/* =========================
-   GPS
-========================= */
-
-/*
-  ⚠️ እነዚህ ምሳሌ GPS ናቸው።
-  የጽ/ቤቱን ትክክለኛ
-  Latitude / Longitude መቀየር አለበት።
-*/
-
-const WORK_LAT=6.85;
-const WORK_LNG=38.10;
-
-const MAX_DISTANCE=100;
-
-
-function distance(
-lat1,lon1,lat2,lon2
-){
-
-const R=6371000;
-
-const p1=
-lat1*Math.PI/180;
-
-const p2=
-lat2*Math.PI/180;
-
-const dp=
-(lat2-lat1)*Math.PI/180;
-
-const dl=
-(lon2-lon1)*Math.PI/180;
-
-const a=
-Math.sin(dp/2)**2+
-Math.cos(p1)*
-Math.cos(p2)*
-Math.sin(dl/2)**2;
-
-return R*2*
-Math.atan2(
-Math.sqrt(a),
-Math.sqrt(1-a)
-);
-
-}
-
-
-function checkGPS(){
-
-if(!navigator.geolocation){
-
-document.getElementById(
-"gpsStatus"
-).textContent=
-"GPS አይደገፍም።";
-
-return;
-
-}
-
-navigator.geolocation.getCurrentPosition(
-
-position=>{
-
-const lat=
-position.coords.latitude;
-
-const lng=
-position.coords.longitude;
-
-const meters=
-distance(
-lat,
-lng,
-WORK_LAT,
-WORK_LNG
-);
-
-if(meters<=MAX_DISTANCE){
-
-document.getElementById(
-"gpsStatus"
-).textContent=
-"✅ በሥራ ቦታ ውስጥ ነህ ("+
-Math.round(meters)+
-" ሜትር)";
-
-}else{
-
-document.getElementById(
-"gpsStatus"
-).textContent=
-"❌ ከሥራ ቦታ ውጭ ነህ ("+
-Math.round(meters)+
-" ሜትር)";
-
-}
-
-},
-
-()=>{
-
-document.getElementById(
-"gpsStatus"
-).textContent=
-"❌ GPS ፈቃድ ይስጡ።";
-
-},
-
-{
-enableHighAccuracy:true,
-timeout:10000
-}
-
-);
-
-}
-
-
-/* =========================
-   QR
-========================= */
-
-function startQR(){
-
-if(typeof Html5Qrcode==="undefined"){
-
-document.getElementById(
-"qrResult"
-).textContent=
-"QR Scanner አልተጫነም።";
-
-return;
-
-}
-
-const qr=
-new Html5Qrcode(
-"qr-reader"
-);
-
-qr.start(
-
-{facingMode:"environment"},
-
-{
-
-========================= */
-fps:10,
-qrbox:250
-},
-
-decodedText=>{
-
-document.getElementById(
-"qrResult"
-).textContent=
-"✅ QR ተነቧል: "+
-decodedText;
-
-qr.stop();
-
-},
-
-error=>{}
-
-);
-
-}
-
-
-/* =========================
-   LEAVE
-========================= */
-
-function requestLeave(){
-
-const days=
-document.getElementById(
-"leaveDays"
-).value;
-
-const type=
-document.getElementById(
-"leaveType"
-).value;
-
-if(!days || days<1){
-
-document.getElementById(
-"leaveMsg"
-).textContent=
-"የቀናት ብዛት ያስገቡ።";
-
-return;
-
-}
-
-document.getElementById(
-"leaveMsg"
-).textContent=
-"የ"+days+
-" ቀን "+type+
-" ጥያቄ ተልኳል።";
-
-}
-
-
-/* =========================
-   STORAGE
-========================= */
-
-function saveRecords(){
+/* SAVE */
+function save(){
 
 localStorage.setItem(
 "saRecords",
@@ -989,55 +391,32 @@ JSON.stringify(records)
 
 }
 
+/* MESSAGE */
+function msg(t){
 
-/* =========================
-   MESSAGE
-========================= */
-
-function showMessage(text){
-
-document.getElementById(
-"status"
-).innerHTML=
-'<div class="msg">'+
-text+
-'</div>';
+document.getElementById("status").innerHTML=
+'<div class="msg">'+t+'</div>';
 
 }
 
-
-/* =========================
-   LOGOUT
+/* LOGOUT */
 function logout(){
 
-localStorage.removeItem(
-"saUser"
-);
+localStorage.removeItem("saUser");
 
 location.reload();
 
 }
 
-
-/* =========================
-   CLOCK
-========================= */
-
+/* CLOCK */
 setInterval(()=>{
 
-document.getElementById(
-"clock"
-).textContent=
-new Date()
-.toLocaleString("am-ET");
+document.getElementById("clock").textContent=
+new Date().toLocaleString("am-ET");
 
 },1000);
 
-
-/* =========================
-   AUTO LOGIN
-========================= */
-
+/* AUTO LOGIN */
 if(user){
 
 showApp();
@@ -1046,12 +425,5 @@ showApp();
 
 </script>
 
-
-<!-- QR CODE LIBRARY -->
-
-<script src="https://unpkg.com/html5-qrcode"></script>
-
-
 </body>
 </html>
-      
