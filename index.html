@@ -16,6 +16,70 @@ body{
  color:#172033;
 }
 
+button,input{
+ font:inherit;
+}
+
+button{
+ border:0;
+ cursor:pointer;
+}
+
+#loginPage{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:#f3f6fa;
+}
+
+.login-box{
+ width:100%;
+ max-width:390px;
+ background:#fff;
+ padding:30px;
+ border-radius:18px;
+ box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+
+.login-box h1{
+ text-align:center;
+ color:#0757d9;
+ margin-top:0;
+}
+
+.login-box input{
+ width:100%;
+ padding:13px;
+ margin:7px 0;
+ border:1px solid #d6dce5;
+ border-radius:9px;
+}
+
+.login-box button{
+ width:100%;
+ padding:13px;
+ margin-top:10px;
+ background:#0757d9;
+ color:white;
+ border-radius:9px;
+ font-weight:bold;
+}
+
+#loginError{
+ display:none;
+ margin-top:12px;
+ padding:10px;
+ border-radius:8px;
+ background:#fee2e2;
+ color:#991b1b;
+}
+
+#dashboard{
+ display:none;
+}
+
 header{
  background:#0757d9;
  color:white;
@@ -28,6 +92,7 @@ header{
  display:flex;
  justify-content:space-between;
  align-items:center;
+ gap:10px;
 }
 
 header h1{
@@ -91,31 +156,23 @@ header h1{
  margin-bottom:15px;
 }
 
-input,button{
+.controls input{
  padding:11px 13px;
- border-radius:9px;
- font-size:14px;
-}
-
-input{
  border:1px solid #d6dce5;
+ border-radius:9px;
 }
 
-button{
- border:0;
- background:#0757d9;
+.btn{
+ padding:11px 14px;
+ border-radius:9px;
  color:white;
  font-weight:bold;
- cursor:pointer;
+ background:#0757d9;
 }
 
-.green-btn{
- background:#16a34a;
-}
-
-.gray-btn{
- background:#64748b;
-}
+.green-btn{background:#16a34a}
+.red-btn{background:#dc2626}
+.gray-btn{background:#64748b}
 
 .table-wrap{
  overflow-x:auto;
@@ -179,7 +236,7 @@ th{
  color:#166534;
 }
 
-.error{
+.error-msg{
  background:#fee2e2;
  color:#991b1b;
 }
@@ -206,14 +263,63 @@ footer{
   padding:12px;
  }
 
+ .header{
+  align-items:flex-start;
+ }
+
  header h1{
-  font-size:18px;
+  font-size:17px;
  }
 }
 </style>
 </head>
 
 <body>
+
+<!-- =========================
+     ADMIN LOGIN
+========================= -->
+
+<div id="loginPage">
+
+<div class="login-box">
+
+<h1>🔐 Admin Login</h1>
+
+<p style="text-align:center;color:#666">
+Smart Attendance
+</p>
+
+<input
+ id="adminId"
+ type="text"
+ placeholder="Admin ID"
+ autocomplete="username">
+
+<input
+ id="adminPassword"
+ type="password"
+ placeholder="Password"
+ autocomplete="current-password">
+
+<button onclick="adminLogin()">
+Login
+</button>
+
+<div id="loginError">
+Admin ID ወይም Password ትክክል አይደለም
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN DASHBOARD
+========================= -->
+
+<div id="dashboard">
 
 <header>
 
@@ -225,9 +331,9 @@ footer{
 </div>
 
 <button
- class="gray-btn"
- onclick="location.href='index.html'">
-← Attendance
+ class="btn gray-btn"
+ onclick="logout()">
+🚪 Logout
 </button>
 
 </div>
@@ -246,41 +352,22 @@ footer{
 
 <div class="card blue">
 <h3>👥 Total Employees</h3>
-<div
- id="totalEmployees"
- class="number">
-0
+<div id="totalEmployees" class="number">0</div>
 </div>
-</div>
-
 
 <div class="card green">
 <h3>🟢 Present Today</h3>
-<div
- id="presentToday"
- class="number">
-0
+<div id="presentToday" class="number">0</div>
 </div>
-</div>
-
 
 <div class="card red">
 <h3>🔴 Absent Today</h3>
-<div
- id="absentToday"
- class="number">
-0
+<div id="absentToday" class="number">0</div>
 </div>
-</div>
-
 
 <div class="card orange">
 <h3>🕐 Checked Out</h3>
-<div
- id="checkedOut"
- class="number">
-0
-</div>
+<div id="checkedOut" class="number">0</div>
 </div>
 
 </div>
@@ -296,14 +383,17 @@ footer{
 
 <input
  type="date"
- id="reportDate">
+ id="reportDate"
+ onchange="loadAttendance()">
 
-<button onclick="loadAttendance()">
+<button
+ class="btn"
+ onclick="loadAttendance()">
 🔄 Refresh
 </button>
 
 <button
- class="green-btn"
+ class="btn green-btn"
  onclick="exportCSV()">
 📥 Export CSV
 </button>
@@ -316,7 +406,6 @@ footer{
 <table>
 
 <thead>
-
 <tr>
 <th>#</th>
 <th>Employee ID</th>
@@ -326,7 +415,6 @@ footer{
 <th>Status</th>
 <th>GPS</th>
 </tr>
-
 </thead>
 
 <tbody id="attendanceBody">
@@ -346,7 +434,7 @@ Loading...
 </div>
 
 
-<!-- EMPLOYEE LIST -->
+<!-- EMPLOYEES -->
 
 <div class="section">
 
@@ -368,7 +456,6 @@ Loading...
 <table>
 
 <thead>
-
 <tr>
 <th>#</th>
 <th>Employee ID</th>
@@ -376,7 +463,6 @@ Loading...
 <th>Fayda Number</th>
 <th>QR Code</th>
 </tr>
-
 </thead>
 
 <tbody id="employeesBody">
@@ -402,21 +488,22 @@ Loading...
 Smart Attendance © 2026
 </footer>
 
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <script>
 
 /* ==========================================
-   SUPABASE
+   SUPABASE CONFIG
    ========================================== */
 
 const SUPABASE_URL =
-"https://pfccznbjnbfnelolqbph.supabase.co";
+"YOUR_SUPABASE_URL";
 
 const SUPABASE_KEY =
-"sb_publishable_p5gXvla5CvzCDnT3KCSEUg_BBg1Fgem"; 
+"YOUR_SUPABASE_PUBLISHABLE_KEY";
 
 
 const supabaseClient =
@@ -427,35 +514,178 @@ window.supabase.createClient(
 
 
 /* ==========================================
-   DATA
+   ADMIN ACCOUNT
    ========================================== */
 
-let employees=[];
-let attendance=[];
+const ADMIN_ID = "admin";
+const ADMIN_PASSWORD = "123456";
 
 
 /* ==========================================
-   START
+   DATA
+   ========================================== */
+
+let employees = [];
+let attendance = [];
+
+
+/* ==========================================
+   LOGIN
+   ========================================== */
+
+function adminLogin(){
+
+ const id =
+ document.getElementById("adminId")
+ .value.trim();
+
+ const password =
+ document.getElementById("adminPassword")
+ .value;
+
+ const error =
+ document.getElementById("loginError");
+
+
+ if(
+  id === ADMIN_ID &&
+  password === ADMIN_PASSWORD
+ ){
+
+  sessionStorage.setItem(
+   "smart_admin",
+   "true"
+  );
+
+  error.style.display="none";
+
+  document.getElementById(
+   "loginPage"
+  ).style.display="none";
+
+  document.getElementById(
+   "dashboard"
+  ).style.display="block";
+
+  initialize();
+
+ }else{
+
+  error.style.display="block";
+
+ }
+
+}
+
+
+/* ==========================================
+   ENTER KEY LOGIN
    ========================================== */
 
 document.addEventListener(
- "DOMContentLoaded",
- function(){
+ "keydown",
+ function(event){
 
-  const today =
-  new Date()
-  .toISOString()
-  .split("T")[0];
+  if(
+   event.key === "Enter" &&
+   document.getElementById(
+    "loginPage"
+   ).style.display !== "none"
+  ){
 
-  document.getElementById(
-   "reportDate"
-  ).value=today;
+   adminLogin();
 
-  loadEmployees();
-
-  loadAttendance();
+  }
 
  });
+
+
+/* ==========================================
+   LOGOUT
+   ========================================== */
+
+function logout(){
+
+ sessionStorage.removeItem(
+  "smart_admin"
+ );
+
+ location.reload();
+
+}
+
+
+/* ==========================================
+   CHECK LOGIN
+   ========================================== */
+
+if(
+ sessionStorage.getItem(
+  "smart_admin"
+ ) === "true"
+){
+
+ document.getElementById(
+  "loginPage"
+ ).style.display="none";
+
+ document.getElementById(
+  "dashboard"
+ ).style.display="block";
+
+}
+
+
+/* ==========================================
+   INITIALIZE
+   ========================================== */
+
+function initialize(){
+
+ const today =
+ new Date()
+ .toISOString()
+ .split("T")[0];
+
+ document.getElementById(
+  "reportDate"
+ ).value=today;
+
+ loadEmployees();
+
+ loadAttendance();
+
+}
+
+
+/* ==========================================
+   MESSAGE
+   ========================================== */
+
+function showMessage(
+ text,
+ type="success"
+){
+
+ const message =
+ document.getElementById(
+  "message"
+ );
+
+ message.textContent=text;
+
+ message.className=
+ "message "+type;
+
+ message.style.display="block";
+
+ setTimeout(function(){
+
+  message.style.display="none";
+
+ },4000);
+
+}
 
 
 /* ==========================================
@@ -495,7 +725,7 @@ async function loadEmployees(){
 
   <tr>
   <td colspan="5" class="empty">
-  Database error
+  ${escapeHTML(error.message)}
   </td>
   </tr>`;
 
@@ -510,14 +740,12 @@ async function loadEmployees(){
 
 async function loadAttendance(){
 
- const selectedDate =
+ const date =
  document.getElementById(
   "reportDate"
  ).value;
 
-
- if(!selectedDate)
-  return;
+ if(!date)return;
 
 
  try{
@@ -542,15 +770,11 @@ async function loadAttendance(){
     row.checkin_time ||
     row.date;
 
-
-   if(!value)
-    return false;
-
+   if(!value)return false;
 
    return new Date(value)
     .toISOString()
-    .split("T")[0]
-    === selectedDate;
+    .split("T")[0] === date;
 
   });
 
@@ -559,14 +783,14 @@ async function loadAttendance(){
 
   updateStatistics();
 
-
  }catch(error){
 
   console.error(error);
 
   showMessage(
-   "Attendance ማንበብ አልተቻለም",
-   "error"
+   "Attendance ማንበብ አልተቻለም: "+
+   error.message,
+   "error-msg"
   );
 
  }
@@ -584,8 +808,7 @@ function updateStatistics(){
   employees.length;
 
 
- const presentIds =
-  new Set();
+ const ids = new Set();
 
 
  attendance.forEach(function(row){
@@ -595,13 +818,12 @@ function updateStatistics(){
    row.employeeId ||
    row.emp_id;
 
+  if(
+   id !== undefined &&
+   id !== null
+  ){
 
-  if(id !== undefined &&
-     id !== null){
-
-   presentIds.add(
-    String(id)
-   );
+   ids.add(String(id));
 
   }
 
@@ -609,7 +831,7 @@ function updateStatistics(){
 
 
  const present =
-  presentIds.size;
+  ids.size;
 
 
  const absent =
@@ -671,8 +893,21 @@ function renderAttendance(){
    "attendanceBody"
   );
 
-
  body.innerHTML="";
+
+
+ if(employees.length===0){
+
+  body.innerHTML=`
+  <tr>
+  <td colspan="7" class="empty">
+  No employees found
+  </td>
+  </tr>`;
+
+  return;
+
+ }
 
 
  employees.forEach(
@@ -700,7 +935,6 @@ function renderAttendance(){
      row.employee_id ||
      row.employeeId ||
      row.emp_id;
-
 
     return String(rid) ===
            String(id);
@@ -805,14 +1039,12 @@ function renderEmployees(
    "employeesBody"
   );
 
-
  body.innerHTML="";
 
 
  if(!list.length){
 
   body.innerHTML=`
-
   <tr>
   <td colspan="5" class="empty">
   No employees found
@@ -877,7 +1109,7 @@ function renderEmployees(
 
 
 /* ==========================================
-   SEARCH
+   SEARCH EMPLOYEES
    ========================================== */
 
 function searchEmployees(){
@@ -885,8 +1117,7 @@ function searchEmployees(){
  const search =
   document.getElementById(
    "employeeSearch"
-  )
-  .value
+  ).value
   .toLowerCase()
   .trim();
 
@@ -955,7 +1186,6 @@ function exportCSV(){
      row.employee_id ||
      row.employeeId ||
      row.emp_id;
-
 
     return String(rid) ===
            String(id);
@@ -1039,30 +1269,29 @@ function exportCSV(){
   URL.createObjectURL(blob);
 
 
- const link =
+ const a =
   document.createElement("a");
 
 
- link.href=url;
+ a.href=url;
 
- link.download =
+ a.download =
   "Smart_Attendance_"+
   date+
   ".csv";
 
 
- document.body.appendChild(link);
+ document.body.appendChild(a);
 
- link.click();
+ a.click();
 
- link.remove();
+ a.remove();
 
  URL.revokeObjectURL(url);
 
 
  showMessage(
-  "CSV Report ተዘጋጅቷል ✓",
-  "success"
+  "CSV Report ተዘጋጅቷል ✓"
  );
 
 }
@@ -1074,17 +1303,13 @@ function exportCSV(){
 
 function formatTime(value){
 
- if(!value)
-  return "-";
-
+ if(!value)return "-";
 
  const date =
   new Date(value);
 
-
  if(isNaN(date.getTime()))
   return value;
-
 
  return date.toLocaleTimeString(
   "en-US",
@@ -1103,7 +1328,6 @@ function csvSafe(value){
  value =
   String(value ?? "");
 
-
  if(
   value.includes(",") ||
   value.includes('"') ||
@@ -1115,7 +1339,6 @@ function csvSafe(value){
    '"';
 
  }
-
 
  return value;
 
@@ -1134,30 +1357,17 @@ function escapeHTML(value){
 }
 
 
-function showMessage(
- text,
- type="success"
+/* ==========================================
+   AUTO START IF ALREADY LOGGED IN
+   ========================================== */
+
+if(
+ sessionStorage.getItem(
+  "smart_admin"
+ ) === "true"
 ){
 
- const message =
-  document.getElementById(
-   "message"
-  );
-
-
- message.textContent=text;
-
- message.className=
-  "message "+type;
-
- message.style.display="block";
-
-
- setTimeout(function(){
-
-  message.style.display="none";
-
- },4000);
+ initialize();
 
 }
 
