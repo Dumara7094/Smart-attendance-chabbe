@@ -3,6 +3,1382 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0757d9">
+<title>Smart Attendance - Admin Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,"Noto Sans Ethiopic",sans-serif;
+ background:#f3f6fa;
+ color:#172033;
+}
+
+button,input{
+ font:inherit;
+}
+
+button{
+ border:0;
+ cursor:pointer;
+}
+
+#loginPage{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:#f3f6fa;
+}
+
+.login-box{
+ width:100%;
+ max-width:390px;
+ background:#fff;
+ padding:30px;
+ border-radius:18px;
+ box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+
+.login-box h1{
+ text-align:center;
+ color:#0757d9;
+ margin-top:0;
+}
+
+.login-box input{
+ width:100%;
+ padding:13px;
+ margin:7px 0;
+ border:1px solid #d6dce5;
+ border-radius:9px;
+}
+
+.login-box button{
+ width:100%;
+ padding:13px;
+ margin-top:10px;
+ background:#0757d9;
+ color:white;
+ border-radius:9px;
+ font-weight:bold;
+}
+
+#loginError{
+ display:none;
+ margin-top:12px;
+ padding:10px;
+ border-radius:8px;
+ background:#fee2e2;
+ color:#991b1b;
+}
+
+#dashboard{
+ display:none;
+}
+
+header{
+ background:#0757d9;
+ color:white;
+ padding:17px;
+}
+
+.header{
+ max-width:1200px;
+ margin:auto;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+}
+
+header h1{
+ margin:0;
+ font-size:21px;
+}
+
+.container{
+ max-width:1200px;
+ margin:auto;
+ padding:20px;
+}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:15px;
+ margin-bottom:20px;
+}
+
+.card{
+ background:white;
+ padding:20px;
+ border-radius:15px;
+ box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.card h3{
+ margin:0 0 8px;
+ font-size:14px;
+ color:#657084;
+}
+
+.number{
+ font-size:30px;
+ font-weight:bold;
+}
+
+.blue{border-left:5px solid #0757d9}
+.green{border-left:5px solid #16a34a}
+.red{border-left:5px solid #dc2626}
+.orange{border-left:5px solid #f59e0b}
+
+.section{
+ background:white;
+ padding:20px;
+ margin-bottom:20px;
+ border-radius:15px;
+ box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.section h2{
+ margin-top:0;
+ font-size:18px;
+}
+
+.controls{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-bottom:15px;
+}
+
+.controls input{
+ padding:11px 13px;
+ border:1px solid #d6dce5;
+ border-radius:9px;
+}
+
+.btn{
+ padding:11px 14px;
+ border-radius:9px;
+ color:white;
+ font-weight:bold;
+ background:#0757d9;
+}
+
+.green-btn{background:#16a34a}
+.red-btn{background:#dc2626}
+.gray-btn{background:#64748b}
+
+.table-wrap{
+ overflow-x:auto;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:700px;
+}
+
+th,td{
+ padding:12px;
+ border-bottom:1px solid #e8ebef;
+ text-align:left;
+}
+
+th{
+ background:#f5f7fa;
+ font-size:13px;
+}
+
+.status{
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:20px;
+ font-size:12px;
+ font-weight:bold;
+}
+
+.present{
+ background:#dcfce7;
+ color:#15803d;
+}
+
+.absent{
+ background:#fee2e2;
+ color:#b91c1c;
+}
+
+.checkout{
+ background:#dbeafe;
+ color:#1d4ed8;
+}
+
+.empty{
+ text-align:center;
+ padding:25px;
+ color:#777;
+}
+
+.message{
+ display:none;
+ padding:12px;
+ border-radius:8px;
+ margin-bottom:15px;
+}
+
+.success{
+ background:#dcfce7;
+ color:#166534;
+}
+
+.error-msg{
+ background:#fee2e2;
+ color:#991b1b;
+}
+
+footer{
+ text-align:center;
+ color:#777;
+ padding:20px;
+ font-size:13px;
+}
+
+@media(max-width:800px){
+ .cards{
+  grid-template-columns:repeat(2,1fr);
+ }
+}
+
+@media(max-width:500px){
+ .cards{
+  grid-template-columns:1fr;
+ }
+
+ .container{
+  padding:12px;
+ }
+
+ .header{
+  align-items:flex-start;
+ }
+
+ header h1{
+  font-size:17px;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     ADMIN LOGIN
+========================= -->
+
+<div id="loginPage">
+
+<div class="login-box">
+
+<h1>🔐 Admin Login</h1>
+
+<p style="text-align:center;color:#666">
+Smart Attendance
+</p>
+
+<input
+ id="adminId"
+ type="text"
+ placeholder="Admin ID"
+ autocomplete="username">
+
+<input
+ id="adminPassword"
+ type="password"
+ placeholder="Password"
+ autocomplete="current-password">
+
+<button onclick="adminLogin()">
+Login
+</button>
+
+<div id="loginError">
+Admin ID ወይም Password ትክክል አይደለም
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN DASHBOARD
+========================= -->
+
+<div id="dashboard">
+
+<header>
+
+<div class="header">
+
+<div>
+<h1>📊 Smart Attendance</h1>
+<small>Admin Dashboard</small>
+</div>
+
+<button
+ class="btn gray-btn"
+ onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+<div id="message" class="message"></div>
+
+
+<!-- STATISTICS -->
+
+<div class="cards">
+
+<div class="card blue">
+<h3>👥 Total Employees</h3>
+<div id="totalEmployees" class="number">0</div>
+</div>
+
+<div class="card green">
+<h3>🟢 Present Today</h3>
+<div id="presentToday" class="number">0</div>
+</div>
+
+<div class="card red">
+<h3>🔴 Absent Today</h3>
+<div id="absentToday" class="number">0</div>
+</div>
+
+<div class="card orange">
+<h3>🕐 Checked Out</h3>
+<div id="checkedOut" class="number">0</div>
+</div>
+
+</div>
+
+
+<!-- ATTENDANCE REPORT -->
+
+<div class="section">
+
+<h2>📅 Attendance Report</h2>
+
+<div class="controls">
+
+<input
+ type="date"
+ id="reportDate"
+ onchange="loadAttendance()">
+
+<button
+ class="btn"
+ onclick="loadAttendance()">
+🔄 Refresh
+</button>
+
+<button
+ class="btn green-btn"
+ onclick="exportCSV()">
+📥 Export CSV
+</button>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Employee ID</th>
+<th>Name</th>
+<th>Check In</th>
+<th>Check Out</th>
+<th>Status</th>
+<th>GPS</th>
+</tr>
+</thead>
+
+<tbody id="attendanceBody">
+
+<tr>
+<td colspan="7" class="empty">
+Loading...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- EMPLOYEES -->
+
+<div class="section">
+
+<h2>👥 Employee List</h2>
+
+<div class="controls">
+
+<input
+ id="employeeSearch"
+ type="text"
+ placeholder="Search employee..."
+ oninput="searchEmployees()">
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Employee ID</th>
+<th>Name</th>
+<th>Fayda Number</th>
+<th>QR Code</th>
+</tr>
+</thead>
+
+<tbody id="employeesBody">
+
+<tr>
+<td colspan="5" class="empty">
+Loading...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+Smart Attendance © 2026
+</footer>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* ==========================================
+   SUPABASE CONFIG
+   ========================================== */
+
+const SUPABASE_URL =
+"YOUR_SUPABASE_URL";
+
+const SUPABASE_KEY =
+"YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+
+const supabaseClient =
+window.supabase.createClient(
+ SUPABASE_URL,
+ SUPABASE_KEY
+);
+
+
+/* ==========================================
+   ADMIN ACCOUNT
+   ========================================== */
+
+const ADMIN_ID = "admin";
+const ADMIN_PASSWORD = "123456";
+
+
+/* ==========================================
+   DATA
+   ========================================== */
+
+let employees = [];
+let attendance = [];
+
+
+/* ==========================================
+   LOGIN
+   ========================================== */
+
+function adminLogin(){
+
+ const id =
+ document.getElementById("adminId")
+ .value.trim();
+
+ const password =
+ document.getElementById("adminPassword")
+ .value;
+
+ const error =
+ document.getElementById("loginError");
+
+
+ if(
+  id === ADMIN_ID &&
+  password === ADMIN_PASSWORD
+ ){
+
+  sessionStorage.setItem(
+   "smart_admin",
+   "true"
+  );
+
+  error.style.display="none";
+
+  document.getElementById(
+   "loginPage"
+  ).style.display="none";
+
+  document.getElementById(
+   "dashboard"
+  ).style.display="block";
+
+  initialize();
+
+ }else{
+
+  error.style.display="block";
+
+ }
+
+}
+
+
+/* ==========================================
+   ENTER KEY LOGIN
+   ========================================== */
+
+document.addEventListener(
+ "keydown",
+ function(event){
+
+  if(
+   event.key === "Enter" &&
+   document.getElementById(
+    "loginPage"
+   ).style.display !== "none"
+  ){
+
+   adminLogin();
+
+  }
+
+ });
+
+
+/* ==========================================
+   LOGOUT
+   ========================================== */
+
+function logout(){
+
+ sessionStorage.removeItem(
+  "smart_admin"
+ );
+
+ location.reload();
+
+}
+
+
+/* ==========================================
+   CHECK LOGIN
+   ========================================== */
+
+if(
+ sessionStorage.getItem(
+  "smart_admin"
+ ) === "true"
+){
+
+ document.getElementById(
+  "loginPage"
+ ).style.display="none";
+
+ document.getElementById(
+  "dashboard"
+ ).style.display="block";
+
+}
+
+
+/* ==========================================
+   INITIALIZE
+   ========================================== */
+
+function initialize(){
+
+ const today =
+ new Date()
+ .toISOString()
+ .split("T")[0];
+
+ document.getElementById(
+  "reportDate"
+ ).value=today;
+
+ loadEmployees();
+
+ loadAttendance();
+
+}
+
+
+/* ==========================================
+   MESSAGE
+   ========================================== */
+
+function showMessage(
+ text,
+ type="success"
+){
+
+ const message =
+ document.getElementById(
+  "message"
+ );
+
+ message.textContent=text;
+
+ message.className=
+ "message "+type;
+
+ message.style.display="block";
+
+ setTimeout(function(){
+
+  message.style.display="none";
+
+ },4000);
+
+}
+
+
+/* ==========================================
+   LOAD EMPLOYEES
+   ========================================== */
+
+async function loadEmployees(){
+
+ try{
+
+  const result =
+  await supabaseClient
+  .from("employees")
+  .select("*")
+  .order("id",{ascending:true});
+
+
+  if(result.error)
+   throw result.error;
+
+
+  employees =
+  result.data || [];
+
+
+  renderEmployees();
+
+  updateStatistics();
+
+ }catch(error){
+
+  console.error(error);
+
+  document.getElementById(
+   "employeesBody"
+  ).innerHTML=`
+
+  <tr>
+  <td colspan="5" class="empty">
+  ${escapeHTML(error.message)}
+  </td>
+  </tr>`;
+
+ }
+
+}
+
+
+/* ==========================================
+   LOAD ATTENDANCE
+   ========================================== */
+
+async function loadAttendance(){
+
+ const date =
+ document.getElementById(
+  "reportDate"
+ ).value;
+
+ if(!date)return;
+
+
+ try{
+
+  const result =
+  await supabaseClient
+  .from("attendance")
+  .select("*");
+
+
+  if(result.error)
+   throw result.error;
+
+
+  attendance =
+  (result.data || [])
+  .filter(function(row){
+
+   const value =
+    row.created_at ||
+    row.check_in ||
+    row.checkin_time ||
+    row.date;
+
+   if(!value)return false;
+
+   return new Date(value)
+    .toISOString()
+    .split("T")[0] === date;
+
+  });
+
+
+  renderAttendance();
+
+  updateStatistics();
+
+ }catch(error){
+
+  console.error(error);
+
+  showMessage(
+   "Attendance ማንበብ አልተቻለም: "+
+   error.message,
+   "error-msg"
+  );
+
+ }
+
+}
+
+
+/* ==========================================
+   STATISTICS
+   ========================================== */
+
+function updateStatistics(){
+
+ const total =
+  employees.length;
+
+
+ const ids = new Set();
+
+
+ attendance.forEach(function(row){
+
+  const id =
+   row.employee_id ||
+   row.employeeId ||
+   row.emp_id;
+
+  if(
+   id !== undefined &&
+   id !== null
+  ){
+
+   ids.add(String(id));
+
+  }
+
+ });
+
+
+ const present =
+  ids.size;
+
+
+ const absent =
+  Math.max(
+   total-present,
+   0
+  );
+
+
+ let checkedOut=0;
+
+
+ attendance.forEach(function(row){
+
+  if(
+   row.check_out ||
+   row.checkout ||
+   row.check_out_time ||
+   row.checkout_time
+  ){
+
+   checkedOut++;
+
+  }
+
+ });
+
+
+ document.getElementById(
+  "totalEmployees"
+ ).textContent=total;
+
+
+ document.getElementById(
+  "presentToday"
+ ).textContent=present;
+
+
+ document.getElementById(
+  "absentToday"
+ ).textContent=absent;
+
+
+ document.getElementById(
+  "checkedOut"
+ ).textContent=checkedOut;
+
+}
+
+
+/* ==========================================
+   ATTENDANCE TABLE
+   ========================================== */
+
+function renderAttendance(){
+
+ const body =
+  document.getElementById(
+   "attendanceBody"
+  );
+
+ body.innerHTML="";
+
+
+ if(employees.length===0){
+
+  body.innerHTML=`
+  <tr>
+  <td colspan="7" class="empty">
+  No employees found
+  </td>
+  </tr>`;
+
+  return;
+
+ }
+
+
+ employees.forEach(
+ function(employee,index){
+
+  const id =
+   employee.employee_id ||
+   employee.employeeId ||
+   employee.id ||
+   "";
+
+
+  const name =
+   employee.name ||
+   employee.employee_name ||
+   employee.full_name ||
+   employee.fullname ||
+   "Unknown";
+
+
+  const record =
+   attendance.find(function(row){
+
+    const rid =
+     row.employee_id ||
+     row.employeeId ||
+     row.emp_id;
+
+    return String(rid) ===
+           String(id);
+
+   });
+
+
+  let checkIn="-";
+  let checkOut="-";
+  let status="Absent";
+  let gps="-";
+
+
+  if(record){
+
+   checkIn =
+    formatTime(
+     record.check_in ||
+     record.checkin ||
+     record.check_in_time ||
+     record.checkin_time ||
+     record.created_at
+    );
+
+
+   checkOut =
+    formatTime(
+     record.check_out ||
+     record.checkout ||
+     record.check_out_time ||
+     record.checkout_time
+    );
+
+
+   status =
+    checkOut !== "-"
+    ? "Checked Out"
+    : "Present";
+
+
+   if(
+    record.latitude !== null &&
+    record.latitude !== undefined &&
+    record.longitude !== null &&
+    record.longitude !== undefined
+   ){
+
+    gps="✓ GPS";
+
+   }
+
+  }
+
+
+  const statusClass =
+   status === "Absent"
+   ? "absent"
+   : status === "Checked Out"
+   ? "checkout"
+   : "present";
+
+
+  body.innerHTML += `
+
+  <tr>
+
+   <td>${index+1}</td>
+
+   <td>${escapeHTML(id)}</td>
+
+   <td>${escapeHTML(name)}</td>
+
+   <td>${checkIn}</td>
+
+   <td>${checkOut}</td>
+
+   <td>
+    <span class="status ${statusClass}">
+     ${status}
+    </span>
+   </td>
+
+   <td>${gps}</td>
+
+  </tr>`;
+
+ });
+
+}
+
+
+/* ==========================================
+   EMPLOYEE TABLE
+   ========================================== */
+
+function renderEmployees(
+ list=employees
+){
+
+ const body =
+  document.getElementById(
+   "employeesBody"
+  );
+
+ body.innerHTML="";
+
+
+ if(!list.length){
+
+  body.innerHTML=`
+  <tr>
+  <td colspan="5" class="empty">
+  No employees found
+  </td>
+  </tr>`;
+
+  return;
+
+ }
+
+
+ list.forEach(
+ function(employee,index){
+
+  const id =
+   employee.employee_id ||
+   employee.employeeId ||
+   employee.id ||
+   "";
+
+
+  const name =
+   employee.name ||
+   employee.employee_name ||
+   employee.full_name ||
+   employee.fullname ||
+   "";
+
+
+  const fayda =
+   employee.fayda_number ||
+   employee.faydaNumber ||
+   employee.fayda ||
+   "-";
+
+
+  const qr =
+   employee.qr_code ||
+   employee.qrCode ||
+   "-";
+
+
+  body.innerHTML += `
+
+  <tr>
+
+   <td>${index+1}</td>
+
+   <td>${escapeHTML(id)}</td>
+
+   <td>${escapeHTML(name)}</td>
+
+   <td>${escapeHTML(fayda)}</td>
+
+   <td>${escapeHTML(qr)}</td>
+
+  </tr>`;
+
+ });
+
+}
+
+
+/* ==========================================
+   SEARCH EMPLOYEES
+   ========================================== */
+
+function searchEmployees(){
+
+ const search =
+  document.getElementById(
+   "employeeSearch"
+  ).value
+  .toLowerCase()
+  .trim();
+
+
+ if(!search){
+
+  renderEmployees();
+
+  return;
+
+ }
+
+
+ const filtered =
+  employees.filter(function(employee){
+
+   return JSON.stringify(employee)
+    .toLowerCase()
+    .includes(search);
+
+  });
+
+
+ renderEmployees(filtered);
+
+}
+
+
+/* ==========================================
+   CSV EXPORT
+   ========================================== */
+
+function exportCSV(){
+
+ const date =
+  document.getElementById(
+   "reportDate"
+  ).value;
+
+
+ let csv =
+ "Employee ID,Employee Name,Date,Check In,Check Out,Status,GPS\n";
+
+
+ employees.forEach(function(employee){
+
+  const id =
+   employee.employee_id ||
+   employee.employeeId ||
+   employee.id ||
+   "";
+
+
+  const name =
+   employee.name ||
+   employee.employee_name ||
+   employee.full_name ||
+   employee.fullname ||
+   "";
+
+
+  const record =
+   attendance.find(function(row){
+
+    const rid =
+     row.employee_id ||
+     row.employeeId ||
+     row.emp_id;
+
+    return String(rid) ===
+           String(id);
+
+  });
+
+
+  let checkIn="";
+  let checkOut="";
+  let status="Absent";
+  let gps="";
+
+
+  if(record){
+
+   checkIn =
+    formatTime(
+     record.check_in ||
+     record.checkin ||
+     record.check_in_time ||
+     record.checkin_time ||
+     record.created_at
+    );
+
+
+   checkOut =
+    formatTime(
+     record.check_out ||
+     record.checkout ||
+     record.check_out_time ||
+     record.checkout_time
+    );
+
+
+   status =
+    checkOut !== "-"
+    ? "Checked Out"
+    : "Present";
+
+
+   if(
+    record.latitude !== null &&
+    record.latitude !== undefined &&
+    record.longitude !== null &&
+    record.longitude !== undefined
+   ){
+
+    gps="GPS";
+
+   }
+
+  }
+
+
+  csv += [
+
+   csvSafe(id),
+   csvSafe(name),
+   csvSafe(date),
+   csvSafe(checkIn),
+   csvSafe(checkOut),
+   csvSafe(status),
+   csvSafe(gps)
+
+  ].join(",")+"\n";
+
+ });
+
+
+ const blob =
+  new Blob(
+   ["\ufeff"+csv],
+   {
+    type:
+    "text/csv;charset=utf-8;"
+   }
+  );
+
+
+ const url =
+  URL.createObjectURL(blob);
+
+
+ const a =
+  document.createElement("a");
+
+
+ a.href=url;
+
+ a.download =
+  "Smart_Attendance_"+
+  date+
+  ".csv";
+
+
+ document.body.appendChild(a);
+
+ a.click();
+
+ a.remove();
+
+ URL.revokeObjectURL(url);
+
+
+ showMessage(
+  "CSV Report ተዘጋጅቷል ✓"
+ );
+
+}
+
+
+/* ==========================================
+   HELPERS
+   ========================================== */
+
+function formatTime(value){
+
+ if(!value)return "-";
+
+ const date =
+  new Date(value);
+
+ if(isNaN(date.getTime()))
+  return value;
+
+ return date.toLocaleTimeString(
+  "en-US",
+  {
+   hour:"2-digit",
+   minute:"2-digit",
+   hour12:true
+  }
+ );
+
+}
+
+
+function csvSafe(value){
+
+ value =
+  String(value ?? "");
+
+ if(
+  value.includes(",") ||
+  value.includes('"') ||
+  value.includes("\n")
+ ){
+
+  return '"'+
+   value.replace(/"/g,'""')+
+   '"';
+
+ }
+
+ return value;
+
+}
+
+
+function escapeHTML(value){
+
+ return String(value ?? "")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==========================================
+   AUTO START IF ALREADY LOGGED IN
+   ========================================== */
+
+if(
+ sessionStorage.getItem(
+  "smart_admin"
+ ) === "true"
+){
+
+ initialize();
+
+}
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1769aa">
 <title>SMART Attendance</title>
 
