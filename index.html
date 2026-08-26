@@ -3,1163 +3,1345 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0757d9">
-<title>Smart Attendance - Admin Dashboard</title>
+<meta name="theme-color" content="#1769aa">
+<title>SMART Attendance</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
- margin:0;
- font-family:Arial,"Noto Sans Ethiopic",sans-serif;
- background:#f3f6fa;
- color:#172033;
+margin:0;
+font-family:Arial,"Noto Sans Ethiopic",sans-serif;
+background:#f3f6f9;
+color:#17212b;
+}
+
+.hidden{display:none!important}
+
+.cover{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
+background:linear-gradient(135deg,#1769aa,#0d47a1);
+color:white;
+}
+
+.coverBox{
+width:100%;
+max-width:600px;
+}
+
+.cover h1{
+font-size:38px;
+margin:10px 0;
+}
+
+.cover h2{
+font-size:28px;
+}
+
+.cover button{
+background:white;
+color:#0d47a1;
+border:0;
+border-radius:14px;
+padding:15px 28px;
+font-size:18px;
+font-weight:bold;
 }
 
 header{
- background:#0757d9;
- color:white;
- padding:17px;
-}
-
-.header{
- max-width:1200px;
- margin:auto;
- display:flex;
- justify-content:space-between;
- align-items:center;
-}
-
-header h1{
- margin:0;
- font-size:21px;
+background:linear-gradient(135deg,#1769aa,#0d47a1);
+color:white;
+padding:20px;
 }
 
 .container{
- max-width:1200px;
- margin:auto;
- padding:20px;
-}
-
-.cards{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:15px;
- margin-bottom:20px;
+max-width:950px;
+margin:auto;
+padding:18px;
 }
 
 .card{
- background:white;
- padding:20px;
- border-radius:15px;
- box-shadow:0 3px 12px rgba(0,0,0,.07);
+background:white;
+border-radius:18px;
+padding:18px;
+margin:14px 0;
+box-shadow:0 4px 18px #00000012;
 }
 
-.card h3{
- margin:0 0 8px;
- font-size:14px;
- color:#657084;
+.clock{
+font-size:30px;
+font-weight:bold;
+text-align:center;
+padding:15px;
+background:#eef6ff;
+border-radius:14px;
+margin:12px 0;
 }
 
-.number{
- font-size:30px;
- font-weight:bold;
-}
-
-.blue{border-left:5px solid #0757d9}
-.green{border-left:5px solid #16a34a}
-.red{border-left:5px solid #dc2626}
-.orange{border-left:5px solid #f59e0b}
-
-.section{
- background:white;
- padding:20px;
- margin-bottom:20px;
- border-radius:15px;
- box-shadow:0 3px 12px rgba(0,0,0,.07);
-}
-
-.section h2{
- margin-top:0;
- font-size:18px;
-}
-
-.controls{
- display:flex;
- gap:10px;
- flex-wrap:wrap;
- margin-bottom:15px;
-}
-
-input,button{
- padding:11px 13px;
- border-radius:9px;
- font-size:14px;
-}
-
-input{
- border:1px solid #d6dce5;
+.info{
+background:#eef6ff;
+padding:13px;
+border-radius:12px;
+margin:10px 0;
 }
 
 button{
- border:0;
- background:#0757d9;
- color:white;
- font-weight:bold;
- cursor:pointer;
+border:0;
+border-radius:12px;
+padding:13px 18px;
+font-size:16px;
+cursor:pointer;
+margin:4px;
 }
 
-.green-btn{
- background:#16a34a;
-}
+.primary{background:#1769aa;color:white}
+.success{background:#159447;color:white}
+.danger{background:#c62828;color:white}
+.light{background:#e8eef5;color:#17212b}
 
-.gray-btn{
- background:#64748b;
-}
-
-.table-wrap{
- overflow-x:auto;
+input{
+width:100%;
+padding:13px;
+border:1px solid #ccd6df;
+border-radius:10px;
+margin:7px 0;
+font-size:16px;
 }
 
 table{
- width:100%;
- border-collapse:collapse;
- min-width:700px;
+width:100%;
+border-collapse:collapse;
 }
 
 th,td{
- padding:12px;
- border-bottom:1px solid #e8ebef;
- text-align:left;
+padding:10px;
+border-bottom:1px solid #e7ebef;
+text-align:left;
 }
 
 th{
- background:#f5f7fa;
- font-size:13px;
+background:#eef6ff;
 }
 
-.status{
- display:inline-block;
- padding:5px 9px;
- border-radius:20px;
- font-size:12px;
- font-weight:bold;
+.msg{
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+background:#fff4d6;
 }
 
-.present{
- background:#dcfce7;
- color:#15803d;
+.ok{
+background:#e7f6ea;
+color:#167b2c;
 }
 
-.absent{
- background:#fee2e2;
- color:#b91c1c;
+.err{
+background:#fdecec;
+color:#b42318;
 }
 
-.checkout{
- background:#dbeafe;
- color:#1d4ed8;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:12px;
 }
 
-.empty{
- text-align:center;
- padding:25px;
- color:#777;
+.stat{
+background:#eef6ff;
+border-radius:15px;
+padding:15px;
 }
 
-.message{
- display:none;
- padding:12px;
- border-radius:8px;
- margin-bottom:15px;
+.stat b{
+display:block;
+font-size:24px;
+margin-top:5px;
 }
 
-.success{
- background:#dcfce7;
- color:#166534;
-}
-
-.error{
- background:#fee2e2;
- color:#991b1b;
+#reader{
+width:100%;
+max-width:400px;
+margin:15px auto;
 }
 
 footer{
- text-align:center;
- color:#777;
- padding:20px;
- font-size:13px;
-}
-
-@media(max-width:800px){
- .cards{
-  grid-template-columns:repeat(2,1fr);
- }
-}
-
-@media(max-width:500px){
- .cards{
-  grid-template-columns:1fr;
- }
-
- .container{
-  padding:12px;
- }
-
- header h1{
-  font-size:18px;
- }
+text-align:center;
+padding:25px;
+color:#71808f;
 }
 </style>
+
+<!-- QR Scanner -->
+<script src="https://unpkg.com/html5-qrcode" defer></script>
+
 </head>
 
 <body>
 
-<header>
+<!-- ================= COVER PAGE ================= -->
 
-<div class="header">
+<section id="cover" class="cover">
 
-<div>
-<h1>📊 Smart Attendance</h1>
-<small>Admin Dashboard</small>
+<div class="coverBox">
+
+<h1>እንኳን ደህና መጡ</h1>
+
+<h2>SMART Attendance</h2>
+
+<p>የሠራተኞች መግቢያና መውጫ መቆጣጠሪያ</p>
+
+<p>QR Scan + GPS + Offline Attendance</p>
+
+<button onclick="openApp()">
+App ይክፈቱ
+</button>
+
+<p style="margin-top:30px">
+የተዘጋጀው በ<strong>ዱማራ ዱዌ</strong>
+</p>
+
 </div>
 
-<button
- class="gray-btn"
- onclick="location.href='index.html'">
-← Attendance
-</button>
+</section>
+
+
+<!-- ================= APP ================= -->
+
+<div id="app" class="hidden">
+
+<header>
+
+<div class="container">
+
+<h1>SMART Attendance</h1>
+
+<p>የሠራተኞች መገኘት አስተዳደር</p>
+
+<p>የተዘጋጀው በዱማራ ዱዌ</p>
 
 </div>
 
 </header>
 
 
-<div class="container">
-
-<div id="message" class="message"></div>
+<main class="container">
 
 
-<!-- STATISTICS -->
+<!-- CLOCK -->
 
-<div class="cards">
+<div class="card">
 
-<div class="card blue">
-<h3>👥 Total Employees</h3>
-<div
- id="totalEmployees"
- class="number">
-0
-</div>
+<h2>🕐 የአሁኑ ሰዓት</h2>
+
+<div id="clock" class="clock">
+--:--:--
 </div>
 
-
-<div class="card green">
-<h3>🟢 Present Today</h3>
-<div
- id="presentToday"
- class="number">
-0
-</div>
-</div>
-
-
-<div class="card red">
-<h3>🔴 Absent Today</h3>
-<div
- id="absentToday"
- class="number">
-0
-</div>
-</div>
-
-
-<div class="card orange">
-<h3>🕐 Checked Out</h3>
-<div
- id="checkedOut"
- class="number">
-0
-</div>
+<div id="dateText" style="text-align:center">
+--
 </div>
 
 </div>
 
 
-<!-- ATTENDANCE REPORT -->
+<!-- WORKING TIME -->
 
-<div class="section">
+<div class="card">
 
-<h2>📅 Attendance Report</h2>
+<h2>📅 የሥራ ቀናት</h2>
 
-<div class="controls">
+<p>ሰኞ • ማክሰኞ • ረቡዕ • ሐሙስ • ዓርብ</p>
+
+<hr>
+
+<p>🟢 <b>Check-in:</b> 2:30 – 3:00</p>
+
+<p>🔴 <b>Check-out:</b> 11:00 – 11:30</p>
+
+<p class="small">
+የሰዓቱ ቁጥጥር በኢትዮጵያ ሰዓት ነው።
+</p>
+
+</div>
+
+
+<!-- EMPLOYEE LOGIN -->
+
+<div class="card">
+
+<h2>👤 የሠራተኛ መግቢያ</h2>
 
 <input
- type="date"
- id="reportDate">
+id="employeeID"
+placeholder="Employee ID ለምሳሌ EMP001"
+>
 
-<button onclick="loadAttendance()">
-🔄 Refresh
+<button
+class="primary"
+onclick="scanQR()">
+📷 QR Scan
 </button>
 
 <button
- class="green-btn"
- onclick="exportCSV()">
-📥 Export CSV
+class="light"
+onclick="stopQR()">
+⏹ QR Stop
+</button>
+
+<div id="reader"></div>
+
+<div id="employeeInfo"></div>
+
+</div>
+
+
+<!-- ATTENDANCE -->
+
+<div class="card">
+
+<h2>📝 Attendance</h2>
+
+<button
+class="success"
+onclick="checkIn()">
+🟢 Check In
+</button>
+
+<button
+class="danger"
+onclick="checkOut()">
+🔴 Check Out
+</button>
+
+<button
+class="light"
+onclick="getLocation()">
+📍 GPS አረጋግጥ
+</button>
+
+<div id="status"></div>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="grid">
+
+<div class="stat">
+ዛሬ
+<b id="todayCount">0</b>
+መዝገብ
+</div>
+
+<div class="stat">
+Check In
+<b id="cin">--</b>
+</div>
+
+<div class="stat">
+Check Out
+<b id="cout">--</b>
+</div>
+
+</div>
+
+
+<!-- HISTORY -->
+
+<div class="card">
+
+<h2>📊 Attendance History</h2>
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+<th>ቀን</th>
+<th>ID</th>
+<th>ስም</th>
+<th>Check In</th>
+<th>Check Out</th>
+</tr>
+
+</thead>
+
+<tbody id="history"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div class="card">
+
+<h2>🔐 Admin</h2>
+
+<input
+type="password"
+id="adminPassword"
+placeholder="Admin Password"
+>
+
+<button
+class="primary"
+onclick="adminLogin()">
+Admin Login
+</button>
+
+<div id="adminPanel" class="hidden">
+
+<hr>
+
+<h3>Admin Dashboard</h3>
+
+<button
+class="primary"
+onclick="downloadReport()">
+📄 CSV Report
+</button>
+
+<button
+class="danger"
+onclick="clearRecords()">
+🗑️ መዝገብ አጥፋ
 </button>
 
 </div>
 
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>#</th>
-<th>Employee ID</th>
-<th>Name</th>
-<th>Check In</th>
-<th>Check Out</th>
-<th>Status</th>
-<th>GPS</th>
-</tr>
-
-</thead>
-
-<tbody id="attendanceBody">
-
-<tr>
-<td colspan="7" class="empty">
-Loading...
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
 </div>
 
 
-<!-- EMPLOYEE LIST -->
+<button
+class="light"
+onclick="logout()">
+ውጣ
+</button>
 
-<div class="section">
-
-<h2>👥 Employee List</h2>
-
-<div class="controls">
-
-<input
- id="employeeSearch"
- type="text"
- placeholder="Search employee..."
- oninput="searchEmployees()">
-
-</div>
-
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>#</th>
-<th>Employee ID</th>
-<th>Name</th>
-<th>Fayda Number</th>
-<th>QR Code</th>
-</tr>
-
-</thead>
-
-<tbody id="employeesBody">
-
-<tr>
-<td colspan="5" class="empty">
-Loading...
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
+</main>
 
 
 <footer>
-Smart Attendance © 2026
+
+SMART Attendance<br>
+የተዘጋጀው በዱማራ ዱዌ
+
 </footer>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</div>
 
 
 <script>
 
-/* ==========================================
-   SUPABASE
-   ========================================== */
+/* =====================================
+   EMPLOYEES
+===================================== */
 
-const SUPABASE_URL =
-"YOUR_SUPABASE_URL";
+const employees = [
 
-const SUPABASE_KEY =
-"YOUR_SUPABASE_PUBLISHABLE_KEY";
+["EMP001","ዱማራ ዱዌ አርሴ"],
+
+["EMP002","መስቀል ሳሙኤል ላሚሶ"],
+
+["EMP003","ማቴዎስ መንግቱ ጫፎ"],
+
+["EMP004","አሸናፍ ኢንድራስ"],
+
+["EMP005","አክልሉ አባዬ"],
+
+["EMP006","አየለ አባ"],
+
+["EMP007","ሻሻሞ ሻላ"],
+
+["EMP008","ዳዊት ቦርሳሞ"],
+
+["EMP009","አሥራት አመሎ"],
+
+["EMP010","ህሩት ሀላላ"],
+
+["EMP011","ታደሠ ጉጆላ"],
+
+["EMP012","ደስታ ዳኩራ"],
+
+["EMP013","አጥናፉ ሀሮ"],
+
+["EMP014","አገኘ በየኔ"],
+
+["EMP015","አብነት ላሚሶ"],
+
+["EMP016","አበራ አስረስ"],
+
+["EMP017","ገናለ ጋጋ"],
+
+["EMP018","ሎተር ጌታቸው"],
+
+["EMP019","ወንድሙ የተራ"],
+
+["EMP020","አሸኛፍ ማጃ"]
+
+];
 
 
-const supabaseClient =
-window.supabase.createClient(
- SUPABASE_URL,
- SUPABASE_KEY
+/* =====================================
+   ADMIN PASSWORD
+===================================== */
+
+const ADMIN_PIN = "12345678";
+
+
+/* =====================================
+   DATA
+===================================== */
+
+let currentEmployee = null;
+
+let currentLocation = {
+latitude:"",
+longitude:""
+};
+
+let records = JSON.parse(
+localStorage.getItem("smartAttendanceRecords") || "[]"
 );
 
 
-/* ==========================================
-   DATA
-   ========================================== */
+/* =====================================
+   OPEN APP
+===================================== */
 
-let employees=[];
-let attendance=[];
+function openApp(){
 
+document.getElementById("cover")
+.classList.add("hidden");
 
-/* ==========================================
-   START
-   ========================================== */
+document.getElementById("app")
+.classList.remove("hidden");
 
-document.addEventListener(
- "DOMContentLoaded",
- function(){
+updateClock();
 
-  const today =
-  new Date()
-  .toISOString()
-  .split("T")[0];
-
-  document.getElementById(
-   "reportDate"
-  ).value=today;
-
-  loadEmployees();
-
-  loadAttendance();
-
- });
-
-
-/* ==========================================
-   LOAD EMPLOYEES
-   ========================================== */
-
-async function loadEmployees(){
-
- try{
-
-  const result =
-  await supabaseClient
-  .from("employees")
-  .select("*")
-  .order("id",{ascending:true});
-
-
-  if(result.error)
-   throw result.error;
-
-
-  employees =
-  result.data || [];
-
-
-  renderEmployees();
-
-  updateStatistics();
-
- }catch(error){
-
-  console.error(error);
-
-  document.getElementById(
-   "employeesBody"
-  ).innerHTML=`
-
-  <tr>
-  <td colspan="5" class="empty">
-  Database error
-  </td>
-  </tr>`;
-
- }
+render();
 
 }
 
 
-/* ==========================================
-   LOAD ATTENDANCE
-   ========================================== */
+/* =====================================
+   ETHIOPIA TIME
+===================================== */
 
-async function loadAttendance(){
+function ethiopiaDate(){
 
- const selectedDate =
- document.getElementById(
-  "reportDate"
- ).value;
-
-
- if(!selectedDate)
-  return;
-
-
- try{
-
-  const result =
-  await supabaseClient
-  .from("attendance")
-  .select("*");
-
-
-  if(result.error)
-   throw result.error;
-
-
-  attendance =
-  (result.data || [])
-  .filter(function(row){
-
-   const value =
-    row.created_at ||
-    row.check_in ||
-    row.checkin_time ||
-    row.date;
-
-
-   if(!value)
-    return false;
-
-
-   return new Date(value)
-    .toISOString()
-    .split("T")[0]
-    === selectedDate;
-
-  });
-
-
-  renderAttendance();
-
-  updateStatistics();
-
-
- }catch(error){
-
-  console.error(error);
-
-  showMessage(
-   "Attendance ማንበብ አልተቻለም",
-   "error"
-  );
-
- }
+return new Date(
+new Date().toLocaleString(
+"en-US",
+{
+timeZone:"Africa/Addis_Ababa"
+}
+)
+);
 
 }
 
 
-/* ==========================================
-   STATISTICS
-   ========================================== */
+/* =====================================
+   CLOCK
+===================================== */
 
-function updateStatistics(){
+function updateClock(){
 
- const total =
-  employees.length;
+const d = ethiopiaDate();
 
+const time =
+d.toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
+}
+);
 
- const presentIds =
-  new Set();
+const date =
+d.toLocaleDateString(
+"am-ET",
+{
+year:"numeric",
+month:"long",
+day:"numeric",
+weekday:"long"
+}
+);
 
+document.getElementById("clock")
+.textContent = time;
 
- attendance.forEach(function(row){
+document.getElementById("dateText")
+.textContent = date;
 
-  const id =
-   row.employee_id ||
-   row.employeeId ||
-   row.emp_id;
+}
 
-
-  if(id !== undefined &&
-     id !== null){
-
-   presentIds.add(
-    String(id)
-   );
-
-  }
-
- });
-
-
- const present =
-  presentIds.size;
-
-
- const absent =
-  Math.max(
-   total-present,
-   0
-  );
+setInterval(updateClock,1000);
 
 
- let checkedOut=0;
+/* =====================================
+   DATE KEY
+===================================== */
 
+function today(){
 
- attendance.forEach(function(row){
+const d = ethiopiaDate();
 
-  if(
-   row.check_out ||
-   row.checkout ||
-   row.check_out_time ||
-   row.checkout_time
-  ){
-
-   checkedOut++;
-
-  }
-
- });
-
-
- document.getElementById(
-  "totalEmployees"
- ).textContent=total;
-
-
- document.getElementById(
-  "presentToday"
- ).textContent=present;
-
-
- document.getElementById(
-  "absentToday"
- ).textContent=absent;
-
-
- document.getElementById(
-  "checkedOut"
- ).textContent=checkedOut;
+return d.getFullYear()+"-"+
+String(d.getMonth()+1).padStart(2,"0")+"-"+
+String(d.getDate()).padStart(2,"0");
 
 }
 
 
-/* ==========================================
-   ATTENDANCE TABLE
-   ========================================== */
+/* =====================================
+   TIME MINUTES
+===================================== */
 
-function renderAttendance(){
+function minutesNow(){
 
- const body =
-  document.getElementById(
-   "attendanceBody"
-  );
+const d = ethiopiaDate();
 
-
- body.innerHTML="";
-
-
- employees.forEach(
- function(employee,index){
-
-  const id =
-   employee.employee_id ||
-   employee.employeeId ||
-   employee.id ||
-   "";
-
-
-  const name =
-   employee.name ||
-   employee.employee_name ||
-   employee.full_name ||
-   employee.fullname ||
-   "Unknown";
-
-
-  const record =
-   attendance.find(function(row){
-
-    const rid =
-     row.employee_id ||
-     row.employeeId ||
-     row.emp_id;
-
-
-    return String(rid) ===
-           String(id);
-
-   });
-
-
-  let checkIn="-";
-  let checkOut="-";
-  let status="Absent";
-  let gps="-";
-
-
-  if(record){
-
-   checkIn =
-    formatTime(
-     record.check_in ||
-     record.checkin ||
-     record.check_in_time ||
-     record.checkin_time ||
-     record.created_at
-    );
-
-
-   checkOut =
-    formatTime(
-     record.check_out ||
-     record.checkout ||
-     record.check_out_time ||
-     record.checkout_time
-    );
-
-
-   status =
-    checkOut !== "-"
-    ? "Checked Out"
-    : "Present";
-
-
-   if(
-    record.latitude !== null &&
-    record.latitude !== undefined &&
-    record.longitude !== null &&
-    record.longitude !== undefined
-   ){
-
-    gps="✓ GPS";
-
-   }
-
-  }
-
-
-  const statusClass =
-   status === "Absent"
-   ? "absent"
-   : status === "Checked Out"
-   ? "checkout"
-   : "present";
-
-
-  body.innerHTML += `
-
-  <tr>
-
-   <td>${index+1}</td>
-
-   <td>${escapeHTML(id)}</td>
-
-   <td>${escapeHTML(name)}</td>
-
-   <td>${checkIn}</td>
-
-   <td>${checkOut}</td>
-
-   <td>
-    <span class="status ${statusClass}">
-     ${status}
-    </span>
-   </td>
-
-   <td>${gps}</td>
-
-  </tr>`;
-
- });
+return d.getHours()*60+d.getMinutes();
 
 }
 
 
-/* ==========================================
-   EMPLOYEE TABLE
-   ========================================== */
+/* =====================================
+   WORKING DAY
+===================================== */
 
-function renderEmployees(
- list=employees
-){
+function workingDay(){
 
- const body =
-  document.getElementById(
-   "employeesBody"
-  );
+const day =
+ethiopiaDate().getDay();
 
-
- body.innerHTML="";
-
-
- if(!list.length){
-
-  body.innerHTML=`
-
-  <tr>
-  <td colspan="5" class="empty">
-  No employees found
-  </td>
-  </tr>`;
-
-  return;
-
- }
-
-
- list.forEach(
- function(employee,index){
-
-  const id =
-   employee.employee_id ||
-   employee.employeeId ||
-   employee.id ||
-   "";
-
-
-  const name =
-   employee.name ||
-   employee.employee_name ||
-   employee.full_name ||
-   employee.fullname ||
-   "";
-
-
-  const fayda =
-   employee.fayda_number ||
-   employee.faydaNumber ||
-   employee.fayda ||
-   "-";
-
-
-  const qr =
-   employee.qr_code ||
-   employee.qrCode ||
-   "-";
-
-
-  body.innerHTML += `
-
-  <tr>
-
-   <td>${index+1}</td>
-
-   <td>${escapeHTML(id)}</td>
-
-   <td>${escapeHTML(name)}</td>
-
-   <td>${escapeHTML(fayda)}</td>
-
-   <td>${escapeHTML(qr)}</td>
-
-  </tr>`;
-
- });
+return day >= 1 && day <= 5;
 
 }
 
 
-/* ==========================================
-   SEARCH
-   ========================================== */
+/* =====================================
+   CHECK-IN TIME
+   2:30 - 3:00 ETHIOPIA TIME
+===================================== */
 
-function searchEmployees(){
+function checkInTime(){
 
- const search =
-  document.getElementById(
-   "employeeSearch"
-  )
-  .value
-  .toLowerCase()
-  .trim();
+const m = minutesNow();
 
-
- if(!search){
-
-  renderEmployees();
-
-  return;
-
- }
-
-
- const filtered =
-  employees.filter(function(employee){
-
-   return JSON.stringify(employee)
-    .toLowerCase()
-    .includes(search);
-
-  });
-
-
- renderEmployees(filtered);
+return m >= 150 && m <= 180;
 
 }
 
 
-/* ==========================================
-   CSV EXPORT
-   ========================================== */
+/* =====================================
+   CHECK-OUT TIME
+   11:00 - 11:30
+===================================== */
 
-function exportCSV(){
+function checkOutTime(){
 
- const date =
-  document.getElementById(
-   "reportDate"
-  ).value;
+const m = minutesNow();
 
-
- let csv =
- "Employee ID,Employee Name,Date,Check In,Check Out,Status,GPS\n";
-
-
- employees.forEach(function(employee){
-
-  const id =
-   employee.employee_id ||
-   employee.employeeId ||
-   employee.id ||
-   "";
-
-
-  const name =
-   employee.name ||
-   employee.employee_name ||
-   employee.full_name ||
-   employee.fullname ||
-   "";
-
-
-  const record =
-   attendance.find(function(row){
-
-    const rid =
-     row.employee_id ||
-     row.employeeId ||
-     row.emp_id;
-
-
-    return String(rid) ===
-           String(id);
-
-  });
-
-
-  let checkIn="";
-  let checkOut="";
-  let status="Absent";
-  let gps="";
-
-
-  if(record){
-
-   checkIn =
-    formatTime(
-     record.check_in ||
-     record.checkin ||
-     record.check_in_time ||
-     record.checkin_time ||
-     record.created_at
-    );
-
-
-   checkOut =
-    formatTime(
-     record.check_out ||
-     record.checkout ||
-     record.check_out_time ||
-     record.checkout_time
-    );
-
-
-   status =
-    checkOut !== "-"
-    ? "Checked Out"
-    : "Present";
-
-
-   if(
-    record.latitude !== null &&
-    record.latitude !== undefined &&
-    record.longitude !== null &&
-    record.longitude !== undefined
-   ){
-
-    gps="GPS";
-
-   }
-
-  }
-
-
-  csv += [
-
-   csvSafe(id),
-   csvSafe(name),
-   csvSafe(date),
-   csvSafe(checkIn),
-   csvSafe(checkOut),
-   csvSafe(status),
-   csvSafe(gps)
-
-  ].join(",")+"\n";
-
- });
-
-
- const blob =
-  new Blob(
-   ["\ufeff"+csv],
-   {
-    type:
-    "text/csv;charset=utf-8;"
-   }
-  );
-
-
- const url =
-  URL.createObjectURL(blob);
-
-
- const link =
-  document.createElement("a");
-
-
- link.href=url;
-
- link.download =
-  "Smart_Attendance_"+
-  date+
-  ".csv";
-
-
- document.body.appendChild(link);
-
- link.click();
-
- link.remove();
-
- URL.revokeObjectURL(url);
-
-
- showMessage(
-  "CSV Report ተዘጋጅቷል ✓",
-  "success"
- );
+return m >= 660 && m <= 690;
 
 }
 
 
-/* ==========================================
-   HELPERS
-   ========================================== */
+/* =====================================
+   FIND EMPLOYEE
+===================================== */
 
-function formatTime(value){
+function findEmployee(id){
 
- if(!value)
-  return "-";
-
-
- const date =
-  new Date(value);
-
-
- if(isNaN(date.getTime()))
-  return value;
-
-
- return date.toLocaleTimeString(
-  "en-US",
-  {
-   hour:"2-digit",
-   minute:"2-digit",
-   hour12:true
-  }
- );
+return employees.find(
+e =>
+e[0].toUpperCase()
+===
+id.toUpperCase()
+);
 
 }
 
 
-function csvSafe(value){
+/* =====================================
+   SELECT EMPLOYEE
+===================================== */
 
- value =
-  String(value ?? "");
+function selectEmployee(id){
 
+const employee =
+findEmployee(id);
 
- if(
-  value.includes(",") ||
-  value.includes('"') ||
-  value.includes("\n")
- ){
+if(!employee){
 
-  return '"'+
-   value.replace(/"/g,'""')+
-   '"';
+currentEmployee=null;
 
- }
+document.getElementById(
+"employeeInfo"
+).innerHTML =
+'<div class="msg err">❌ Employee ID አልተገኘም።</div>';
 
+return false;
 
- return value;
+}
+
+currentEmployee=employee;
+
+document.getElementById(
+"employeeInfo"
+).innerHTML =
+
+`<div class="info">
+<b>👤 ስም:</b> ${employee[1]}<br>
+<b>🆔 ID:</b> ${employee[0]}
+</div>`;
+
+return true;
 
 }
 
 
-function escapeHTML(value){
+/* =====================================
+   GET EMPLOYEE FROM INPUT
+===================================== */
 
- return String(value ?? "")
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#039;");
+function getEmployee(){
+
+const id =
+document.getElementById(
+"employeeID"
+).value.trim();
+
+if(!id){
+
+showStatus(
+"❌ Employee ID ያስገቡ።",
+"err"
+);
+
+return null;
+
+}
+
+if(!selectEmployee(id))
+return null;
+
+return currentEmployee;
 
 }
 
 
-function showMessage(
- text,
- type="success"
-){
+/* =====================================
+   CHECK IN
+===================================== */
 
- const message =
-  document.getElementById(
-   "message"
-  );
+function checkIn(){
 
+const employee =
+getEmployee();
 
- message.textContent=text;
+if(!employee) return;
 
- message.className=
-  "message "+type;
+if(!workingDay()){
 
- message.style.display="block";
+showStatus(
+"❌ ዛሬ የሥራ ቀን አይደለም።",
+"err"
+);
 
-
- setTimeout(function(){
-
-  message.style.display="none";
-
- },4000);
+return;
 
 }
+
+if(!checkInTime()){
+
+showStatus(
+"⏰ Check-in የሚፈቀደው ከ 2:30 እስከ 3:00 የኢትዮጵያ ሰዓት ብቻ ነው።",
+"err"
+);
+
+return;
+
+}
+
+let r =
+records.find(
+x =>
+x.id===employee[0] &&
+x.date===today()
+);
+
+if(r && r.checkIn){
+
+showStatus(
+"❌ ዛሬ Check-in ቀድሞ ተመዝግቧል።",
+"err"
+);
+
+return;
+
+}
+
+if(!r){
+
+r={
+date:today(),
+id:employee[0],
+name:employee[1],
+checkIn:"",
+checkOut:"",
+latitude:"",
+longitude:"",
+synced:false
+};
+
+records.push(r);
+
+}
+
+r.checkIn =
+ethiopiaDate().toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
+}
+);
+
+r.latitude =
+currentLocation.latitude;
+
+r.longitude =
+currentLocation.longitude;
+
+r.synced=false;
+
+save();
+
+render();
+
+showStatus(
+"✅ "+employee[1]+" Check-in ተመዝግቧል።",
+"ok"
+);
+
+}
+
+
+/* =====================================
+   CHECK OUT
+===================================== */
+
+function checkOut(){
+
+const employee =
+getEmployee();
+
+if(!employee) return;
+
+if(!workingDay()){
+
+showStatus(
+"❌ ዛሬ የሥራ ቀን አይደለም።",
+"err"
+);
+
+return;
+
+}
+
+if(!checkOutTime()){
+
+showStatus(
+"⏰ Check-out የሚፈቀደው ከ 11:00 እስከ 11:30 የኢትዮጵያ ሰዓት ብቻ ነው።",
+"err"
+);
+
+return;
+
+}
+
+let r =
+records.find(
+x =>
+x.id===employee[0] &&
+x.date===today()
+);
+
+if(!r || !r.checkIn){
+
+showStatus(
+"❌ መጀመሪያ Check-in ያድርጉ።",
+"err"
+);
+
+return;
+
+}
+
+if(r.checkOut){
+
+showStatus(
+"❌ ዛሬ Check-out ቀድሞ ተመዝግቧል።",
+"err"
+);
+
+return;
+
+}
+
+r.checkOut =
+ethiopiaDate().toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
+}
+);
+
+r.latitude =
+currentLocation.latitude ||
+r.latitude;
+
+r.longitude =
+currentLocation.longitude ||
+r.longitude;
+
+r.synced=false;
+
+save();
+
+render();
+
+showStatus(
+"✅ "+employee[1]+" Check-out ተመዝግቧል።",
+"ok"
+);
+
+}
+
+
+/* =====================================
+   GPS
+===================================== */
+
+function getLocation(){
+
+if(!navigator.geolocation){
+
+showStatus(
+"❌ GPS በዚህ ስልክ አይደገፍም።",
+"err"
+);
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+position=>{
+
+currentLocation.latitude =
+position.coords.latitude;
+
+currentLocation.longitude =
+position.coords.longitude;
+
+showStatus(
+
+"📍 GPS ተገኝቷል።<br>"+
+"Latitude: "+
+position.coords.latitude.toFixed(6)+
+"<br>Longitude: "+
+position.coords.longitude.toFixed(6),
+
+"ok"
+
+);
+
+},
+
+error=>{
+
+showStatus(
+"❌ GPS Location ፈቃድ ይስጡ።",
+"err"
+);
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:10000,
+maximumAge:0
+}
+
+);
+
+}
+
+
+/* =====================================
+   SAVE OFFLINE
+===================================== */
+
+function save(){
+
+localStorage.setItem(
+"smartAttendanceRecords",
+JSON.stringify(records)
+);
+
+}
+
+
+/* =====================================
+   RENDER
+===================================== */
+
+function render(){
+
+const history =
+document.getElementById(
+"history"
+);
+
+if(!history) return;
+
+let mine =
+currentEmployee
+?
+records.filter(
+x=>x.id===currentEmployee[0]
+)
+:
+records;
+
+document.getElementById(
+"todayCount"
+).textContent =
+mine.length;
+
+const todayRecord =
+currentEmployee
+?
+mine.find(
+x=>x.date===today()
+)
+:
+null;
+
+document.getElementById(
+"cin"
+).textContent =
+todayRecord?.checkIn || "--";
+
+document.getElementById(
+"cout"
+).textContent =
+todayRecord?.checkOut || "--";
+
+if(!mine.length){
+
+history.innerHTML =
+'<tr><td colspan="5">ምንም መዝገብ የለም።</td></tr>';
+
+return;
+
+}
+
+history.innerHTML =
+mine
+.slice()
+.reverse()
+.map(r=>`
+
+<tr>
+
+<td>${r.date}</td>
+
+<td>${r.id}</td>
+
+<td>${r.name}</td>
+
+<td>${r.checkIn || "--"}</td>
+
+<td>${r.checkOut || "--"}</td>
+
+</tr>
+
+`)
+.join("");
+
+}
+
+
+/* =====================================
+   STATUS
+===================================== */
+
+function showStatus(text,type){
+
+const status =
+document.getElementById("status");
+
+status.className =
+"msg "+type;
+
+status.innerHTML=text;
+
+}
+
+
+/* =====================================
+   QR SCANNER
+===================================== */
+
+let qrScanner=null;
+
+function scanQR(){
+
+if(typeof Html5Qrcode === "undefined"){
+
+showStatus(
+"⏳ QR Scanner እየተጫነ ነው። ትንሽ ይጠብቁ።",
+"err"
+);
+
+return;
+
+}
+
+if(qrScanner){
+
+return;
+
+}
+
+qrScanner =
+new Html5Qrcode("reader");
+
+qrScanner.start(
+
+{facingMode:"environment"},
+
+{
+fps:10,
+qrbox:250
+},
+
+decodedText=>{
+
+const id =
+decodedText.trim();
+
+document.getElementById(
+"employeeID"
+).value=id;
+
+selectEmployee(id);
+
+showStatus(
+"✅ QR Code ተነቧል።",
+"ok"
+);
+
+stopQR();
+
+},
+
+errorMessage=>{}
+
+).catch(error=>{
+
+qrScanner=null;
+
+showStatus(
+"❌ Camera ፈቃድ ይስጡ።",
+"err"
+);
+
+});
+
+}
+
+
+/* =====================================
+   STOP QR
+===================================== */
+
+function stopQR(){
+
+if(qrScanner){
+
+qrScanner.stop()
+.then(()=>{
+
+qrScanner.clear();
+qrScanner=null;
+
+})
+.catch(()=>{
+
+qrScanner=null;
+
+});
+
+}
+
+}
+
+
+/* =====================================
+   ADMIN LOGIN
+===================================== */
+
+function adminLogin(){
+
+const password =
+document.getElementById(
+"adminPassword"
+).value;
+
+if(password===ADMIN_PIN){
+
+document.getElementById(
+"adminPanel"
+).classList.remove("hidden");
+
+showStatus(
+"🔐 Admin Dashboard ተከፍቷል።",
+"ok"
+);
+
+}else{
+
+showStatus(
+"❌ Admin Password ትክክል አይደለም።",
+"err"
+);
+
+}
+
+}
+
+
+/* =====================================
+   CSV REPORT
+===================================== */
+
+function downloadReport(){
+
+if(!records.length){
+
+alert("Attendance መዝገብ የለም።");
+
+return;
+
+}
+
+let csv =
+"Date,Employee ID,Name,Check In,Check Out,Latitude,Longitude\n";
+
+records.forEach(r=>{
+
+csv +=
+`${r.date},${r.id},"${r.name}",${r.checkIn},${r.checkOut},${r.latitude},${r.longitude}\n`;
+
+});
+
+const blob =
+new Blob(
+["\ufeff"+csv],
+{type:"text/csv;charset=utf-8"}
+);
+
+const url =
+URL.createObjectURL(blob);
+
+const a =
+document.createElement("a");
+
+a.href=url;
+
+a.download=
+"SMART_Attendance_Report.csv";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =====================================
+   CLEAR RECORDS
+===================================== */
+
+function clearRecords(){
+
+if(!confirm(
+"⚠️ ሁሉንም Attendance መዝገብ ማጥፋት ይፈልጋሉ?"
+)) return;
+
+records=[];
+
+save();
+
+render();
+
+showStatus(
+"🗑️ Attendance መዝገብ ተሰርዟል።",
+"ok"
+);
+
+}
+
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+function logout(){
+
+currentEmployee=null;
+
+document.getElementById(
+"app"
+).classList.add("hidden");
+
+document.getElementById(
+"cover"
+).classList.remove("hidden");
+
+}
+
+
+/* =====================================
+   AUTO START CLOCK
+===================================== */
+
+updateClock();
 
 </script>
 
