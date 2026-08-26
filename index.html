@@ -16,70 +16,6 @@ body{
  color:#172033;
 }
 
-button,input{
- font:inherit;
-}
-
-button{
- border:0;
- cursor:pointer;
-}
-
-#loginPage{
- min-height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:20px;
- background:#f3f6fa;
-}
-
-.login-box{
- width:100%;
- max-width:390px;
- background:#fff;
- padding:30px;
- border-radius:18px;
- box-shadow:0 8px 30px rgba(0,0,0,.12);
-}
-
-.login-box h1{
- text-align:center;
- color:#0757d9;
- margin-top:0;
-}
-
-.login-box input{
- width:100%;
- padding:13px;
- margin:7px 0;
- border:1px solid #d6dce5;
- border-radius:9px;
-}
-
-.login-box button{
- width:100%;
- padding:13px;
- margin-top:10px;
- background:#0757d9;
- color:white;
- border-radius:9px;
- font-weight:bold;
-}
-
-#loginError{
- display:none;
- margin-top:12px;
- padding:10px;
- border-radius:8px;
- background:#fee2e2;
- color:#991b1b;
-}
-
-#dashboard{
- display:none;
-}
-
 header{
  background:#0757d9;
  color:white;
@@ -92,7 +28,6 @@ header{
  display:flex;
  justify-content:space-between;
  align-items:center;
- gap:10px;
 }
 
 header h1{
@@ -156,23 +91,31 @@ header h1{
  margin-bottom:15px;
 }
 
-.controls input{
+input,button{
  padding:11px 13px;
- border:1px solid #d6dce5;
  border-radius:9px;
+ font-size:14px;
 }
 
-.btn{
- padding:11px 14px;
- border-radius:9px;
+input{
+ border:1px solid #d6dce5;
+}
+
+button{
+ border:0;
+ background:#0757d9;
  color:white;
  font-weight:bold;
- background:#0757d9;
+ cursor:pointer;
 }
 
-.green-btn{background:#16a34a}
-.red-btn{background:#dc2626}
-.gray-btn{background:#64748b}
+.green-btn{
+ background:#16a34a;
+}
+
+.gray-btn{
+ background:#64748b;
+}
 
 .table-wrap{
  overflow-x:auto;
@@ -236,7 +179,7 @@ th{
  color:#166534;
 }
 
-.error-msg{
+.error{
  background:#fee2e2;
  color:#991b1b;
 }
@@ -263,63 +206,14 @@ footer{
   padding:12px;
  }
 
- .header{
-  align-items:flex-start;
- }
-
  header h1{
-  font-size:17px;
+  font-size:18px;
  }
 }
 </style>
 </head>
 
 <body>
-
-<!-- =========================
-     ADMIN LOGIN
-========================= -->
-
-<div id="loginPage">
-
-<div class="login-box">
-
-<h1>🔐 Admin Login</h1>
-
-<p style="text-align:center;color:#666">
-Smart Attendance
-</p>
-
-<input
- id="adminId"
- type="text"
- placeholder="Admin ID"
- autocomplete="username">
-
-<input
- id="adminPassword"
- type="password"
- placeholder="Password"
- autocomplete="current-password">
-
-<button onclick="adminLogin()">
-Login
-</button>
-
-<div id="loginError">
-Admin ID ወይም Password ትክክል አይደለም
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     ADMIN DASHBOARD
-========================= -->
-
-<div id="dashboard">
 
 <header>
 
@@ -331,9 +225,9 @@ Admin ID ወይም Password ትክክል አይደለም
 </div>
 
 <button
- class="btn gray-btn"
- onclick="logout()">
-🚪 Logout
+ class="gray-btn"
+ onclick="location.href='index.html'">
+← Attendance
 </button>
 
 </div>
@@ -352,22 +246,41 @@ Admin ID ወይም Password ትክክል አይደለም
 
 <div class="card blue">
 <h3>👥 Total Employees</h3>
-<div id="totalEmployees" class="number">0</div>
+<div
+ id="totalEmployees"
+ class="number">
+0
 </div>
+</div>
+
 
 <div class="card green">
 <h3>🟢 Present Today</h3>
-<div id="presentToday" class="number">0</div>
+<div
+ id="presentToday"
+ class="number">
+0
 </div>
+</div>
+
 
 <div class="card red">
 <h3>🔴 Absent Today</h3>
-<div id="absentToday" class="number">0</div>
+<div
+ id="absentToday"
+ class="number">
+0
 </div>
+</div>
+
 
 <div class="card orange">
 <h3>🕐 Checked Out</h3>
-<div id="checkedOut" class="number">0</div>
+<div
+ id="checkedOut"
+ class="number">
+0
+</div>
 </div>
 
 </div>
@@ -383,17 +296,14 @@ Admin ID ወይም Password ትክክል አይደለም
 
 <input
  type="date"
- id="reportDate"
- onchange="loadAttendance()">
+ id="reportDate">
 
-<button
- class="btn"
- onclick="loadAttendance()">
+<button onclick="loadAttendance()">
 🔄 Refresh
 </button>
 
 <button
- class="btn green-btn"
+ class="green-btn"
  onclick="exportCSV()">
 📥 Export CSV
 </button>
@@ -406,6 +316,7 @@ Admin ID ወይም Password ትክክል አይደለም
 <table>
 
 <thead>
+
 <tr>
 <th>#</th>
 <th>Employee ID</th>
@@ -415,6 +326,7 @@ Admin ID ወይም Password ትክክል አይደለም
 <th>Status</th>
 <th>GPS</th>
 </tr>
+
 </thead>
 
 <tbody id="attendanceBody">
@@ -434,7 +346,7 @@ Loading...
 </div>
 
 
-<!-- EMPLOYEES -->
+<!-- EMPLOYEE LIST -->
 
 <div class="section">
 
@@ -456,6 +368,7 @@ Loading...
 <table>
 
 <thead>
+
 <tr>
 <th>#</th>
 <th>Employee ID</th>
@@ -463,6 +376,7 @@ Loading...
 <th>Fayda Number</th>
 <th>QR Code</th>
 </tr>
+
 </thead>
 
 <tbody id="employeesBody">
@@ -488,15 +402,14 @@ Loading...
 Smart Attendance © 2026
 </footer>
 
-</div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
 /* ==========================================
-   SUPABASE CONFIG
+   SUPABASE
    ========================================== */
 
 const SUPABASE_URL =
@@ -514,178 +427,35 @@ window.supabase.createClient(
 
 
 /* ==========================================
-   ADMIN ACCOUNT
-   ========================================== */
-
-const ADMIN_ID = "admin";
-const ADMIN_PASSWORD = "123456";
-
-
-/* ==========================================
    DATA
    ========================================== */
 
-let employees = [];
-let attendance = [];
+let employees=[];
+let attendance=[];
 
 
 /* ==========================================
-   LOGIN
-   ========================================== */
-
-function adminLogin(){
-
- const id =
- document.getElementById("adminId")
- .value.trim();
-
- const password =
- document.getElementById("adminPassword")
- .value;
-
- const error =
- document.getElementById("loginError");
-
-
- if(
-  id === ADMIN_ID &&
-  password === ADMIN_PASSWORD
- ){
-
-  sessionStorage.setItem(
-   "smart_admin",
-   "true"
-  );
-
-  error.style.display="none";
-
-  document.getElementById(
-   "loginPage"
-  ).style.display="none";
-
-  document.getElementById(
-   "dashboard"
-  ).style.display="block";
-
-  initialize();
-
- }else{
-
-  error.style.display="block";
-
- }
-
-}
-
-
-/* ==========================================
-   ENTER KEY LOGIN
+   START
    ========================================== */
 
 document.addEventListener(
- "keydown",
- function(event){
+ "DOMContentLoaded",
+ function(){
 
-  if(
-   event.key === "Enter" &&
-   document.getElementById(
-    "loginPage"
-   ).style.display !== "none"
-  ){
+  const today =
+  new Date()
+  .toISOString()
+  .split("T")[0];
 
-   adminLogin();
+  document.getElementById(
+   "reportDate"
+  ).value=today;
 
-  }
+  loadEmployees();
+
+  loadAttendance();
 
  });
-
-
-/* ==========================================
-   LOGOUT
-   ========================================== */
-
-function logout(){
-
- sessionStorage.removeItem(
-  "smart_admin"
- );
-
- location.reload();
-
-}
-
-
-/* ==========================================
-   CHECK LOGIN
-   ========================================== */
-
-if(
- sessionStorage.getItem(
-  "smart_admin"
- ) === "true"
-){
-
- document.getElementById(
-  "loginPage"
- ).style.display="none";
-
- document.getElementById(
-  "dashboard"
- ).style.display="block";
-
-}
-
-
-/* ==========================================
-   INITIALIZE
-   ========================================== */
-
-function initialize(){
-
- const today =
- new Date()
- .toISOString()
- .split("T")[0];
-
- document.getElementById(
-  "reportDate"
- ).value=today;
-
- loadEmployees();
-
- loadAttendance();
-
-}
-
-
-/* ==========================================
-   MESSAGE
-   ========================================== */
-
-function showMessage(
- text,
- type="success"
-){
-
- const message =
- document.getElementById(
-  "message"
- );
-
- message.textContent=text;
-
- message.className=
- "message "+type;
-
- message.style.display="block";
-
- setTimeout(function(){
-
-  message.style.display="none";
-
- },4000);
-
-}
 
 
 /* ==========================================
@@ -725,7 +495,7 @@ async function loadEmployees(){
 
   <tr>
   <td colspan="5" class="empty">
-  ${escapeHTML(error.message)}
+  Database error
   </td>
   </tr>`;
 
@@ -740,12 +510,14 @@ async function loadEmployees(){
 
 async function loadAttendance(){
 
- const date =
+ const selectedDate =
  document.getElementById(
   "reportDate"
  ).value;
 
- if(!date)return;
+
+ if(!selectedDate)
+  return;
 
 
  try{
@@ -770,11 +542,15 @@ async function loadAttendance(){
     row.checkin_time ||
     row.date;
 
-   if(!value)return false;
+
+   if(!value)
+    return false;
+
 
    return new Date(value)
     .toISOString()
-    .split("T")[0] === date;
+    .split("T")[0]
+    === selectedDate;
 
   });
 
@@ -783,14 +559,14 @@ async function loadAttendance(){
 
   updateStatistics();
 
+
  }catch(error){
 
   console.error(error);
 
   showMessage(
-   "Attendance ማንበብ አልተቻለም: "+
-   error.message,
-   "error-msg"
+   "Attendance ማንበብ አልተቻለም",
+   "error"
   );
 
  }
@@ -808,7 +584,8 @@ function updateStatistics(){
   employees.length;
 
 
- const ids = new Set();
+ const presentIds =
+  new Set();
 
 
  attendance.forEach(function(row){
@@ -818,12 +595,13 @@ function updateStatistics(){
    row.employeeId ||
    row.emp_id;
 
-  if(
-   id !== undefined &&
-   id !== null
-  ){
 
-   ids.add(String(id));
+  if(id !== undefined &&
+     id !== null){
+
+   presentIds.add(
+    String(id)
+   );
 
   }
 
@@ -831,7 +609,7 @@ function updateStatistics(){
 
 
  const present =
-  ids.size;
+  presentIds.size;
 
 
  const absent =
@@ -893,21 +671,8 @@ function renderAttendance(){
    "attendanceBody"
   );
 
+
  body.innerHTML="";
-
-
- if(employees.length===0){
-
-  body.innerHTML=`
-  <tr>
-  <td colspan="7" class="empty">
-  No employees found
-  </td>
-  </tr>`;
-
-  return;
-
- }
 
 
  employees.forEach(
@@ -935,6 +700,7 @@ function renderAttendance(){
      row.employee_id ||
      row.employeeId ||
      row.emp_id;
+
 
     return String(rid) ===
            String(id);
@@ -1039,12 +805,14 @@ function renderEmployees(
    "employeesBody"
   );
 
+
  body.innerHTML="";
 
 
  if(!list.length){
 
   body.innerHTML=`
+
   <tr>
   <td colspan="5" class="empty">
   No employees found
@@ -1109,7 +877,7 @@ function renderEmployees(
 
 
 /* ==========================================
-   SEARCH EMPLOYEES
+   SEARCH
    ========================================== */
 
 function searchEmployees(){
@@ -1117,7 +885,8 @@ function searchEmployees(){
  const search =
   document.getElementById(
    "employeeSearch"
-  ).value
+  )
+  .value
   .toLowerCase()
   .trim();
 
@@ -1186,6 +955,7 @@ function exportCSV(){
      row.employee_id ||
      row.employeeId ||
      row.emp_id;
+
 
     return String(rid) ===
            String(id);
@@ -1269,29 +1039,30 @@ function exportCSV(){
   URL.createObjectURL(blob);
 
 
- const a =
+ const link =
   document.createElement("a");
 
 
- a.href=url;
+ link.href=url;
 
- a.download =
+ link.download =
   "Smart_Attendance_"+
   date+
   ".csv";
 
 
- document.body.appendChild(a);
+ document.body.appendChild(link);
 
- a.click();
+ link.click();
 
- a.remove();
+ link.remove();
 
  URL.revokeObjectURL(url);
 
 
  showMessage(
-  "CSV Report ተዘጋጅቷል ✓"
+  "CSV Report ተዘጋጅቷል ✓",
+  "success"
  );
 
 }
@@ -1303,13 +1074,17 @@ function exportCSV(){
 
 function formatTime(value){
 
- if(!value)return "-";
+ if(!value)
+  return "-";
+
 
  const date =
   new Date(value);
 
+
  if(isNaN(date.getTime()))
   return value;
+
 
  return date.toLocaleTimeString(
   "en-US",
@@ -1328,6 +1103,7 @@ function csvSafe(value){
  value =
   String(value ?? "");
 
+
  if(
   value.includes(",") ||
   value.includes('"') ||
@@ -1339,6 +1115,7 @@ function csvSafe(value){
    '"';
 
  }
+
 
  return value;
 
@@ -1357,17 +1134,30 @@ function escapeHTML(value){
 }
 
 
-/* ==========================================
-   AUTO START IF ALREADY LOGGED IN
-   ========================================== */
-
-if(
- sessionStorage.getItem(
-  "smart_admin"
- ) === "true"
+function showMessage(
+ text,
+ type="success"
 ){
 
- initialize();
+ const message =
+  document.getElementById(
+   "message"
+  );
+
+
+ message.textContent=text;
+
+ message.className=
+  "message "+type;
+
+ message.style.display="block";
+
+
+ setTimeout(function(){
+
+  message.style.display="none";
+
+ },4000);
 
 }
 
