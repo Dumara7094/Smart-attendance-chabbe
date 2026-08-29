@@ -2007,5 +2007,432 @@ updateConnectionStatus();
 
 loadEmployeeCache();
 
-</script></body>
+</script></><!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1769aa">
+<title>Smart Attendance - Chabe Gambeletu</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Ethiopic",sans-serif;background:#f3f6f9;color:#17212b}
+header{background:linear-gradient(135deg,#1769aa,#0d47a1);color:#fff;padding:24px 18px;border-radius:0 0 24px 24px}
+h1{margin:0 0 6px;font-size:27px}.sub{opacity:.9}
+.container{max-width:900px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 4px 18px #00000012}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{padding:18px;border-radius:16px;background:#eef6ff}.stat b{font-size:28px;display:block;margin-top:6px}
+button{border:0;border-radius:12px;padding:13px 18px;font-size:16px;cursor:pointer;margin:4px}
+.primary{background:#1769aa;color:white}.danger{background:#c62828;color:white}.light{background:#e8eef5}
+input,select{width:100%;padding:13px;border:1px solid #ccd6df;border-radius:10px;margin:7px 0;font-size:15px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid #e7ebef}
+.badge{padding:5px 9px;border-radius:20px;background:#e7f6ea;color:#167b2c;font-size:13px}
+#login{max-width:430px;margin:35px auto}.hidden{display:none}.msg{padding:10px;border-radius:10px;background:#fff4d6;margin-top:10px}
+footer{text-align:center;color:#71808f;padding:25px}
+</style>
+</head>
+
+<body>
+
+<div id="login" class="container">
+<div class="card">
+<h1>📋 Smart Attendance</h1>
+<p>የሠራተኞች መገኘትና መውጫ ስርዓት</p>
+
+<input id="name" placeholder="የሠራተኛ ስም">
+<input id="id" placeholder="የሠራተኛ ID">
+
+<button class="primary" style="width:100%" onclick="login()">ግባ</button>
+<div id="loginMsg"></div>
+</div>
+</div>
+
+<div id="app" class="hidden">
+
+<header>
+<div class="container">
+<h1>Smart Attendance</h1>
+<div class="sub">የሠራተኞች መገኘት አስተዳደር</div>
+</div>
+</header>
+
+<main class="container">
+
+<div class="card">
+<h2 id="welcome">እንኳን ደህና መጡ</h2>
+
+<div id="employeeInfo"></div>
+<div id="clock"></div>
+
+<button class="primary" onclick="checkIn()">🟢 Check In</button>
+<button class="danger" onclick="checkOut()">🔴 Check Out</button>
+<button class="light" onclick="getLocation()">📍 Location</button>
+
+<div id="status"></div>
+</div>
+
+<div class="grid">
+<div class="stat">ዛሬ <b id="today">0</b> መዝገብ</div>
+<div class="stat">Check In <b id="cin">--</b></div>
+<div class="stat">Check Out <b id="cout">--</b></div>
+</div>
+
+<div class="card">
+<h2>📊 Attendance History</h2>
+
+<table>
+<thead>
+<tr>
+<th>ቀን</th>
+<th>Check In</th>
+<th>Check Out</th>
+<th>ሁኔታ</th>
+</tr>
+</thead>
+
+<tbody id="history"></tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>📝 Leave Request</h2>
+
+<select id="leaveType">
+<option>ዓመታዊ ፈቃድ</option>
+<option>የህመም ፈቃድ</option>
+<option>ልዩ ፈቃድ</option>
+</select>
+
+<input id="leaveDays" type="number" min="1" placeholder="የቀናት ብዛት">
+
+<button class="primary" onclick="leave()">ፈቃድ ጠይቅ</button>
+
+<div id="leaveMsg"></div>
+</div>
+
+<button class="light" onclick="logout()">ውጣ</button>
+
+</main>
+
+<footer>Smart Attendance • Chabe Gambeletu</footer>
+</div>
+
+<script>
+
+/* ================================
+   SMART ATTENDANCE
+   ================================ */
+
+let user=JSON.parse(localStorage.getItem("saUser")||"null");
+let records=JSON.parse(localStorage.getItem("saRecords")||"[]");
+
+/* LOGIN */
+function login(){
+
+const n=document.getElementById("name").value.trim();
+const id=document.getElementById("id").value.trim();
+
+if(!n||!id){
+
+document.getElementById("loginMsg").innerHTML=
+'<div class="msg">ስምና ID ያስገቡ።</div>';
+
+return;
+}
+
+user={
+name:n,
+id:id
+};
+
+localStorage.setItem(
+"saUser",
+JSON.stringify(user)
+);
+
+showApp();
+}
+
+/* SHOW APP */
+function showApp(){
+
+document.getElementById("login")
+.classList.add("hidden");
+
+document.getElementById("app")
+.classList.remove("hidden");
+
+document.getElementById("welcome").textContent=
+"እንኳን ደህና መጡ፣ "+user.name;
+
+document.getElementById("employeeInfo").innerHTML=
+`
+<div class="msg">
+<b>👤 የሠራተኛ ስም:</b> ${user.name}<br>
+<b>🆔 የሠራተኛ ID:</b> ${user.id}
+</div>
+`;
+
+render();
+}
+
+/* TIME */
+function now(){
+
+return new Date().toLocaleTimeString(
+"am-ET",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+/* DATE */
+function date(){
+
+return new Date().toLocaleDateString("en-CA");
+
+}
+
+/* CHECK IN */
+function checkIn(){
+
+let r=records.find(
+x=>x.id===user.id && x.date===date()
+);
+
+if(r && r.in){
+
+msg("ዛሬ Check In ተመዝግቧል።");
+
+return;
+}
+
+if(!r){
+
+r={
+id:user.id,
+name:user.name,
+date:date(),
+in:"",
+out:"",
+latitude:"",
+longitude:""
+};
+
+records.push(r);
+
+}
+
+r.in=now();
+
+save();
+render();
+
+msg("Check In በትክክል ተመዝግቧል።");
+
+}
+
+/* CHECK OUT */
+function checkOut(){
+
+let r=records.find(
+x=>x.id===user.id && x.date===date()
+);
+
+if(!r || !r.in){
+
+msg("መጀመሪያ Check In ያድርጉ።");
+
+return;
+}
+
+if(r.out){
+
+msg("ዛሬ Check Out ተመዝግቧል።");
+
+return;
+}
+
+r.out=now();
+
+save();
+render();
+
+msg("Check Out በትክክል ተመዝግቧል።");
+
+}
+
+/* GPS */
+function getLocation(){
+
+if(!navigator.geolocation){
+
+msg("የLocation አገልግሎት አይደገፍም።");
+
+return;
+}
+
+navigator.geolocation.getCurrentPosition(
+
+p=>{
+
+let r=records.find(
+x=>x.id===user.id && x.date===date()
+);
+
+if(!r){
+
+r={
+id:user.id,
+name:user.name,
+date:date(),
+in:"",
+out:"",
+latitude:"",
+longitude:""
+};
+
+records.push(r);
+
+}
+
+r.latitude=p.coords.latitude;
+r.longitude=p.coords.longitude;
+
+save();
+
+msg(
+"📍 Location ተገኝቷል:<br>"+
+"Latitude: "+p.coords.latitude.toFixed(5)+"<br>"+
+"Longitude: "+p.coords.longitude.toFixed(5)
+);
+
+},
+
+()=>{
+
+msg("Location ፈቃድ ይስጡ።");
+
+}
+
+);
+
+}
+
+/* LEAVE */
+function leave(){
+
+let d=document.getElementById("leaveDays").value;
+
+if(!d || d<1){
+
+document.getElementById("leaveMsg").textContent=
+"የቀናት ብዛት ያስገቡ።";
+
+return;
+}
+
+document.getElementById("leaveMsg").textContent=
+"የ"+d+" ቀን "+
+document.getElementById("leaveType").value+
+" ጥያቄ ተልኳል።";
+
+}
+
+/* RENDER */
+function render(){
+
+let mine=records.filter(
+x=>x.id===user.id
+);
+
+let r=mine.find(
+x=>x.date===date()
+);
+
+document.getElementById("today").textContent=
+mine.length;
+
+document.getElementById("cin").textContent=
+r?.in || "--";
+
+document.getElementById("cout").textContent=
+r?.out || "--";
+
+document.getElementById("history").innerHTML=
+
+mine.slice()
+.reverse()
+.map(x=>`
+
+<tr>
+<td>${x.date}</td>
+<td>${x.in || "--"}</td>
+<td>${x.out || "--"}</td>
+<td>
+<span class="badge">
+${x.out ? "ጨርሷል":"በስራ ላይ"}
+</span>
+</td>
+</tr>
+
+`)
+.join("")
+
+||
+
+'<tr><td colspan="4">ምንም መዝገብ የለም</td></tr>';
+
+}
+
+/* SAVE */
+function save(){
+
+localStorage.setItem(
+"saRecords",
+JSON.stringify(records)
+);
+
+}
+
+/* MESSAGE */
+function msg(t){
+
+document.getElementById("status").innerHTML=
+'<div class="msg">'+t+'</div>';
+
+}
+
+/* LOGOUT */
+function logout(){
+
+localStorage.removeItem("saUser");
+
+location.reload();
+
+}
+
+/* CLOCK */
+setInterval(()=>{
+
+document.getElementById("clock").textContent=
+new Date().toLocaleString("am-ET");
+
+},1000);
+
+/* AUTO LOGIN */
+if(user){
+
+showApp();
+
+}
+
+</script>
+
+</body>
 </html>
