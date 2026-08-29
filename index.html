@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="am">
+<!DOCTYPE html><html lang="am">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#1769aa">
-
-<title>SMART Attendance</title>
-
-<style>
+<meta name="theme-color" content="#1769aa"><title>SMART Attendance</title><style>
 *{box-sizing:border-box}
 
 body{
@@ -197,120 +192,31 @@ font-weight:bold;
 color:#c62828;
 font-weight:bold;
 }
-</style>
 
-<!-- QR Scanner -->
-<script src="https://unpkg.com/html5-qrcode" defer></script>
-
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-</head>
-
-<body>
-
-<!-- ================= COVER ================= -->
-
-<section id="cover" class="cover">
-
-<div class="coverBox">
-
-<h1>እንኳን ደህና መጡ</h1>
-
-<h2>SMART Attendance</h2>
-
-<p>የሠራተኞች መግቢያና መውጫ መቆጣጠሪያ</p>
-
-<p>QR Scan + GPS + Supabase + Offline</p>
-
-<button onclick="openApp()">
+.sync{
+color:#1769aa;
+font-weight:bold;
+}
+</style><script src="https://unpkg.com/html5-qrcode" defer></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body><section id="cover" class="cover"><div class="coverBox"><h1>እንኳን ደህና መጡ</h1><h2>SMART Attendance</h2><p>የሠራተኞች መግቢያና መውጫ መቆጣጠሪያ</p><p>QR Scan + GPS + Supabase + Offline</p><button onclick="openApp()">
 App ይክፈቱ
-</button>
-
-<p style="margin-top:30px">
+</button><p style="margin-top:30px">
 የተዘጋጀው በ<strong>ዱማራ ዱዌ</strong>
-</p>
-
-</div>
-
-</section>
-
-
-<!-- ================= APP ================= -->
-
-<div id="app" class="hidden">
-
-<header>
-
-<div class="container">
-
-<h1>SMART Attendance</h1>
-
-<p>የሠራተኞች መገኘት አስተዳደር</p>
-
-<p>የተዘጋጀው በዱማራ ዱዌ</p>
-
-<div id="connectionStatus" class="security">
+</p></div></section><div id="app" class="hidden"><header><div class="container"><h1>SMART Attendance</h1><p>የሠራተኞች መገኘት አስተዳደር</p><p>የተዘጋጀው በዱማራ ዱዌ</p><div id="connectionStatus" class="security">
 Checking connection...
-</div>
-
-</div>
-
-</header>
-
-
-<main class="container">
-
-
-<!-- CLOCK -->
-
-<div class="card">
-
-<h2>🕐 የአሁኑ ሰዓት</h2>
-
-<div id="clock" class="clock">
+</div><div id="syncStatus" class="security">
+Offline Cache: Checking...
+</div></div></header><main class="container"><div class="card"><h2>🕐 የአሁኑ ሰዓት</h2><div id="clock" class="clock">
 --:--:--
-</div>
-
-<div id="dateText" style="text-align:center">
+</div><div id="dateText" style="text-align:center">
 --
-</div>
-
-</div>
-
-
-<!-- WORKING TIME -->
-
-<div class="card">
-
-<h2>📅 የሥራ ቀናት</h2>
-
-<p>ሰኞ • ማክሰኞ • ረቡዕ • ሐሙስ • ዓርብ</p>
-
-<hr>
-
-<p>🟢 <b>Check-in:</b> 2:30 – 3:00</p>
-
-<p>🔴 <b>Check-out:</b> 11:00 – 11:30</p>
-
-<p>
+</div></div><div class="card"><h2>📅 የሥራ ቀናት</h2><p>ሰኞ • ማክሰኛ • ረቡዕ • ሐሙስ • ዓርብ</p><hr><p>🟢 <b>Check-in:</b> 2:30 – 3:00</p><p>🔴 <b>Check-out:</b> 11:00 – 11:30</p><p>
 የሰዓቱ ቁጥጥር በኢትዮጵያ ሰዓት ነው።
-</p>
-
-</div>
-
-
-<!-- EMPLOYEE -->
-
-<div class="card">
-
-<h2>👤 የሠራተኛ መግቢያ</h2>
-
-<input
+</p></div><div class="card"><h2>👤 የሠራተኛ መግቢያ</h2><input
 id="employeeID"
 placeholder="Employee ID ለምሳሌ EMP001"
 autocomplete="off"
->
+
+«»
 
 <button
 class="primary"
@@ -330,20 +236,7 @@ onclick="stopQR()">
 ⏹ QR Stop
 </button>
 
-<div id="reader"></div>
-
-<div id="employeeInfo"></div>
-
-</div>
-
-
-<!-- ATTENDANCE -->
-
-<div class="card">
-
-<h2>📝 Attendance</h2>
-
-<button
+<div id="reader"></div><div id="employeeInfo"></div></div><div class="card"><h2>📝 Attendance</h2><button
 id="checkInBtn"
 class="success"
 onclick="checkIn()">
@@ -363,79 +256,30 @@ onclick="getLocation()">
 📍 GPS አረጋግጥ
 </button>
 
-<div id="gpsInfo"></div>
-
-<div id="status"></div>
-
-</div>
-
-
-<!-- STATS -->
-
-<div class="grid">
-
-<div class="stat">
+<div id="gpsInfo"></div><div id="status"></div></div><div class="grid"><div class="stat">
 ዛሬ
 <b id="todayCount">0</b>
 መዝገብ
-</div>
-
-<div class="stat">
+</div><div class="stat">
 Check In
 <b id="cin">--</b>
-</div>
-
-<div class="stat">
+</div><div class="stat">
 Check Out
 <b id="cout">--</b>
-</div>
-
-</div>
-
-
-<!-- HISTORY -->
-
-<div class="card">
-
-<h2>📊 Attendance History</h2>
-
-<div style="overflow-x:auto">
-
-<table>
-
-<thead>
-
-<tr>
+</div></div><div class="card"><h2>📊 Attendance History</h2><div style="overflow-x:auto"><table><thead><tr>
 <th>ቀን</th>
 <th>ID</th>
 <th>ስም</th>
 <th>Check In</th>
 <th>Check Out</th>
-</tr>
-
-</thead>
-
-<tbody id="history"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<!-- ADMIN -->
-
-<div class="card">
-
-<h2>🔐 Admin</h2>
-
-<input
+<th>Sync</th>
+</tr></thead><tbody id="history"></tbody></table></div></div><div class="card"><h2>🔐 Admin</h2><input
 type="password"
 id="adminPassword"
 placeholder="Admin Password"
 autocomplete="off"
->
+
+«»
 
 <button
 class="primary"
@@ -443,13 +287,7 @@ onclick="adminLogin()">
 Admin Login
 </button>
 
-<div id="adminPanel" class="hidden">
-
-<hr>
-
-<h3>Admin Dashboard</h3>
-
-<button
+<div id="adminPanel" class="hidden"><hr><h3>Admin Dashboard</h3><button
 class="primary"
 onclick="downloadReport()">
 📄 CSV Report
@@ -462,48 +300,34 @@ onclick="syncAllRecords()">
 </button>
 
 <button
+class="primary"
+onclick="cacheEmployees()">
+👥 Employees Cache አድስ
+</button>
+
+<button
 class="danger"
 onclick="clearRecords()">
 🗑️ መዝገብ አጥፋ
 </button>
 
-</div>
-
-</div>
-
-
-<button
+</div></div><button
 class="light"
 onclick="logout()">
 ውጣ
 </button>
 
-</main>
-
-
-<footer>
-
-SMART Attendance<br>
+</main><footer>SMART Attendance<br>
 የተዘጋጀው በዱማራ ዱዌ
 
-</footer>
-
-</div>
-
-
-<script>
+</footer></div><script>
 
 /* =====================================================
-   SUPABASE CONFIGURATION
+   SUPABASE
 ===================================================== */
 
 const SUPABASE_URL =
 "https://pfccznbjnbfnelolqbph.supabase.co";
-
-/*
-  ይህ Publishable Key ነው።
-  Secret / service_role key አትጠቀም።
-*/
 
 const SUPABASE_KEY =
 "sb_publishable_p5gXvla5CvzCDnT3KCSEUg_BBg1Fgem";
@@ -516,41 +340,51 @@ SUPABASE_KEY
 
 
 /* =====================================================
-   TABLE NAMES
+   TABLES
 ===================================================== */
 
-const EMPLOYEE_TABLE = "employees";
+const EMPLOYEE_TABLE="employees";
 
-const ATTENDANCE_TABLE = "attendance";
+const ATTENDANCE_TABLE="attendance";
 
 
 /* =====================================================
    ADMIN
 ===================================================== */
 
-const ADMIN_PIN = "12345678";
+const ADMIN_PIN="12345678";
+
+
+/* =====================================================
+   LOCAL STORAGE KEYS
+===================================================== */
+
+const EMPLOYEE_CACHE_KEY=
+"smartAttendanceEmployees";
+
+const RECORDS_KEY=
+"smartAttendanceRecords";
 
 
 /* =====================================================
    DATA
 ===================================================== */
 
-let employees = [];
+let employees=[];
 
-let currentEmployee = null;
+let currentEmployee=null;
 
-let currentLocation = {
+let currentLocation={
 latitude:"",
 longitude:""
 };
 
-let records = JSON.parse(
-localStorage.getItem(
-"smartAttendanceRecords"
-) || "[]"
+let records=
+JSON.parse(
+localStorage.getItem(RECORDS_KEY) || "[]"
 );
 
-let qrScanner = null;
+let qrScanner=null;
 
 
 /* =====================================================
@@ -577,40 +411,99 @@ loadEmployees();
 
 
 /* =====================================================
-   CONNECTION STATUS
+   CONNECTION
 ===================================================== */
 
 function updateConnectionStatus(){
 
-const box =
+const box=
 document.getElementById(
 "connectionStatus"
 );
 
 if(navigator.onLine){
 
-box.innerHTML =
+box.innerHTML=
 "🟢 Online — Supabase Connected Mode";
 
-box.className =
+box.className=
 "security online";
 
 }else{
 
-box.innerHTML =
-"🔴 Offline — Local Backup Mode";
+box.innerHTML=
+"🔴 Offline — Local Mode";
 
-box.className =
+box.className=
 "security offline";
 
 }
 
+updateSyncStatus();
+
 }
+
+
+function updateSyncStatus(){
+
+const box=
+document.getElementById(
+"syncStatus"
+);
+
+const pending=
+records.filter(
+r=>!r.synced
+).length;
+
+const cached=
+employees.length;
+
+if(!navigator.onLine){
+
+box.innerHTML=
+"📱 Offline Cache: "+
+cached+
+" Employees | "+
+pending+
+" Pending Records";
+
+box.className=
+"security offline";
+
+}else{
+
+box.innerHTML=
+"☁️ Online Cache: "+
+cached+
+" Employees | "+
+pending+
+" Pending Records";
+
+box.className=
+"security sync";
+
+}
+
+}
+
 
 window.addEventListener(
 "online",
-updateConnectionStatus
+()=>{
+
+updateConnectionStatus();
+
+setTimeout(
+async()=>{
+await loadEmployees();
+await syncAllRecords();
+},
+1500
 );
+
+});
+
 
 window.addEventListener(
 "offline",
@@ -642,10 +535,9 @@ timeZone:"Africa/Addis_Ababa"
 
 function updateClock(){
 
-const d =
-ethiopiaDate();
+const d=ethiopiaDate();
 
-const time =
+const time=
 d.toLocaleTimeString(
 "en-GB",
 {
@@ -655,7 +547,7 @@ second:"2-digit"
 }
 );
 
-const date =
+const date=
 d.toLocaleDateString(
 "am-ET",
 {
@@ -666,13 +558,17 @@ weekday:"long"
 }
 );
 
-document.getElementById(
-"clock"
-).textContent=time;
+const clock=
+document.getElementById("clock");
 
-document.getElementById(
-"dateText"
-).textContent=date;
+const dateText=
+document.getElementById("dateText");
+
+if(clock)
+clock.textContent=time;
+
+if(dateText)
+dateText.textContent=date;
 
 }
 
@@ -688,28 +584,22 @@ updateClock,
 
 function today(){
 
-const d =
-ethiopiaDate();
+const d=ethiopiaDate();
 
 return d.getFullYear()+"-"+
-String(
-d.getMonth()+1
-).padStart(2,"0")+"-"+
-String(
-d.getDate()
-).padStart(2,"0");
+String(d.getMonth()+1).padStart(2,"0")+"-"+
+String(d.getDate()).padStart(2,"0");
 
 }
 
 
 /* =====================================================
-   TIME MINUTES
+   TIME
 ===================================================== */
 
 function minutesNow(){
 
-const d =
-ethiopiaDate();
+const d=ethiopiaDate();
 
 return d.getHours()*60+
 d.getMinutes();
@@ -723,111 +613,35 @@ d.getMinutes();
 
 function workingDay(){
 
-const day =
-ethiopiaDate().getDay();
+const day=ethiopiaDate().getDay();
 
-return day >= 1 &&
-day <= 5;
+return day>=1 && day<=5;
 
 }
 
 
 /* =====================================================
-   CHECK IN TIME
+   CHECK-IN TIME
 ===================================================== */
 
 function checkInTime(){
 
-const m =
-minutesNow();
+const m=minutesNow();
 
-return m >= 150 &&
-m <= 180;
+return m>=150 && m<=180;
 
 }
 
 
 /* =====================================================
-   CHECK OUT TIME
+   CHECK-OUT TIME
 ===================================================== */
 
 function checkOutTime(){
 
-const m =
-minutesNow();
+const m=minutesNow();
 
-return m >= 660 &&
-m <= 690;
-
-}
-
-
-/* =====================================================
-   LOAD EMPLOYEES FROM SUPABASE
-===================================================== */
-
-async function loadEmployees(){
-
-try{
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from(EMPLOYEE_TABLE)
-.select("*");
-
-if(error){
-
-console.error(
-"Employee loading error:",
-error
-);
-
-showStatus(
-"⚠️ Supabase Employees መጫን አልተቻለም። Offline data ብቻ እየተጠቀምን ነው።",
-"err"
-);
-
-return;
-
-}
-
-employees =
-(data || []).map(row=>{
-
-return normalizeEmployee(row);
-
-});
-
-console.log(
-"Employees loaded:",
-employees.length
-);
-
-if(employees.length===0){
-
-showStatus(
-"⚠️ Employees table ባዶ ነው።",
-"err"
-);
-
-}else{
-
-showStatus(
-"☁️ "+employees.length+
-" ሠራተኞች ከ Supabase ተገኝተዋል።",
-"ok"
-);
-
-}
-
-}catch(error){
-
-console.error(error);
-
-}
+return m>=660 && m<=690;
 
 }
 
@@ -838,31 +652,239 @@ console.error(error);
 
 function normalizeEmployee(row){
 
-const id =
+const id=
 row.employee_id ||
 row.employeeId ||
 row.emp_id ||
 row.id ||
 "";
 
-const name =
+const name=
 row.name ||
 row.full_name ||
 row.employee_name ||
 row.employeeName ||
 "";
 
-const qr =
+const qr=
 row.qr_code ||
 row.qrCode ||
 id;
 
-return {
+return{
+
 id:String(id).trim(),
+
 name:String(name).trim(),
+
 qr:String(qr).trim(),
+
 raw:row
+
 };
+
+}
+
+
+/* =====================================================
+   SAVE EMPLOYEE CACHE
+===================================================== */
+
+function saveEmployeeCache(){
+
+try{
+
+localStorage.setItem(
+EMPLOYEE_CACHE_KEY,
+JSON.stringify(employees)
+);
+
+}catch(error){
+
+console.error(
+"Employee cache error:",
+error
+);
+
+}
+
+updateSyncStatus();
+
+}
+
+
+/* =====================================================
+   LOAD EMPLOYEE CACHE
+===================================================== */
+
+function loadEmployeeCache(){
+
+try{
+
+const cached=
+JSON.parse(
+localStorage.getItem(
+EMPLOYEE_CACHE_KEY
+) || "[]"
+);
+
+if(Array.isArray(cached)){
+
+employees=cached;
+
+}
+
+}catch(error){
+
+console.error(error);
+
+employees=[];
+
+}
+
+updateSyncStatus();
+
+}
+
+
+/* =====================================================
+   LOAD EMPLOYEES
+===================================================== */
+
+async function loadEmployees(){
+
+/*
+  መጀመሪያ Offline Cache
+*/
+
+loadEmployeeCache();
+
+
+/*
+  Internet ከሌለ
+  Cache ብቻ ይጠቀማል
+*/
+
+if(!navigator.onLine){
+
+if(employees.length){
+
+showStatus(
+"📱 Offline: "+
+employees.length+
+" ሠራተኞች ከስልኩ Cache ተገኝተዋል።",
+"ok"
+);
+
+}else{
+
+showStatus(
+"⚠️ Offline ነው። Employee Cache የለም። አንድ ጊዜ Internet ላይ App ክፈት።",
+"err"
+);
+
+}
+
+return;
+
+}
+
+
+try{
+
+const{
+data,
+error
+}=
+await supabaseClient
+.from(EMPLOYEE_TABLE)
+.select("*");
+
+if(error)
+throw error;
+
+employees=
+(data || []).map(
+row=>normalizeEmployee(row)
+);
+
+saveEmployeeCache();
+
+if(employees.length){
+
+showStatus(
+"☁️ "+employees.length+
+" ሠራተኞች ተገኝተዋል። Offline Cache ተዘጋጅቷል።",
+"ok"
+);
+
+}else{
+
+showStatus(
+"⚠️ Employees table ባዶ ነው።",
+"err"
+);
+
+}
+
+}catch(error){
+
+console.error(
+"Employee loading error:",
+error
+);
+
+/*
+  Supabase ካልሰራ
+  Cache ብቻ እንጠቀማለን
+*/
+
+if(employees.length){
+
+showStatus(
+"📱 Supabase አልተገኘም። Cached Employees እየተጠቀምን ነው።",
+"ok"
+);
+
+}else{
+
+showStatus(
+"❌ Employees ማግኘት አልተቻለም።",
+"err"
+);
+
+}
+
+}
+
+updateSyncStatus();
+
+}
+
+
+/* =====================================================
+   MANUAL EMPLOYEE CACHE
+===================================================== */
+
+async function cacheEmployees(){
+
+if(!navigator.onLine){
+
+showStatus(
+"❌ Internet የለም። Employees Cache ለማደስ Internet ያስፈልጋል።",
+"err"
+);
+
+return;
+
+}
+
+await loadEmployees();
+
+showStatus(
+"👥 Employees Cache ተዘምኗል። Offline ላይ አሁን ሊሰራ ይችላል።",
+"ok"
+);
 
 }
 
@@ -876,16 +898,16 @@ function findEmployee(id){
 if(!id)
 return null;
 
-const value =
+const value=
 String(id)
 .trim()
 .toUpperCase();
 
 return employees.find(
-e =>
+e=>
 e.id.toUpperCase()===value ||
 e.qr.toUpperCase()===value
-) || null;
+)||null;
 
 }
 
@@ -896,7 +918,7 @@ e.qr.toUpperCase()===value
 
 async function verifyEmployee(){
 
-const input =
+const input=
 document.getElementById(
 "employeeID"
 ).value.trim();
@@ -908,14 +930,14 @@ showStatus(
 "err"
 );
 
-return;
+return false;
 
 }
 
 
 /*
-  አንድ ጊዜ እንደገና Supabase
-  ከመፈለግ እንሞክራለን።
+  Cache ካልነበረ እና Internet ካለ
+  Supabase እንፈልጋለን።
 */
 
 if(!employees.length){
@@ -924,7 +946,7 @@ await loadEmployees();
 
 }
 
-const employee =
+const employee=
 findEmployee(input);
 
 if(!employee){
@@ -949,7 +971,7 @@ document.getElementById(
 `<div class="info">
 <b>👤 ስም:</b> ${escapeHTML(employee.name)}<br>
 <b>🆔 ID:</b> ${escapeHTML(employee.id)}<br>
-<b>☁️ Database:</b> Supabase
+<b>📱 Offline Cache:</b> ዝግጁ
 </div>`;
 
 render();
@@ -960,12 +982,12 @@ return true;
 
 
 /* =====================================================
-   ESCAPE HTML
+   ESCAPE
 ===================================================== */
 
 function escapeHTML(value){
 
-return String(value || "")
+return String(value||"")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -981,7 +1003,7 @@ return String(value || "")
 
 async function getEmployee(){
 
-const id =
+const id=
 document.getElementById(
 "employeeID"
 ).value.trim();
@@ -997,7 +1019,7 @@ return null;
 
 }
 
-const valid =
+const valid=
 await verifyEmployee();
 
 if(!valid)
@@ -1009,13 +1031,110 @@ return currentEmployee;
 
 
 /* =====================================================
-   GPS REQUIRED
+   GPS
 ===================================================== */
 
 function hasGPS(){
 
-return currentLocation.latitude !== "" &&
-currentLocation.longitude !== "";
+return currentLocation.latitude!=="" &&
+currentLocation.longitude!=="";
+
+}
+
+
+function getLocation(){
+
+if(!navigator.geolocation){
+
+showStatus(
+"❌ GPS በዚህ ስልክ አይደገፍም።",
+"err"
+);
+
+return;
+
+}
+
+showStatus(
+"📍 GPS እየፈለገ ነው...",
+"ok"
+);
+
+navigator.geolocation.getCurrentPosition(
+
+position=>{
+
+currentLocation.latitude=
+position.coords.latitude;
+
+currentLocation.longitude=
+position.coords.longitude;
+
+document.getElementById(
+"gpsInfo"
+).innerHTML=
+
+`<div class="info">
+📍 <b>GPS ተረጋግጧል</b><br>
+Latitude: ${position.coords.latitude.toFixed(6)}<br>
+Longitude: ${position.coords.longitude.toFixed(6)}<br>
+Accuracy: ${Math.round(position.coords.accuracy)} m
+</div>`;
+
+showStatus(
+"📍 GPS ተረጋግጧል።",
+"ok"
+);
+
+},
+
+error=>{
+
+console.error(error);
+
+showStatus(
+"❌ GPS Location ፈቃድ ይስጡ እና GPS ክፈቱ።",
+"err"
+);
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:15000,
+maximumAge:0
+}
+
+);
+
+}
+
+
+/* =====================================================
+   CREATE LOCAL RECORD
+===================================================== */
+
+function createRecord(employee){
+
+return{
+
+date:today(),
+
+id:employee.id,
+
+name:employee.name,
+
+checkIn:"",
+
+checkOut:"",
+
+latitude:"",
+
+longitude:"",
+
+synced:false
+
+};
 
 }
 
@@ -1026,7 +1145,7 @@ currentLocation.longitude !== "";
 
 async function checkIn(){
 
-const employee =
+const employee=
 await getEmployee();
 
 if(!employee)
@@ -1034,14 +1153,13 @@ return;
 
 
 /*
-  GPS ሳይኖር attendance
-  እንዳይመዘገብ
+  GPS ሁልጊዜ ያስፈልጋል
 */
 
 if(!hasGPS()){
 
 showStatus(
-"📍 መጀመሪያ GPS አረጋግጥ። GPS ሳይኖር Check-in አይፈቀድም።",
+"📍 መጀመሪያ GPS አረጋግጥ።",
 "err"
 );
 
@@ -1065,7 +1183,7 @@ return;
 if(!checkInTime()){
 
 showStatus(
-"⏰ Check-in የሚፈቀደው ከ 2:30 እስከ 3:00 የኢትዮጵያ ሰዓት ብቻ ነው።",
+"⏰ Check-in ከ 2:30 እስከ 3:00 የኢትዮጵያ ሰዓት ብቻ ነው።",
 "err"
 );
 
@@ -1074,16 +1192,15 @@ return;
 }
 
 
-const existing =
+let r=
 records.find(
-x =>
+x=>
 x.id===employee.id &&
 x.date===today()
 );
 
 
-if(existing &&
-existing.checkIn){
+if(r && r.checkIn){
 
 showStatus(
 "❌ ዛሬ Check-in ቀድሞ ተመዝግቧል።",
@@ -1095,7 +1212,16 @@ return;
 }
 
 
-const time =
+if(!r){
+
+r=createRecord(employee);
+
+records.push(r);
+
+}
+
+
+r.checkIn=
 ethiopiaDate()
 .toLocaleTimeString(
 "en-GB",
@@ -1106,31 +1232,6 @@ second:"2-digit"
 }
 );
 
-
-let r =
-existing;
-
-
-if(!r){
-
-r={
-date:today(),
-id:employee.id,
-name:employee.name,
-checkIn:"",
-checkOut:"",
-latitude:"",
-longitude:"",
-synced:false
-};
-
-records.push(r);
-
-}
-
-
-r.checkIn=time;
-
 r.latitude=
 currentLocation.latitude;
 
@@ -1139,21 +1240,24 @@ currentLocation.longitude;
 
 r.synced=false;
 
-
 save();
 
 render();
 
-
-/*
-  Supabase ላይ እንልካለን
-*/
-
-const success =
-await saveAttendanceToSupabase(
-r
+showStatus(
+"📱✅ Check-in በስልኩ ተቀምጧል።",
+"ok"
 );
 
+
+/*
+  Online ከሆነ ወዲያውኑ Sync
+*/
+
+if(navigator.onLine){
+
+const success=
+await saveAttendanceToSupabase(r);
 
 if(success){
 
@@ -1161,19 +1265,15 @@ r.synced=true;
 
 save();
 
+render();
+
 showStatus(
 "☁️✅ "+employee.name+
 " Check-in በ Supabase ተመዝግቧል።",
 "ok"
 );
 
-}else{
-
-showStatus(
-"📱✅ "+employee.name+
-" Check-in በስልኩ ተቀምጧል። Internet ሲመጣ Sync ይሆናል።",
-"ok"
-);
+}
 
 }
 
@@ -1186,7 +1286,7 @@ showStatus(
 
 async function checkOut(){
 
-const employee =
+const employee=
 await getEmployee();
 
 if(!employee)
@@ -1196,7 +1296,7 @@ return;
 if(!hasGPS()){
 
 showStatus(
-"📍 መጀመሪያ GPS አረጋግጥ። GPS ሳይኖር Check-out አይፈቀድም።",
+"📍 መጀመሪያ GPS አረጋግጥ።",
 "err"
 );
 
@@ -1220,7 +1320,7 @@ return;
 if(!checkOutTime()){
 
 showStatus(
-"⏰ Check-out የሚፈቀደው ከ 11:00 እስከ 11:30 የኢትዮጵያ ሰዓት ብቻ ነው።",
+"⏰ Check-out ከ 11:00 እስከ 11:30 የኢትዮጵያ ሰዓት ብቻ ነው።",
 "err"
 );
 
@@ -1229,9 +1329,9 @@ return;
 }
 
 
-let r =
+let r=
 records.find(
-x =>
+x=>
 x.id===employee.id &&
 x.date===today()
 );
@@ -1273,7 +1373,7 @@ return;
 }
 
 
-r.checkOut =
+r.checkOut=
 ethiopiaDate()
 .toLocaleTimeString(
 "en-GB",
@@ -1283,7 +1383,6 @@ minute:"2-digit",
 second:"2-digit"
 }
 );
-
 
 r.latitude=
 currentLocation.latitude ||
@@ -1295,17 +1394,20 @@ r.longitude;
 
 r.synced=false;
 
-
 save();
 
 render();
 
-
-const success =
-await saveAttendanceToSupabase(
-r
+showStatus(
+"📱✅ Check-out በስልኩ ተቀምጧል።",
+"ok"
 );
 
+
+if(navigator.onLine){
+
+const success=
+await saveAttendanceToSupabase(r);
 
 if(success){
 
@@ -1313,19 +1415,15 @@ r.synced=true;
 
 save();
 
+render();
+
 showStatus(
 "☁️✅ "+employee.name+
 " Check-out በ Supabase ተመዝግቧል።",
 "ok"
 );
 
-}else{
-
-showStatus(
-"📱✅ "+employee.name+
-" Check-out በስልኩ ተቀምጧል። Internet ሲመጣ Sync ይሆናል።",
-"ok"
-);
+}
 
 }
 
@@ -1333,7 +1431,7 @@ showStatus(
 
 
 /* =====================================================
-   SAVE ATTENDANCE TO SUPABASE
+   SUPABASE ATTENDANCE
 ===================================================== */
 
 async function saveAttendanceToSupabase(record){
@@ -1341,21 +1439,7 @@ async function saveAttendanceToSupabase(record){
 if(!navigator.onLine)
 return false;
 
-
 try{
-
-/*
-  እዚህ የ attendance table
-  column names እንጠቀማለን፦
-
-  employee_id
-  employee_name
-  attendance_date
-  check_in
-  check_out
-  latitude
-  longitude
-*/
 
 const payload={
 
@@ -1365,21 +1449,19 @@ employee_name:record.name,
 
 attendance_date:record.date,
 
-check_in:
-record.checkIn || null,
+check_in:record.checkIn || null,
 
-check_out:
-record.checkOut || null,
+check_out:record.checkOut || null,
 
 latitude:
-record.latitude === ""
+record.latitude===""
 ?
 null
 :
 Number(record.latitude),
 
 longitude:
-record.longitude === ""
+record.longitude===""
 ?
 null
 :
@@ -1387,11 +1469,10 @@ Number(record.longitude)
 
 };
 
-
-const {
+const{
 data,
 error
-} =
+}=
 await supabaseClient
 .from(ATTENDANCE_TABLE)
 .upsert(
@@ -1403,18 +1484,16 @@ onConflict:
 )
 .select();
 
-
 if(error){
 
 console.error(
-"Supabase attendance error:",
+"Supabase Attendance Error:",
 error
 );
 
 return false;
 
 }
-
 
 console.log(
 "Attendance saved:",
@@ -1435,91 +1514,17 @@ return false;
 
 
 /* =====================================================
-   GPS
-===================================================== */
-
-function getLocation(){
-
-if(!navigator.geolocation){
-
-showStatus(
-"❌ GPS በዚህ ስልክ አይደገፍም።",
-"err"
-);
-
-return;
-
-}
-
-
-showStatus(
-"📍 GPS እየፈለገ ነው...",
-"ok"
-);
-
-
-navigator.geolocation.getCurrentPosition(
-
-position=>{
-
-currentLocation.latitude =
-position.coords.latitude;
-
-currentLocation.longitude =
-position.coords.longitude;
-
-
-document.getElementById(
-"gpsInfo"
-).innerHTML=
-
-`<div class="info">
-📍 <b>GPS ተረጋግጧል</b><br>
-Latitude: ${position.coords.latitude.toFixed(6)}<br>
-Longitude: ${position.coords.longitude.toFixed(6)}<br>
-Accuracy: ${Math.round(position.coords.accuracy)} m
-</div>`;
-
-
-showStatus(
-"📍 GPS ተረጋግጧል።",
-"ok"
-);
-
-},
-
-error=>{
-
-console.error(error);
-
-showStatus(
-"❌ GPS Location ፈቃድ ይስጡ እና GPS ክፈቱ።",
-"err"
-);
-
-},
-
-{
-enableHighAccuracy:true,
-timeout:15000,
-maximumAge:0
-}
-
-);
-
-}
-
-
-/* =====================================================
    LOCAL SAVE
 ===================================================== */
 
 function save(){
 
 localStorage.setItem(
-"smartAttendanceRecords",
+RECORDS_KEY,
 JSON.stringify(records)
 );
+
+updateSyncStatus();
 
 }
 
@@ -1530,7 +1535,7 @@ JSON.stringify(records)
 
 function render(){
 
-const history =
+const history=
 document.getElementById(
 "history"
 );
@@ -1538,8 +1543,7 @@ document.getElementById(
 if(!history)
 return;
 
-
-let mine =
+let mine=
 currentEmployee
 ?
 records.filter(
@@ -1548,14 +1552,12 @@ x=>x.id===currentEmployee.id
 :
 records;
 
-
 document.getElementById(
 "todayCount"
 ).textContent=
 mine.length;
 
-
-const todayRecord =
+const todayRecord=
 currentEmployee
 ?
 mine.find(
@@ -1564,12 +1566,10 @@ x=>x.date===today()
 :
 null;
 
-
 document.getElementById(
 "cin"
 ).textContent=
 todayRecord?.checkIn || "--";
-
 
 document.getElementById(
 "cout"
@@ -1580,7 +1580,7 @@ todayRecord?.checkOut || "--";
 if(!mine.length){
 
 history.innerHTML=
-'<tr><td colspan="5">ምንም መዝገብ የለም።</td></tr>';
+'<tr><td colspan="6">ምንም መዝገብ የለም።</td></tr>';
 
 return;
 
@@ -1601,9 +1601,17 @@ mine
 
 <td>${escapeHTML(r.name)}</td>
 
-<td>${escapeHTML(r.checkIn || "--")}</td>
+<td>${escapeHTML(r.checkIn||"--")}</td>
 
-<td>${escapeHTML(r.checkOut || "--")}</td>
+<td>${escapeHTML(r.checkOut||"--")}</td>
+
+<td>
+${r.synced
+?
+"☁️ Synced"
+:
+"📱 Offline"}
+</td>
 
 </tr>
 
@@ -1622,7 +1630,7 @@ text,
 type
 ){
 
-const status =
+const status=
 document.getElementById(
 "status"
 );
@@ -1639,7 +1647,7 @@ status.innerHTML=text;
 
 
 /* =====================================================
-   QR SCANNER
+   QR
 ===================================================== */
 
 function scanQR(){
@@ -1647,7 +1655,7 @@ function scanQR(){
 if(typeof Html5Qrcode==="undefined"){
 
 showStatus(
-"⏳ QR Scanner እየተጫነ ነው። ትንሽ ይጠብቁ።",
+"⏳ QR Scanner እየተጫነ ነው።",
 "err"
 );
 
@@ -1655,16 +1663,11 @@ return;
 
 }
 
-
 if(qrScanner)
 return;
 
-
 qrScanner=
-new Html5Qrcode(
-"reader"
-);
-
+new Html5Qrcode("reader");
 
 qrScanner.start(
 
@@ -1680,20 +1683,16 @@ decodedText=>{
 const id=
 decodedText.trim();
 
-
 document.getElementById(
 "employeeID"
 ).value=id;
 
-
 verifyEmployee();
-
 
 showStatus(
 "📷 QR Code ተነቧል።",
 "ok"
 );
-
 
 stopQR();
 
@@ -1726,7 +1725,6 @@ function stopQR(){
 if(!qrScanner)
 return;
 
-
 qrScanner.stop()
 .then(()=>{
 
@@ -1747,16 +1745,15 @@ qrScanner=null;
 
 
 /* =====================================================
-   ADMIN LOGIN
+   ADMIN
 ===================================================== */
 
 function adminLogin(){
 
-const password =
+const password=
 document.getElementById(
 "adminPassword"
 ).value;
-
 
 if(password===ADMIN_PIN){
 
@@ -1784,25 +1781,20 @@ showStatus(
 
 
 /* =====================================================
-   SYNC ALL OFFLINE RECORDS
+   SYNC ALL
 ===================================================== */
 
 async function syncAllRecords(){
 
 if(!navigator.onLine){
 
-showStatus(
-"❌ Internet የለም።",
-"err"
-);
+updateSyncStatus();
 
 return;
 
 }
 
-
 let count=0;
-
 
 for(
 const record of records
@@ -1810,7 +1802,7 @@ const record of records
 
 if(!record.synced){
 
-const success =
+const success=
 await saveAttendanceToSupabase(
 record
 );
@@ -1827,11 +1819,13 @@ count++;
 
 }
 
-
 save();
 
 render();
 
+updateSyncStatus();
+
+if(count>0){
 
 showStatus(
 "☁️ "+count+
@@ -1841,9 +1835,11 @@ showStatus(
 
 }
 
+}
+
 
 /* =====================================================
-   AUTO SYNC WHEN INTERNET RETURNS
+   AUTO SYNC
 ===================================================== */
 
 window.addEventListener(
@@ -1855,12 +1851,11 @@ syncAllRecords,
 2000
 );
 
-}
-);
+});
 
 
 /* =====================================================
-   CSV REPORT
+   CSV
 ===================================================== */
 
 function downloadReport(){
@@ -1875,10 +1870,8 @@ return;
 
 }
 
-
 let csv=
-"Date,Employee ID,Name,Check In,Check Out,Latitude,Longitude\n";
-
+"Date,Employee ID,Name,Check In,Check Out,Latitude,Longitude,Sync\n";
 
 records.forEach(r=>{
 
@@ -1889,26 +1882,21 @@ csv +=
 `${csvSafe(r.checkIn)},`+
 `${csvSafe(r.checkOut)},`+
 `${csvSafe(r.latitude)},`+
-`${csvSafe(r.longitude)}\n`;
+`${csvSafe(r.longitude)},`+
+`${csvSafe(r.synced ? "Synced":"Offline")}\n`;
 
 });
-
 
 const blob=
 new Blob(
 ["\ufeff"+csv],
 {
-type:
-"text/csv;charset=utf-8"
+type:"text/csv;charset=utf-8"
 }
 );
 
-
 const url=
-URL.createObjectURL(
-blob
-);
-
+URL.createObjectURL(blob);
 
 const a=
 document.createElement("a");
@@ -1932,7 +1920,7 @@ URL.revokeObjectURL(url);
 function csvSafe(value){
 
 return String(
-value ?? ""
+value??""
 )
 .replace(/"/g,'""');
 
@@ -1940,7 +1928,7 @@ value ?? ""
 
 
 /* =====================================================
-   CLEAR LOCAL RECORDS
+   CLEAR
 ===================================================== */
 
 function clearRecords(){
@@ -1953,13 +1941,11 @@ return;
 
 }
 
-
 records=[];
 
 save();
 
 render();
-
 
 showStatus(
 "🗑️ Local Attendance መዝገብ ተሰርዟል።",
@@ -1996,13 +1982,11 @@ document.getElementById(
 "gpsInfo"
 ).innerHTML="";
 
-
 document.getElementById(
 "app"
 ).classList.add(
 "hidden"
 );
-
 
 document.getElementById(
 "cover"
@@ -2021,7 +2005,7 @@ updateClock();
 
 updateConnectionStatus();
 
-</script>
+loadEmployeeCache();
 
-</body>
+</script></body>
 </html>
