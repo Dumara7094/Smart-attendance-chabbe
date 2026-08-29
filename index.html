@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1769aa">
 
-<title>SMART Attendance</title>
+<title>SMART Attendance + Payroll</title>
 
 <script src="https://unpkg.com/html5-qrcode" defer></script>
 
 <style>
-
 *{box-sizing:border-box}
 
 body{
@@ -38,14 +37,8 @@ body{
  max-width:600px;
 }
 
-.cover h1{
- font-size:38px;
- margin:10px 0;
-}
-
-.cover h2{
- font-size:28px;
-}
+.cover h1{font-size:38px;margin:10px 0}
+.cover h2{font-size:28px}
 
 .cover button{
  background:white;
@@ -65,7 +58,7 @@ header{
 }
 
 .container{
- max-width:950px;
+ max-width:1100px;
  margin:auto;
  padding:18px;
 }
@@ -109,27 +102,12 @@ button:disabled{
  cursor:not-allowed;
 }
 
-.primary{
- background:#1769aa;
- color:white;
-}
+.primary{background:#1769aa;color:white}
+.success{background:#159447;color:white}
+.danger{background:#c62828;color:white}
+.light{background:#e8eef5;color:#17212b}
 
-.success{
- background:#159447;
- color:white;
-}
-
-.danger{
- background:#c62828;
- color:white;
-}
-
-.light{
- background:#e8eef5;
- color:#17212b;
-}
-
-input{
+input,select{
  width:100%;
  padding:13px;
  border:1px solid #ccd6df;
@@ -150,9 +128,7 @@ th,td{
  white-space:nowrap;
 }
 
-th{
- background:#eef6ff;
-}
+th{background:#eef6ff}
 
 .msg{
  padding:12px;
@@ -210,27 +186,33 @@ footer{
  font-size:13px;
 }
 
+.payrollTotal{
+ background:#e8f5e9;
+ border-radius:15px;
+ padding:18px;
+ margin:12px 0;
+}
+
+.net{
+ font-weight:bold;
+ font-size:18px;
+}
+
 @media(max-width:600px){
-
- .cover h1{
-  font-size:30px;
- }
-
- .cover h2{
-  font-size:23px;
- }
-
- .clock{
-  font-size:25px;
- }
+ .cover h1{font-size:30px}
+ .cover h2{font-size:23px}
+ .clock{font-size:25px}
 
  button{
   width:100%;
   margin:5px 0;
  }
 
+ th,td{
+  font-size:13px;
+  padding:8px;
+ }
 }
-
 </style>
 </head>
 
@@ -251,7 +233,7 @@ footer{
 </p>
 
 <p>
-📷 QR Scan + 📍 GPS
+📷 QR Scan + 📍 GPS + 💰 Payroll
 </p>
 
 <button onclick="openApp()">
@@ -263,7 +245,6 @@ App ይክፈቱ
 </p>
 
 </div>
-
 </section>
 
 
@@ -272,21 +253,15 @@ App ይክፈቱ
 <div id="app" class="hidden">
 
 <header>
-
 <div class="container">
 
 <h1>SMART Attendance</h1>
 
-<p>
-የሠራተኞች መገኘት አስተዳደር
-</p>
+<p>የሠራተኞች መገኘት እና Payroll አስተዳደር</p>
 
-<p>
-የተዘጋጀው በዱማራ ዱዌ
-</p>
+<p>የተዘጋጀው በዱማራ ዱዌ</p>
 
 </div>
-
 </header>
 
 
@@ -299,13 +274,9 @@ App ይክፈቱ
 
 <h2>🕐 የአሁኑ ሰዓት</h2>
 
-<div id="clock" class="clock">
---:--:--
-</div>
+<div id="clock" class="clock">--:--:--</div>
 
-<div id="dateText" style="text-align:center">
---
-</div>
+<div id="dateText" style="text-align:center">--</div>
 
 </div>
 
@@ -322,17 +293,11 @@ App ይክፈቱ
 
 <hr>
 
-<p>
-🟢 <b>Check-in:</b> 2:30 – 3:00
-</p>
+<p>🟢 <b>Check-in:</b> 2:30 – 3:00</p>
 
-<p>
-🔴 <b>Check-out:</b> 11:00 – 11:30
-</p>
+<p>🔴 <b>Check-out:</b> 11:00 – 11:30</p>
 
-<p>
-የሰዓቱ ቁጥጥር በኢትዮጵያ ሰዓት ነው።
-</p>
+<p>የሰዓቱ ቁጥጥር በኢትዮጵያ ሰዓት ነው።</p>
 
 </div>
 
@@ -349,26 +314,19 @@ App ይክፈቱ
  autocomplete="off"
 >
 
-<button
- class="primary"
- onclick="verifyEmployee()">
+<button class="primary" onclick="verifyEmployee()">
 🔎 ሠራተኛ ፈልግ
 </button>
 
-<button
- class="primary"
- onclick="scanQR()">
+<button class="primary" onclick="scanQR()">
 📷 QR Scan
 </button>
 
-<button
- class="light"
- onclick="stopQR()">
+<button class="light" onclick="stopQR()">
 ⏹ QR Stop
 </button>
 
 <div id="reader"></div>
-
 <div id="employeeInfo"></div>
 
 </div>
@@ -380,28 +338,23 @@ App ይክፈቱ
 
 <h2>📝 Attendance</h2>
 
-<button
- id="checkInBtn"
+<button id="checkInBtn"
  class="success"
  onclick="checkIn()">
 🟢 Check In
 </button>
 
-<button
- id="checkOutBtn"
+<button id="checkOutBtn"
  class="danger"
  onclick="checkOut()">
 🔴 Check Out
 </button>
 
-<button
- class="light"
- onclick="getLocation()">
+<button class="light" onclick="getLocation()">
 📍 GPS አረጋግጥ
 </button>
 
 <div id="gpsInfo"></div>
-
 <div id="status"></div>
 
 </div>
@@ -441,7 +394,6 @@ Check Out
 <table>
 
 <thead>
-
 <tr>
 <th>ቀን</th>
 <th>Employee ID</th>
@@ -450,7 +402,6 @@ Check Out
 <th>Check Out</th>
 <th>GPS</th>
 </tr>
-
 </thead>
 
 <tbody id="history">
@@ -466,7 +417,6 @@ Employee ID ያስገቡ።
 </table>
 
 </div>
-
 </div>
 
 
@@ -483,9 +433,7 @@ Employee ID ያስገቡ።
  autocomplete="off"
 >
 
-<button
- class="primary"
- onclick="adminLogin()">
+<button class="primary" onclick="adminLogin()">
 Admin Login
 </button>
 
@@ -496,32 +444,112 @@ Admin Login
 
 <h3>Admin Dashboard</h3>
 
-<button
- class="primary"
- onclick="downloadReport()">
-📄 CSV Report
+<button class="primary" onclick="downloadReport()">
+📄 Attendance CSV
 </button>
 
-<button
- class="primary"
- onclick="showAllRecords()">
-👥 ሁሉንም መዝገብ አሳይ
+<button class="primary" onclick="showAllRecords()">
+👥 ሁሉንም Attendance አሳይ
 </button>
 
-<button
- class="danger"
- onclick="clearRecords()">
-🗑️ መዝገብ አጥፋ
+<button class="danger" onclick="clearRecords()">
+🗑️ Attendance አጥፋ
 </button>
+
+<hr>
+
+<!-- ================= PAYROLL ================= -->
+
+<h2>💰 Payroll</h2>
+
+<p>
+የኢትዮጵያ ዓመትና ወር ይምረጡ።
+</p>
+
+<div class="grid">
+
+<div>
+<label>የኢትዮጵያ ዓመት</label>
+<input
+ id="payYear"
+ type="number"
+ min="2000"
+ max="2100"
+>
+</div>
+
+<div>
+<label>ወር</label>
+
+<select id="payMonth">
+
+<option value="1">መስከረም</option>
+<option value="2">ጥቅምት</option>
+<option value="3">ኅዳር</option>
+<option value="4">ታኅሣሥ</option>
+<option value="5">ጥር</option>
+<option value="6">የካቲት</option>
+<option value="7">መጋቢት</option>
+<option value="8">ሚያዝያ</option>
+<option value="9">ግንቦት</option>
+<option value="10">ሰኔ</option>
+<option value="11">ሐምሌ</option>
+<option value="12">ነሐሴ</option>
+<option value="13">ጳጉሜን</option>
+
+</select>
 
 </div>
 
 </div>
 
+<button class="success" onclick="calculatePayroll()">
+🧮 Calculate Payroll
+</button>
 
-<button
- class="light"
- onclick="logout()">
+<button class="primary" onclick="downloadPayroll()">
+📊 Payroll CSV
+</button>
+
+
+<div id="payrollSummary"></div>
+
+
+<!-- ================= SALARY SETTINGS ================= -->
+
+<h3>💵 የሠራተኛ ደመወዝ</h3>
+
+<p>
+የወሩን Salary እዚህ መቀየር ይቻላል።
+</p>
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+<tr>
+<th>Employee ID</th>
+<th>ሙሉ ስም</th>
+<th>Salary</th>
+</tr>
+</thead>
+
+<tbody id="salaryTable"></tbody>
+
+</table>
+
+</div>
+
+<button class="success" onclick="saveSalaries()">
+💾 Salary አስቀምጥ
+</button>
+
+</div>
+</div>
+
+
+<button class="light" onclick="logout()">
 ውጣ
 </button>
 
@@ -530,7 +558,7 @@ Admin Login
 
 <footer>
 
-SMART Attendance
+SMART Attendance + Payroll
 
 <br>
 
@@ -543,7 +571,9 @@ SMART Attendance
 
 <script>
 
-/* ================= DATA ================= */
+/* =====================================================
+   DATA
+===================================================== */
 
 let currentEmployee=null;
 
@@ -553,15 +583,19 @@ let currentLocation={
 };
 
 let records=JSON.parse(
- localStorage.getItem(
-  "smartAttendanceRecords"
- )||"[]"
+ localStorage.getItem("smartAttendanceRecords")||"[]"
+);
+
+let salaries=JSON.parse(
+ localStorage.getItem("smartAttendanceSalaries")||"{}"
 );
 
 let qrScanner=null;
 
 
-/* ================= EMPLOYEES ================= */
+/* =====================================================
+   EMPLOYEES
+===================================================== */
 
 const employees=[
 
@@ -589,55 +623,52 @@ const employees=[
 ];
 
 
-/* ================= ADMIN ================= */
+/* =====================================================
+   DEFAULT SALARIES
+===================================================== */
+
+if(!salaries.EMP001)
+ salaries.EMP001=17439;
+
+if(!salaries.EMP002)
+ salaries.EMP002=15739;
+
+if(!salaries.EMP003)
+ salaries.EMP003=19645;
+
+
+/* =====================================================
+   ADMIN
+===================================================== */
 
 const ADMIN_PIN="12345678";
 
 
-/* ================= OPEN APP ================= */
-
-function openApp(){
-
- document
- .getElementById("cover")
- .classList.add("hidden");
-
- document
- .getElementById("app")
- .classList.remove("hidden");
-
- updateClock();
- render();
-
-}
-
-
-/* ================= ETHIOPIA TIME ================= */
+/* =====================================================
+   ETHIOPIA TIME
+===================================================== */
 
 function ethiopiaDate(){
 
  return new Date(
   new Date().toLocaleString(
    "en-US",
-   {
-    timeZone:"Africa/Addis_Ababa"
-   }
+   {timeZone:"Africa/Addis_Ababa"}
   )
  );
 
 }
 
 
-/* ================= CLOCK ================= */
+/* =====================================================
+   CLOCK
+===================================================== */
 
 function updateClock(){
 
  const d=ethiopiaDate();
 
- document
- .getElementById("clock")
- .textContent=
-
+ document.getElementById("clock").textContent=
  d.toLocaleTimeString(
   "en-GB",
   {
@@ -647,11 +678,7 @@ function updateClock(){
   }
  );
 
-
- document
- .getElementById("dateText")
- .textContent=
-
+ document.getElementById("dateText").textContent=
  d.toLocaleDateString(
   "am-ET",
   {
@@ -667,7 +694,9 @@ function updateClock(){
 setInterval(updateClock,1000);
 
 
-/* ================= TODAY ================= */
+/* =====================================================
+   TODAY
+===================================================== */
 
 function today(){
 
@@ -680,7 +709,9 @@ function today(){
 }
 
 
-/* ================= MINUTES ================= */
+/* =====================================================
+   MINUTES
+===================================================== */
 
 function minutesNow(){
 
@@ -691,7 +722,9 @@ function minutesNow(){
 }
 
 
-/* ================= WORKING DAY ================= */
+/* =====================================================
+   WORKING DAY
+===================================================== */
 
 function workingDay(){
 
@@ -702,62 +735,53 @@ function workingDay(){
 }
 
 
-/* ================= CHECK IN TIME ================= */
+/* =====================================================
+   CHECK IN TIME
+===================================================== */
 
 function checkInTimeMessage(){
 
  const m=minutesNow();
 
- if(m<150){
-
+ if(m<150)
   return "⏰ የCheck-in ሰዓት አልደረሰም። 2:30–3:00 ነው።";
 
- }
-
- if(m>180){
-
+ if(m>180)
   return "⏰ የCheck-in ሰዓት አልቋል። 2:30–3:00 ብቻ ነው።";
-
- }
 
  return "";
 
 }
 
 
-/* ================= CHECK OUT TIME ================= */
+/* =====================================================
+   CHECK OUT TIME
+===================================================== */
 
 function checkOutTimeMessage(){
 
  const m=minutesNow();
 
- if(m<660){
-
+ if(m<660)
   return "⏰ የCheck-out ሰዓት አልደረሰም። 11:00–11:30 ነው።";
 
- }
-
- if(m>690){
-
+ if(m>690)
   return "⏰ የCheck-out ሰዓት አልቋል። 11:00–11:30 ብቻ ነው።";
-
- }
 
  return "";
 
 }
 
 
-/* ================= FIND EMPLOYEE ================= */
+/* =====================================================
+   FIND EMPLOYEE
+===================================================== */
 
 function findEmployee(id){
 
  if(!id)return null;
 
- const value=
- String(id)
- .trim()
- .toUpperCase();
+ const value=String(id).trim().toUpperCase();
 
  return employees.find(
   e=>
@@ -768,16 +792,14 @@ function findEmployee(id){
 }
 
 
-/* ================= VERIFY EMPLOYEE ================= */
+/* =====================================================
+   VERIFY
+===================================================== */
 
 function verifyEmployee(){
 
  const input=
- document
- .getElementById("employeeID")
- .value
- .trim();
-
+ document.getElementById("employeeID").value.trim();
 
  if(!input){
 
@@ -787,37 +809,23 @@ function verifyEmployee(){
   );
 
   return false;
-
  }
 
-
- const employee=
- findEmployee(input);
-
+ const employee=findEmployee(input);
 
  if(!employee){
 
   currentEmployee=null;
 
-  document
-  .getElementById("employeeInfo")
-  .innerHTML=
-
-  '<div class="msg err">'+
-  '❌ Employee ID አልተገኘም።'+
-  '</div>';
+  document.getElementById("employeeInfo").innerHTML=
+  '<div class="msg err">❌ Employee ID አልተገኘም።</div>';
 
   return false;
-
  }
-
 
  currentEmployee=employee;
 
-
- document
- .getElementById("employeeInfo")
- .innerHTML=
+ document.getElementById("employeeInfo").innerHTML=
 
  `<div class="info">
 
@@ -831,12 +839,9 @@ function verifyEmployee(){
 
  <br><br>
 
- <span class="badge">
- 📱 Verified
- </span>
+ <span class="badge">📱 Verified</span>
 
  </div>`;
-
 
  render();
 
@@ -845,7 +850,9 @@ function verifyEmployee(){
 }
 
 
-/* ================= ESCAPE ================= */
+/* =====================================================
+   ESCAPE
+===================================================== */
 
 function escapeHTML(value){
 
@@ -859,12 +866,13 @@ function escapeHTML(value){
 }
 
 
-/* ================= GPS ================= */
+/* =====================================================
+   GPS
+===================================================== */
 
 function hasGPS(){
 
- return
- currentLocation.latitude!=="" &&
+ return currentLocation.latitude!=="" &&
  currentLocation.longitude!=="";
 
 }
@@ -880,15 +888,12 @@ function getLocation(){
   );
 
   return;
-
  }
-
 
  showStatus(
   "📍 GPS እየፈለገ ነው...",
   "ok"
  );
-
 
  navigator.geolocation.getCurrentPosition(
 
@@ -900,10 +905,7 @@ function getLocation(){
    currentLocation.longitude=
    position.coords.longitude;
 
-
-   document
-   .getElementById("gpsInfo")
-   .innerHTML=
+   document.getElementById("gpsInfo").innerHTML=
 
    `<div class="info">
 
@@ -925,7 +927,6 @@ function getLocation(){
    ${Math.round(position.coords.accuracy)} m
 
    </div>`;
-
 
    showStatus(
     "📍 GPS ተረጋግጧል።",
@@ -956,42 +957,36 @@ function getLocation(){
 }
 
 
-/* ================= CREATE RECORD ================= */
+/* =====================================================
+   CREATE RECORD
+===================================================== */
 
 function createRecord(employee){
 
  return {
-
   date:today(),
-
   id:employee.id,
-
   name:employee.name,
-
   checkIn:"",
-
   checkOut:"",
-
   latitude:"",
-
   longitude:""
-
  };
 
 }
 
 
-/* ================= CHECK IN ================= */
+/* =====================================================
+   CHECK IN
+===================================================== */
 
 function checkIn(){
 
  if(!currentEmployee){
 
-  if(!verifyEmployee())
-  return;
+  if(!verifyEmployee())return;
 
  }
-
 
  if(!hasGPS()){
 
@@ -1001,9 +996,7 @@ function checkIn(){
   );
 
   return;
-
  }
-
 
  if(!workingDay()){
 
@@ -1013,33 +1006,22 @@ function checkIn(){
   );
 
   return;
-
  }
 
-
- const msg=
- checkInTimeMessage();
-
+ const msg=checkInTimeMessage();
 
  if(msg){
 
-  showStatus(
-   "❌ "+msg,
-   "err"
-  );
+  showStatus("❌ "+msg,"err");
 
   return;
-
  }
 
-
- let r=
- records.find(
+ let r=records.find(
   x=>
    x.id===currentEmployee.id &&
    x.date===today()
  );
-
 
  if(r && r.checkIn){
 
@@ -1049,28 +1031,20 @@ function checkIn(){
   );
 
   return;
-
  }
-
 
  if(!r){
 
   r=createRecord(currentEmployee);
-
   records.push(r);
 
  }
 
-
- /* EMPLOYEE NAME IS SAVED */
-
  r.id=currentEmployee.id;
-
  r.name=currentEmployee.name;
 
  r.checkIn=
- ethiopiaDate()
- .toLocaleTimeString(
+ ethiopiaDate().toLocaleTimeString(
   "en-GB",
   {
    hour:"2-digit",
@@ -1079,17 +1053,11 @@ function checkIn(){
   }
  );
 
- r.latitude=
- currentLocation.latitude;
-
- r.longitude=
- currentLocation.longitude;
-
+ r.latitude=currentLocation.latitude;
+ r.longitude=currentLocation.longitude;
 
  save();
-
  render();
-
 
  showStatus(
   "✅ Check-in በስኬት ተመዝግቧል።",
@@ -1099,17 +1067,17 @@ function checkIn(){
 }
 
 
-/* ================= CHECK OUT ================= */
+/* =====================================================
+   CHECK OUT
+===================================================== */
 
 function checkOut(){
 
  if(!currentEmployee){
 
-  if(!verifyEmployee())
-  return;
+  if(!verifyEmployee())return;
 
  }
-
 
  if(!hasGPS()){
 
@@ -1119,9 +1087,7 @@ function checkOut(){
   );
 
   return;
-
  }
-
 
  if(!workingDay()){
 
@@ -1131,33 +1097,22 @@ function checkOut(){
   );
 
   return;
-
  }
 
-
- const msg=
- checkOutTimeMessage();
-
+ const msg=checkOutTimeMessage();
 
  if(msg){
 
-  showStatus(
-   "❌ "+msg,
-   "err"
-  );
+  showStatus("❌ "+msg,"err");
 
   return;
-
  }
 
-
- let r=
- records.find(
+ let r=records.find(
   x=>
    x.id===currentEmployee.id &&
    x.date===today()
  );
-
 
  if(!r || !r.checkIn){
 
@@ -1167,9 +1122,7 @@ function checkOut(){
   );
 
   return;
-
  }
-
 
  if(r.checkOut){
 
@@ -1179,19 +1132,13 @@ function checkOut(){
   );
 
   return;
-
  }
 
-
- /* KEEP EMPLOYEE NAME */
-
  r.id=currentEmployee.id;
-
  r.name=currentEmployee.name;
 
  r.checkOut=
- ethiopiaDate()
- .toLocaleTimeString(
+ ethiopiaDate().toLocaleTimeString(
   "en-GB",
   {
    hour:"2-digit",
@@ -1200,17 +1147,11 @@ function checkOut(){
   }
  );
 
- r.latitude=
- currentLocation.latitude;
-
- r.longitude=
- currentLocation.longitude;
-
+ r.latitude=currentLocation.latitude;
+ r.longitude=currentLocation.longitude;
 
  save();
-
  render();
-
 
  showStatus(
   "✅ Check-out በስኬት ተመዝግቧል።",
@@ -1220,7 +1161,9 @@ function checkOut(){
 }
 
 
-/* ================= SAVE ================= */
+/* =====================================================
+   SAVE
+===================================================== */
 
 function save(){
 
@@ -1232,188 +1175,123 @@ function save(){
 }
 
 
-/* ================= RENDER ================= */
+/* =====================================================
+   RENDER
+===================================================== */
 
 function render(){
 
  if(!currentEmployee){
 
-  document
-  .getElementById("history")
-  .innerHTML=
-
-  '<tr>'+
-  '<td colspan="6">'+
-  'Employee ID ያስገቡ።'+
-  '</td>'+
-  '</tr>';
+  document.getElementById("history").innerHTML=
+  '<tr><td colspan="6">Employee ID ያስገቡ።</td></tr>';
 
   return;
-
  }
 
-
- const mine=
- records.filter(
+ const mine=records.filter(
   x=>x.id===currentEmployee.id
  );
 
-
- const r=
- mine.find(
+ const r=mine.find(
   x=>x.date===today()
  );
 
+ document.getElementById("todayCount").textContent=
+ mine.length;
 
- document
- .getElementById("todayCount")
- .textContent=mine.length;
-
-
- document
- .getElementById("cin")
- .textContent=
+ document.getElementById("cin").textContent=
  r?.checkIn||"--";
 
-
- document
- .getElementById("cout")
- .textContent=
+ document.getElementById("cout").textContent=
  r?.checkOut||"--";
-
 
  if(!mine.length){
 
-  document
-  .getElementById("history")
-  .innerHTML=
-
-  '<tr>'+
-  '<td colspan="6">'+
-  'ምንም Attendance History የለም።'+
-  '</td>'+
-  '</tr>';
+  document.getElementById("history").innerHTML=
+  '<tr><td colspan="6">ምንም Attendance History የለም።</td></tr>';
 
   return;
-
  }
 
+ document.getElementById("history").innerHTML=
 
- /* FULL EMPLOYEE NAME IN HISTORY */
-
- document
- .getElementById("history")
- .innerHTML=
-
- mine
- .slice()
- .reverse()
- .map(r=>`
+ mine.slice().reverse().map(r=>`
 
  <tr>
 
- <td>
- ${escapeHTML(r.date)}
- </td>
+ <td>${escapeHTML(r.date)}</td>
 
- <td>
- <b>
- ${escapeHTML(r.id)}
- </b>
- </td>
+ <td><b>${escapeHTML(r.id)}</b></td>
 
- <td>
- <b>
- ${escapeHTML(r.name||"--")}
- </b>
- </td>
+ <td><b>${escapeHTML(r.name||"--")}</b></td>
 
- <td>
- ${escapeHTML(r.checkIn||"--")}
- </td>
+ <td>${escapeHTML(r.checkIn||"--")}</td>
 
- <td>
- ${escapeHTML(r.checkOut||"--")}
- </td>
+ <td>${escapeHTML(r.checkOut||"--")}</td>
 
- <td>
- ${r.latitude ? "📍 GPS" : "--"}
- </td>
+ <td>${r.latitude ? "📍 GPS" : "--"}</td>
 
  </tr>
 
- `)
- .join("");
+ `).join("");
 
 }
 
 
-/* ================= STATUS ================= */
+/* =====================================================
+   STATUS
+===================================================== */
 
 function showStatus(text,type){
 
- const status=
- document.getElementById("status");
+ const status=document.getElementById("status");
 
- status.className=
- "msg "+type;
+ status.className="msg "+type;
 
  status.innerHTML=text;
 
 }
 
 
-/* ================= QR SCAN ================= */
+/* =====================================================
+   QR
+===================================================== */
 
 function scanQR(){
 
  if(typeof Html5Qrcode==="undefined"){
 
   showStatus(
-   "⏳ QR Scanner እየተጫነ ነው። ጥቂት ሰከንድ ይጠብቁ።",
+   "⏳ QR Scanner እየተጫነ ነው።",
    "err"
   );
 
   return;
-
  }
-
 
  if(qrScanner)return;
 
-
- qrScanner=
- new Html5Qrcode("reader");
-
+ qrScanner=new Html5Qrcode("reader");
 
  qrScanner.start(
 
   {facingMode:"environment"},
 
-  {
-   fps:10,
-   qrbox:250
-  },
+  {fps:10,qrbox:250},
 
   decodedText=>{
 
-   const id=
-   decodedText.trim();
+   const id=decodedText.trim();
 
-
-   document
-   .getElementById("employeeID")
-   .value=id;
-
+   document.getElementById("employeeID").value=id;
 
    verifyEmployee();
-
 
    showStatus(
     "📷 QR Code ተነቧል።",
     "ok"
    );
-
 
    stopQR();
 
@@ -1438,14 +1316,11 @@ function scanQR(){
 }
 
 
-/* ================= STOP QR ================= */
-
 function stopQR(){
 
  if(!qrScanner)return;
 
- qrScanner
- .stop()
+ qrScanner.stop()
  .then(()=>{
 
   try{
@@ -1464,23 +1339,22 @@ function stopQR(){
 }
 
 
-/* ================= ADMIN ================= */
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
 
 function adminLogin(){
 
  const password=
- document
- .getElementById("adminPassword")
- .value;
-
+ document.getElementById("adminPassword").value;
 
  if(password===ADMIN_PIN){
 
   document
   .getElementById("adminPanel")
-  .classList
-  .remove("hidden");
+  .classList.remove("hidden");
 
+  renderSalaryTable();
 
   showStatus(
    "🔐 Admin Dashboard ተከፍቷል።",
@@ -1499,82 +1373,820 @@ function adminLogin(){
 }
 
 
-/* ================= SHOW ALL ================= */
+/* =====================================================
+   SALARY TABLE
+===================================================== */
+
+function renderSalaryTable(){
+
+ const table=document.getElementById("salaryTable");
+
+ table.innerHTML=employees.map(e=>`
+
+ <tr>
+
+ <td>
+ <b>${escapeHTML(e.id)}</b>
+ </td>
+
+ <td>
+ ${escapeHTML(e.name)}
+ </td>
+
+ <td>
+
+ <input
+  id="salary_${e.id}"
+  type="number"
+  min="0"
+  step="0.01"
+  value="${Number(salaries[e.id]||0)}"
+ >
+
+ </td>
+
+ </tr>
+
+ `).join("");
+
+}
+
+
+/* =====================================================
+   SAVE SALARIES
+===================================================== */
+
+function saveSalaries(){
+
+ employees.forEach(e=>{
+
+  const input=
+  document.getElementById("salary_"+e.id);
+
+  if(input){
+
+   salaries[e.id]=
+   Number(input.value)||0;
+
+  }
+
+ });
+
+ localStorage.setItem(
+  "smartAttendanceSalaries",
+  JSON.stringify(salaries)
+ );
+
+ alert("✅ የሠራተኞች Salary ተቀምጧል።");
+
+}
+
+
+/* =====================================================
+   ETHIOPIAN CALENDAR CONVERSION
+===================================================== */
+
+/*
+  Gregorian -> Ethiopian
+*/
+
+function gregorianToEthiopian(date){
+
+ const jd=gregorianToJD(
+  date.getFullYear(),
+  date.getMonth()+1,
+  date.getDate()
+ );
+
+ return jdToEthiopian(jd);
+
+}
+
+
+function gregorianToJD(y,m,d){
+
+ let a=Math.floor((14-m)/12);
+
+ let yy=y+4800-a;
+
+ let mm=m+12*a-3;
+
+ return d+
+ Math.floor((153*mm+2)/5)+
+ 365*yy+
+ Math.floor(yy/4)-
+ Math.floor(yy/100)+
+ Math.floor(yy/400)-
+ 32045;
+
+}
+
+
+/*
+  Ethiopian -> Gregorian
+*/
+
+function ethiopianToGregorian(y,m,d){
+
+ const jd=
+ 1723856+
+ 365*(y-1)+
+ Math.floor(y/4)+
+ 30*(m-1)+
+ d-1;
+
+ return jdToGregorian(jd);
+
+}
+
+
+function jdToGregorian(jd){
+
+ let a=jd+32044;
+
+ let b=Math.floor((4*a+3)/146097);
+
+ let c=a-Math.floor(146097*b/4);
+
+ let d=Math.floor((4*c+3)/1461);
+
+ let e=c-Math.floor(1461*d/4);
+
+ let m=Math.floor((5*e+2)/153);
+
+ let day=e-Math.floor((153*m+2)/5)+1;
+
+ let month=m+3-12*Math.floor(m/10);
+
+ let year=100*b+d-4800+Math.floor(m/10);
+
+ return new Date(year,month-1,day);
+
+}
+
+
+function jdToEthiopian(jd){
+
+ const year=
+ Math.floor((4*(jd-1723856)+1463)/1461);
+
+ const month=
+ 1+
+ Math.floor(
+  (jd-
+   (1723856+
+    365*(year-1)+
+    Math.floor(year/4)
+   )
+  )/30
+ );
+
+ const day=
+ jd-
+ (
+ 1723856+
+ 365*(year-1)+
+ Math.floor(year/4)+
+ 30*(month-1)
+ )+1;
+
+ return {
+  year:year,
+  month:month,
+  day:day
+ };
+
+}
+
+
+/* =====================================================
+   ETHIOPIAN MONTH NAME
+===================================================== */
+
+function ethMonthName(month){
+
+ const names=[
+  "",
+  "መስከረም",
+  "ጥቅምት",
+  "ኅዳር",
+  "ታኅሣሥ",
+  "ጥር",
+  "የካቲት",
+  "መጋቢት",
+  "ሚያዝያ",
+  "ግንቦት",
+  "ሰኔ",
+  "ሐምሌ",
+  "ነሐሴ",
+  "ጳጉሜን"
+ ];
+
+ return names[month]||"";
+
+}
+
+
+/* =====================================================
+   GET CURRENT ETHIOPIAN YEAR
+===================================================== */
+
+function setCurrentPayrollDate(){
+
+ const eth=
+ gregorianToEthiopian(
+  ethiopiaDate()
+ );
+
+ document.getElementById("payYear").value=
+ eth.year;
+
+ document.getElementById("payMonth").value=
+ eth.month;
+
+}
+
+
+/* =====================================================
+   GET DATES IN ETHIOPIAN MONTH
+===================================================== */
+
+function getEthiopianMonthDates(year,month){
+
+ const days=
+ month===13
+ ? (
+   isEthiopianLeapYear(year)
+   ? 6
+   : 5
+ )
+ : 30;
+
+ const dates=[];
+
+ for(let day=1;day<=days;day++){
+
+  const g=
+  ethiopianToGregorian(
+   year,
+   month,
+   day
+  );
+
+  dates.push({
+   ethDay:day,
+   date:g
+  });
+
+ }
+
+ return dates;
+
+}
+
+
+/* =====================================================
+   ETHIOPIAN LEAP YEAR
+===================================================== */
+
+function isEthiopianLeapYear(year){
+
+ return year%4===3;
+
+}
+
+
+/* =====================================================
+   DATE KEY
+===================================================== */
+
+function dateKey(date){
+
+ return date.getFullYear()+"-"+
+ String(date.getMonth()+1).padStart(2,"0")+"-"+
+ String(date.getDate()).padStart(2,"0");
+
+}
+
+
+/* =====================================================
+   PAYROLL CALCULATION
+===================================================== */
+
+let lastPayroll=[];
+
+
+function calculatePayroll(){
+
+ saveSalariesSilent();
+
+ const year=
+ Number(document.getElementById("payYear").value);
+
+ const month=
+ Number(document.getElementById("payMonth").value);
+
+ if(!year || !month){
+
+  alert("የኢትዮጵያ ዓመትና ወር ይምረጡ።");
+
+  return;
+ }
+
+ const dates=
+ getEthiopianMonthDates(
+  year,
+  month
+ );
+
+ /*
+   Monday-Friday are working days.
+ */
+
+ const workingDates=
+ dates.filter(x=>{
+
+  const day=x.date.getDay();
+
+  return day>=1 && day<=5;
+
+ });
+
+
+ const workingDays=
+ workingDates.length;
+
+ lastPayroll=[];
+
+ employees.forEach(employee=>{
+
+  const salary=
+  Number(salaries[employee.id]||0);
+
+  const dailySalary=
+  workingDays>0
+  ? salary/workingDays
+  : 0;
+
+  let worked=0;
+  let absent=0;
+  let lateMinutes=0;
+
+  const employeeRecords=
+  records.filter(
+   r=>r.id===employee.id
+  );
+
+  workingDates.forEach(item=>{
+
+   const key=dateKey(item.date);
+
+   const r=
+   employeeRecords.find(
+    x=>x.date===key
+   );
+
+   if(r && r.checkIn){
+
+    worked++;
+
+    /*
+      Late is calculated from 2:30.
+      2:30 = 150 minutes.
+    */
+
+    const parts=
+    r.checkIn.split(":");
+
+    if(parts.length>=2){
+
+     const h=Number(parts[0]);
+     const m=Number(parts[1]);
+
+     const total=h*60+m;
+
+     if(total>150){
+
+      lateMinutes+=
+      total-150;
+
+     }
+
+    }
+
+   }else{
+
+    absent++;
+
+   }
+
+  });
+
+
+  /*
+    Absence deduction
+  */
+
+  const absenceDeduction=
+  absent*dailySalary;
+
+
+  /*
+    Late deduction:
+    hourly salary = daily salary / 8
+  */
+
+  const hourlySalary=
+  dailySalary/8;
+
+  const lateDeduction=
+  (lateMinutes/60)*hourlySalary;
+
+
+  const deduction=
+  absenceDeduction+
+  lateDeduction;
+
+
+  let netSalary=
+  salary-deduction;
+
+
+  if(netSalary<0)
+   netSalary=0;
+
+
+  lastPayroll.push({
+
+   id:employee.id,
+
+   name:employee.name,
+
+   salary:salary,
+
+   workingDays:workingDays,
+
+   worked:worked,
+
+   absent:absent,
+
+   lateMinutes:lateMinutes,
+
+   absenceDeduction:absenceDeduction,
+
+   lateDeduction:lateDeduction,
+
+   deduction:deduction,
+
+   netSalary:netSalary
+
+  });
+
+ });
+
+
+ renderPayroll(
+  year,
+  month,
+  workingDays
+ );
+
+}
+
+
+/* =====================================================
+   SAVE SALARIES SILENT
+===================================================== */
+
+function saveSalariesSilent(){
+
+ employees.forEach(e=>{
+
+  const input=
+  document.getElementById("salary_"+e.id);
+
+  if(input){
+
+   salaries[e.id]=
+   Number(input.value)||0;
+
+  }
+
+ });
+
+ localStorage.setItem(
+  "smartAttendanceSalaries",
+  JSON.stringify(salaries)
+ );
+
+}
+
+
+/* =====================================================
+   RENDER PAYROLL
+===================================================== */
+
+function renderPayroll(
+ year,
+ month,
+ workingDays
+){
+
+ const totalSalary=
+ lastPayroll.reduce(
+  (sum,r)=>sum+r.salary,
+  0
+ );
+
+ const totalDeduction=
+ lastPayroll.reduce(
+  (sum,r)=>sum+r.deduction,
+  0
+ );
+
+ const totalNet=
+ lastPayroll.reduce(
+  (sum,r)=>sum+r.netSalary,
+  0
+ );
+
+ const totalAbsent=
+ lastPayroll.reduce(
+  (sum,r)=>sum+r.absent,
+  0
+ );
+
+ const totalWorked=
+ lastPayroll.reduce(
+  (sum,r)=>sum+r.worked,
+  0
+ );
+
+
+ let html=`
+
+ <div class="payrollTotal">
+
+ <h3>
+ 💰 Payroll:
+ ${year} ዓ.ም - ${ethMonthName(month)}
+ </h3>
+
+ <p>
+ የሥራ ቀናት:
+ <b>${workingDays}</b>
+ </p>
+
+ <p>
+ ጠቅላላ Salary:
+ <b>${money(totalSalary)}</b> ብር
+ </p>
+
+ <p>
+ ጠቅላላ Worked:
+ <b>${totalWorked}</b>
+ </p>
+
+ <p>
+ ጠቅላላ Absent:
+ <b>${totalAbsent}</b>
+ </p>
+
+ <p>
+ ጠቅላላ Deduction:
+ <b>${money(totalDeduction)}</b> ብር
+ </p>
+
+ <p class="net">
+ ጠቅላላ Net Salary:
+ ${money(totalNet)} ብር
+ </p>
+
+ </div>
+
+ <div style="overflow-x:auto">
+
+ <table>
+
+ <thead>
+
+ <tr>
+ <th>Employee</th>
+ <th>Salary</th>
+ <th>Worked</th>
+ <th>Absent</th>
+ <th>Late</th>
+ <th>Deduction</th>
+ <th>Net Salary</th>
+ </tr>
+
+ </thead>
+
+ <tbody>
+
+ `;
+
+
+ lastPayroll.forEach(r=>{
+
+  html+=`
+
+  <tr>
+
+  <td>
+  <b>${escapeHTML(r.id)}</b>
+  <br>
+  ${escapeHTML(r.name)}
+  </td>
+
+  <td>
+  ${money(r.salary)}
+  </td>
+
+  <td>
+  ${r.worked}
+  </td>
+
+  <td>
+  ${r.absent}
+  </td>
+
+  <td>
+  ${r.lateMinutes} min
+  </td>
+
+  <td>
+  ${money(r.deduction)}
+  </td>
+
+  <td class="net">
+  ${money(r.netSalary)}
+  </td>
+
+  </tr>
+
+  `;
+
+ });
+
+
+ html+=`
+
+ </tbody>
+
+ </table>
+
+ </div>
+
+ `;
+
+
+ document.getElementById("payrollSummary").innerHTML=
+ html;
+
+}
+
+
+/* =====================================================
+   MONEY
+===================================================== */
+
+function money(value){
+
+ return Number(value||0).toLocaleString(
+  "en-US",
+  {
+   minimumFractionDigits:2,
+   maximumFractionDigits:2
+  }
+ );
+
+}
+
+
+/* =====================================================
+   PAYROLL CSV
+===================================================== */
+
+function downloadPayroll(){
+
+ if(!lastPayroll.length){
+
+  alert(
+   "መጀመሪያ Calculate Payroll ያድርጉ።"
+  );
+
+  return;
+ }
+
+ const year=
+ document.getElementById("payYear").value;
+
+ const month=
+ document.getElementById("payMonth").value;
+
+
+ let csv=
+ "Employee ID,Full Name,Salary,Working Days,Worked,Absent,Late Minutes,Absence Deduction,Late Deduction,Total Deduction,Net Salary\n";
+
+
+ lastPayroll.forEach(r=>{
+
+  csv+=
+   csvSafe(r.id)+","+
+   `"${csvSafe(r.name)}",`+
+   r.salary+","+
+   r.workingDays+","+
+   r.worked+","+
+   r.absent+","+
+   r.lateMinutes+","+
+   r.absenceDeduction.toFixed(2)+","+
+   r.lateDeduction.toFixed(2)+","+
+   r.deduction.toFixed(2)+","+
+   r.netSalary.toFixed(2)+
+   "\n";
+
+ });
+
+
+ const blob=
+ new Blob(
+  ["\ufeff"+csv],
+  {type:"text/csv;charset=utf-8"}
+ );
+
+
+ const url=
+ URL.createObjectURL(blob);
+
+ const a=document.createElement("a");
+
+ a.href=url;
+
+ a.download=
+ "Payroll_"+year+"_"+ethMonthName(Number(month))+".csv";
+
+ document.body.appendChild(a);
+
+ a.click();
+
+ a.remove();
+
+ URL.revokeObjectURL(url);
+
+}
+
+
+/* =====================================================
+   SHOW ALL RECORDS
+===================================================== */
 
 function showAllRecords(){
 
  if(!records.length){
 
-  alert(
-   "Attendance መዝገብ የለም።"
-  );
+  alert("Attendance መዝገብ የለም።");
 
   return;
-
  }
 
+ document.getElementById("history").innerHTML=
 
- document
- .getElementById("history")
- .innerHTML=
-
- records
- .slice()
- .reverse()
- .map(r=>`
+ records.slice().reverse().map(r=>`
 
  <tr>
 
- <td>
- ${escapeHTML(r.date)}
- </td>
+ <td>${escapeHTML(r.date)}</td>
 
- <td>
- <b>
- ${escapeHTML(r.id)}
- </b>
- </td>
+ <td><b>${escapeHTML(r.id)}</b></td>
 
- <td>
- <b>
- ${escapeHTML(r.name||"--")}
- </b>
- </td>
+ <td><b>${escapeHTML(r.name||"--")}</b></td>
 
- <td>
- ${escapeHTML(r.checkIn||"--")}
- </td>
+ <td>${escapeHTML(r.checkIn||"--")}</td>
 
- <td>
- ${escapeHTML(r.checkOut||"--")}
- </td>
+ <td>${escapeHTML(r.checkOut||"--")}</td>
 
- <td>
- ${r.latitude ? "📍 GPS" : "--"}
- </td>
+ <td>${r.latitude ? "📍 GPS" : "--"}</td>
 
  </tr>
 
- `)
- .join("");
+ `).join("");
 
 }
 
 
-/* ================= CSV ================= */
+/* =====================================================
+   ATTENDANCE CSV
+===================================================== */
 
 function downloadReport(){
 
  if(!records.length){
 
-  alert(
-   "Attendance መዝገብ የለም።"
-  );
+  alert("Attendance መዝገብ የለም።");
 
   return;
-
  }
-
 
  let csv=
  "Date,Employee ID,Full Name,Check In,Check Out,Latitude,Longitude\n";
@@ -1598,25 +2210,18 @@ function downloadReport(){
  const blob=
  new Blob(
   ["\ufeff"+csv],
-  {
-   type:"text/csv;charset=utf-8"
-  }
+  {type:"text/csv;charset=utf-8"}
  );
-
 
  const url=
  URL.createObjectURL(blob);
 
-
- const a=
- document.createElement("a");
-
+ const a=document.createElement("a");
 
  a.href=url;
 
  a.download=
  "SMART_Attendance_Report.csv";
-
 
  document.body.appendChild(a);
 
@@ -1629,8 +2234,6 @@ function downloadReport(){
 }
 
 
-/* ================= CSV SAFE ================= */
-
 function csvSafe(value){
 
  return String(value??"")
@@ -1639,25 +2242,21 @@ function csvSafe(value){
 }
 
 
-/* ================= CLEAR RECORDS ================= */
+/* =====================================================
+   CLEAR
+===================================================== */
 
 function clearRecords(){
 
  if(!confirm(
   "⚠️ በዚህ ስልክ ያሉትን Attendance መዝገቦች ማጥፋት ይፈልጋሉ?"
- )){
-
-  return;
-
- }
-
+ ))return;
 
  records=[];
 
  save();
 
  render();
-
 
  showStatus(
   "🗑️ Attendance መዝገብ ተሰርዟል።",
@@ -1667,68 +2266,69 @@ function clearRecords(){
 }
 
 
-/* ================= LOGOUT ================= */
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 function logout(){
 
  stopQR();
 
-
  currentEmployee=null;
-
 
  currentLocation={
   latitude:"",
   longitude:""
  };
 
+ document.getElementById("employeeID").value="";
 
- document
- .getElementById("employeeID")
- .value="";
+ document.getElementById("employeeInfo").innerHTML="";
 
+ document.getElementById("gpsInfo").innerHTML="";
 
- document
- .getElementById("employeeInfo")
- .innerHTML="";
+ document.getElementById("status").innerHTML="";
 
+ document.getElementById("adminPassword").value="";
 
- document
- .getElementById("gpsInfo")
- .innerHTML="";
+ document.getElementById("adminPanel")
+ .classList.add("hidden");
 
+ document.getElementById("payrollSummary").innerHTML="";
 
- document
- .getElementById("status")
- .innerHTML="";
+ document.getElementById("app")
+ .classList.add("hidden");
 
-
- document
- .getElementById("adminPassword")
- .value="";
-
-
- document
- .getElementById("adminPanel")
- .classList
- .add("hidden");
-
-
- document
- .getElementById("app")
- .classList
- .add("hidden");
-
-
- document
- .getElementById("cover")
- .classList
- .remove("hidden");
+ document.getElementById("cover")
+ .classList.remove("hidden");
 
 }
 
 
-/* ================= START ================= */
+/* =====================================================
+   OPEN APP
+===================================================== */
+
+function openApp(){
+
+ document.getElementById("cover")
+ .classList.add("hidden");
+
+ document.getElementById("app")
+ .classList.remove("hidden");
+
+ setCurrentPayrollDate();
+
+ updateClock();
+
+ render();
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
 
 updateClock();
 
