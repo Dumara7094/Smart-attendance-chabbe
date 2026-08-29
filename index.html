@@ -7,105 +7,104 @@
 
 <title>SMART Attendance</title>
 
-<!-- QR Scanner ብቻ -->
 <script src="https://unpkg.com/html5-qrcode" defer></script>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:Arial,"Noto Sans Ethiopic",sans-serif;
-background:#f3f6f9;
-color:#17212b;
+ margin:0;
+ font-family:Arial,"Noto Sans Ethiopic",sans-serif;
+ background:#f3f6f9;
+ color:#17212b;
 }
 
 .hidden{display:none!important}
 
 .cover{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:20px;
-background:linear-gradient(135deg,#1769aa,#0d47a1);
-color:white;
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:20px;
+ background:linear-gradient(135deg,#1769aa,#0d47a1);
+ color:white;
 }
 
 .coverBox{
-width:100%;
-max-width:600px;
+ width:100%;
+ max-width:600px;
 }
 
 .cover h1{
-font-size:38px;
-margin:10px 0;
+ font-size:38px;
+ margin:10px 0;
 }
 
 .cover h2{
-font-size:28px;
+ font-size:28px;
 }
 
 .cover button{
-background:white;
-color:#0d47a1;
-border:0;
-border-radius:14px;
-padding:15px 28px;
-font-size:18px;
-font-weight:bold;
+ background:white;
+ color:#0d47a1;
+ border:0;
+ border-radius:14px;
+ padding:15px 28px;
+ font-size:18px;
+ font-weight:bold;
 }
 
 header{
-background:linear-gradient(135deg,#1769aa,#0d47a1);
-color:white;
-padding:20px;
+ background:linear-gradient(135deg,#1769aa,#0d47a1);
+ color:white;
+ padding:20px;
 }
 
 .container{
-max-width:950px;
-margin:auto;
-padding:18px;
+ max-width:950px;
+ margin:auto;
+ padding:18px;
 }
 
 .card{
-background:white;
-border-radius:18px;
-padding:18px;
-margin:14px 0;
-box-shadow:0 4px 18px #00000012;
+ background:white;
+ border-radius:18px;
+ padding:18px;
+ margin:14px 0;
+ box-shadow:0 4px 18px #00000012;
 }
 
 .clock{
-font-size:30px;
-font-weight:bold;
-text-align:center;
-padding:15px;
-background:#eef6ff;
-border-radius:14px;
-margin:12px 0;
+ font-size:30px;
+ font-weight:bold;
+ text-align:center;
+ padding:15px;
+ background:#eef6ff;
+ border-radius:14px;
+ margin:12px 0;
 }
 
 .info{
-background:#eef6ff;
-padding:13px;
-border-radius:12px;
-margin:10px 0;
+ background:#eef6ff;
+ padding:13px;
+ border-radius:12px;
+ margin:10px 0;
 }
 
 button{
-border:0;
-border-radius:12px;
-padding:13px 18px;
-font-size:16px;
-cursor:pointer;
-margin:4px;
+ border:0;
+ border-radius:12px;
+ padding:13px 18px;
+ font-size:16px;
+ cursor:pointer;
+ margin:4px;
 }
 
 button:disabled{
-opacity:.55;
-cursor:not-allowed;
+ opacity:.55;
+ cursor:not-allowed;
 }
 
 .primary{background:#1769aa;color:white}
@@ -114,83 +113,83 @@ cursor:not-allowed;
 .light{background:#e8eef5;color:#17212b}
 
 input,select{
-width:100%;
-padding:13px;
-border:1px solid #ccd6df;
-border-radius:10px;
-margin:7px 0;
-font-size:16px;
+ width:100%;
+ padding:13px;
+ border:1px solid #ccd6df;
+ border-radius:10px;
+ margin:7px 0;
+ font-size:16px;
 }
 
 table{
-width:100%;
-border-collapse:collapse;
+ width:100%;
+ border-collapse:collapse;
 }
 
 th,td{
-padding:10px;
-border-bottom:1px solid #e7ebef;
-text-align:left;
-white-space:nowrap;
+ padding:10px;
+ border-bottom:1px solid #e7ebef;
+ text-align:left;
+ white-space:nowrap;
 }
 
 th{
-background:#eef6ff;
+ background:#eef6ff;
 }
 
 .msg{
-padding:12px;
-border-radius:10px;
-margin-top:10px;
-background:#fff4d6;
+ padding:12px;
+ border-radius:10px;
+ margin-top:10px;
+ background:#fff4d6;
 }
 
 .ok{
-background:#e7f6ea;
-color:#167b2c;
+ background:#e7f6ea;
+ color:#167b2c;
 }
 
 .err{
-background:#fdecec;
-color:#b42318;
+ background:#fdecec;
+ color:#b42318;
 }
 
 .grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:12px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+ gap:12px;
 }
 
 .stat{
-background:#eef6ff;
-border-radius:15px;
-padding:15px;
+ background:#eef6ff;
+ border-radius:15px;
+ padding:15px;
 }
 
 .stat b{
-display:block;
-font-size:24px;
-margin-top:5px;
+ display:block;
+ font-size:24px;
+ margin-top:5px;
 }
 
 #reader{
-width:100%;
-max-width:400px;
-margin:15px auto;
+ width:100%;
+ max-width:400px;
+ margin:15px auto;
 }
 
 footer{
-text-align:center;
-padding:25px;
-color:#71808f;
+ text-align:center;
+ padding:25px;
+ color:#71808f;
 }
 
 .badge{
-padding:5px 9px;
-border-radius:20px;
-background:#e7f6ea;
-color:#167b2c;
-font-size:13px;
+ padding:5px 9px;
+ border-radius:20px;
+ background:#e7f6ea;
+ color:#167b2c;
+ font-size:13px;
 }
 </style>
 </head>
@@ -224,6 +223,7 @@ App ይክፈቱ
 </p>
 
 </div>
+
 </section>
 
 
@@ -250,6 +250,7 @@ App ይክፈቱ
 </p>
 
 </div>
+
 </header>
 
 
@@ -280,7 +281,7 @@ App ይክፈቱ
 <h2>📅 የሥራ ቀናት</h2>
 
 <p>
-ሰኞ • ማክሰኛ • ረቡዕ • ሐሙስ • ዓርብ
+ሰኞ • ማክሰኞ • ረቡዕ • ሐሙስ • ዓርብ
 </p>
 
 <hr>
@@ -312,21 +313,15 @@ placeholder="Employee ID ለምሳሌ EMP001"
 autocomplete="off"
 >
 
-<button
-class="primary"
-onclick="verifyEmployee()">
+<button class="primary" onclick="verifyEmployee()">
 🔎 ሠራተኛ ፈልግ
 </button>
 
-<button
-class="primary"
-onclick="scanQR()">
+<button class="primary" onclick="scanQR()">
 📷 QR Scan
 </button>
 
-<button
-class="light"
-onclick="stopQR()">
+<button class="light" onclick="stopQR()">
 ⏹ QR Stop
 </button>
 
@@ -425,7 +420,7 @@ Check Out
 </div>
 
 
-<!-- LEAVE -->
+<!-- LEAVE REQUEST -->
 
 <div class="card">
 
@@ -434,9 +429,7 @@ Check Out
 <select id="leaveType">
 
 <option>ዓመታዊ ፈቃድ</option>
-
 <option>የህመም ፈቃድ</option>
-
 <option>ልዩ ፈቃድ</option>
 
 </select>
@@ -456,7 +449,7 @@ placeholder="የፈቃድ ምክንያት"
 <button
 class="primary"
 onclick="leave()">
-ፈቃድ ጠይቅ
+📝 ፈቃድ ጠይቅ
 </button>
 
 <div id="leaveMsg"></div>
@@ -524,7 +517,8 @@ onclick="logout()">
 
 <footer>
 
-SMART Attendance<br>
+SMART Attendance
+<br>
 
 የተዘጋጀው በዱማራ ዱዌ
 
@@ -537,77 +531,76 @@ SMART Attendance<br>
 
 /* =====================================================
    SMART ATTENDANCE
-   SUPABASE FREE VERSION
+   OFFLINE LOCAL SYSTEM
 ===================================================== */
 
 
 /* ================= DATA ================= */
 
-let currentEmployee=null;
+let currentEmployee = null;
 
-let currentLocation={
-latitude:"",
-longitude:""
+let currentLocation = {
+ latitude:"",
+ longitude:""
 };
 
-let records=
-JSON.parse(
-localStorage.getItem("smartAttendanceRecords") || "[]"
+let records = JSON.parse(
+ localStorage.getItem("smartAttendanceRecords") || "[]"
 );
 
-let leaveRequests=
-JSON.parse(
-localStorage.getItem("smartLeaveRequests") || "[]"
+let leaveRequests = JSON.parse(
+ localStorage.getItem("smartLeaveRequests") || "[]"
 );
 
-let qrScanner=null;
+let qrScanner = null;
 
 
-/* ================= EMPLOYEES =================
-   Employee names እዚህ ውስጥ ጨምር
-===================================================== */
+/* ================= EMPLOYEES ================= */
 
-const employees=[
+const employees = [
 
-{
-id:"EMP001",
-name:"ሠራተኛ 1",
-qr:"EMP001"
-},
-
-{
-id:"EMP002",
-name:"ሠራተኛ 2",
-qr:"EMP002"
-},
-
-{
-id:"EMP003",
-name:"ሠራተኛ 3",
-qr:"EMP003"
-}
+ {id:"EMP001",name:"ዱማራ ዱዌ",qr:"EMP001"},
+ {id:"EMP002",name:"መስቀል ሳሙኤል",qr:"EMP002"},
+ {id:"EMP003",name:"ማቴዎስ መንግቱ",qr:"EMP003"},
+ {id:"EMP004",name:"አሸናፍ ኢንድራስ",qr:"EMP004"},
+ {id:"EMP005",name:"አክልሉ አባዬ",qr:"EMP005"},
+ {id:"EMP006",name:"አየለ አባ",qr:"EMP006"},
+ {id:"EMP007",name:"ሻሻሞ ሻላ",qr:"EMP007"},
+ {id:"EMP008",name:"ዳዊት ቦርሳሞ",qr:"EMP008"},
+ {id:"EMP009",name:"አሥራት አመሎ",qr:"EMP009"},
+ {id:"EMP010",name:"ህሩት ሀላላ",qr:"EMP010"},
+ {id:"EMP011",name:"ታደሠ ጉጆላ",qr:"EMP011"},
+ {id:"EMP012",name:"ደስታ ዳኩራ",qr:"EMP012"},
+ {id:"EMP013",name:"አጥናፉ ሀሮ",qr:"EMP013"},
+ {id:"EMP014",name:"አገኘ በየኔ",qr:"EMP014"},
+ {id:"EMP015",name:"አብነት ላሚሶ",qr:"EMP015"},
+ {id:"EMP016",name:"አበራ አስረስ",qr:"EMP016"},
+ {id:"EMP017",name:"ገናለ ጋጋ",qr:"EMP017"},
+ {id:"EMP018",name:"ሎተር ጌታቸው",qr:"EMP018"},
+ {id:"EMP019",name:"ወንድሙ የተራ",qr:"EMP019"},
+ {id:"EMP020",name:"አሸኛፍ ማጃ",qr:"EMP020"}
 
 ];
 
 
 /* ================= ADMIN ================= */
 
-const ADMIN_PIN="12345678";
+const ADMIN_PIN = "12345678";
 
 
 /* ================= OPEN APP ================= */
 
 function openApp(){
 
-document.getElementById("cover")
-.classList.add("hidden");
+ document.getElementById("cover")
+ .classList.add("hidden");
 
-document.getElementById("app")
-.classList.remove("hidden");
+ document.getElementById("app")
+ .classList.remove("hidden");
 
-updateClock();
+ updateClock();
 
-render();
+ render();
 
 }
 
@@ -616,14 +609,14 @@ render();
 
 function ethiopiaDate(){
 
-return new Date(
-new Date().toLocaleString(
-"en-US",
-{
-timeZone:"Africa/Addis_Ababa"
-}
-)
-);
+ return new Date(
+  new Date().toLocaleString(
+   "en-US",
+   {
+    timeZone:"Africa/Addis_Ababa"
+   }
+  )
+ );
 
 }
 
@@ -632,52 +625,49 @@ timeZone:"Africa/Addis_Ababa"
 
 function updateClock(){
 
-const d=ethiopiaDate();
+ const d = ethiopiaDate();
 
-const time=
-d.toLocaleTimeString(
-"en-GB",
-{
-hour:"2-digit",
-minute:"2-digit",
-second:"2-digit"
+ const time =
+ d.toLocaleTimeString(
+  "en-GB",
+  {
+   hour:"2-digit",
+   minute:"2-digit",
+   second:"2-digit"
+  }
+ );
+
+ const date =
+ d.toLocaleDateString(
+  "am-ET",
+  {
+   year:"numeric",
+   month:"long",
+   day:"numeric",
+   weekday:"long"
+  }
+ );
+
+ document.getElementById("clock")
+ .textContent = time;
+
+ document.getElementById("dateText")
+ .textContent = date;
+
 }
-);
 
-const date=
-d.toLocaleDateString(
-"am-ET",
-{
-year:"numeric",
-month:"long",
-day:"numeric",
-weekday:"long"
-}
-);
-
-document.getElementById("clock")
-.textContent=time;
-
-document.getElementById("dateText")
-.textContent=date;
-
-}
-
-setInterval(
-updateClock,
-1000
-);
+setInterval(updateClock,1000);
 
 
 /* ================= TODAY ================= */
 
 function today(){
 
-const d=ethiopiaDate();
+ const d = ethiopiaDate();
 
-return d.getFullYear()+"-"+
-String(d.getMonth()+1).padStart(2,"0")+"-"+
-String(d.getDate()).padStart(2,"0");
+ return d.getFullYear()+"-"+
+ String(d.getMonth()+1).padStart(2,"0")+"-"+
+ String(d.getDate()).padStart(2,"0");
 
 }
 
@@ -686,10 +676,9 @@ String(d.getDate()).padStart(2,"0");
 
 function minutesNow(){
 
-const d=ethiopiaDate();
+ const d = ethiopiaDate();
 
-return d.getHours()*60+
-d.getMinutes();
+ return d.getHours()*60+d.getMinutes();
 
 }
 
@@ -698,31 +687,75 @@ d.getMinutes();
 
 function workingDay(){
 
-const day=ethiopiaDate().getDay();
+ const day = ethiopiaDate().getDay();
 
-return day>=1 && day<=5;
+ return day>=1 && day<=5;
 
 }
 
 
-/* ================= CHECK-IN TIME ================= */
+/* ================= CHECK IN TIME ================= */
 
 function checkInTime(){
 
-const m=minutesNow();
+ const m = minutesNow();
 
-return m>=150 && m<=180;
+ return m>=150 && m<=180;
 
 }
 
 
-/* ================= CHECK-OUT TIME ================= */
+/* ================= CHECK OUT TIME ================= */
 
 function checkOutTime(){
 
-const m=minutesNow();
+ const m = minutesNow();
 
-return m>=660 && m<=690;
+ return m>=660 && m<=690;
+
+}
+
+
+/* ================= TIME MESSAGE ================= */
+
+function checkInTimeMessage(){
+
+ const m = minutesNow();
+
+ if(m < 150){
+
+  return "⏰ የCheck-in ሰዓት አልደረሰም። የተፈቀደው ሰዓት 2:30–3:00 ነው።";
+
+ }
+
+ if(m > 180){
+
+  return "⏰ የCheck-in የተፈቀደው ሰዓት አልቋል። 2:30–3:00 ብቻ ነው።";
+
+ }
+
+ return "";
+
+}
+
+
+function checkOutTimeMessage(){
+
+ const m = minutesNow();
+
+ if(m < 660){
+
+  return "⏰ የCheck-out ሰዓት አልደረሰም። የተፈቀደው ሰዓት 11:00–11:30 ነው።";
+
+ }
+
+ if(m > 690){
+
+  return "⏰ የCheck-out የተፈቀደው ሰዓት አልቋል። 11:00–11:30 ብቻ ነው።";
+
+ }
+
+ return "";
 
 }
 
@@ -731,19 +764,16 @@ return m>=660 && m<=690;
 
 function findEmployee(id){
 
-if(!id)
-return null;
+ if(!id) return null;
 
-const value=
-String(id)
-.trim()
-.toUpperCase();
+ const value =
+ String(id).trim().toUpperCase();
 
-return employees.find(
-e=>
-e.id.toUpperCase()===value ||
-e.qr.toUpperCase()===value
-)||null;
+ return employees.find(
+  e =>
+   e.id.toUpperCase()===value ||
+   e.qr.toUpperCase()===value
+ ) || null;
 
 }
 
@@ -752,61 +782,61 @@ e.qr.toUpperCase()===value
 
 function verifyEmployee(){
 
-const input=
-document.getElementById("employeeID")
-.value
-.trim();
+ const input =
+ document.getElementById("employeeID")
+ .value.trim();
 
-if(!input){
+ if(!input){
 
-showStatus(
-"❌ Employee ID ያስገቡ።",
-"err"
-);
+  showStatus(
+   "❌ Employee ID ያስገቡ።",
+   "err"
+  );
 
-return false;
+  return false;
 
-}
+ }
 
-const employee=
-findEmployee(input);
+ const employee = findEmployee(input);
 
-if(!employee){
+ if(!employee){
 
-currentEmployee=null;
+  currentEmployee = null;
 
-document.getElementById("employeeInfo")
-.innerHTML=
-'<div class="msg err">❌ Employee ID አልተገኘም።</div>';
+  document.getElementById("employeeInfo")
+  .innerHTML =
+  '<div class="msg err">❌ Employee ID አልተገኘም።</div>';
 
-return false;
+  return false;
 
-}
+ }
 
-currentEmployee=employee;
+ currentEmployee = employee;
 
-document.getElementById("employeeInfo")
-.innerHTML=
+ document.getElementById("employeeInfo")
+ .innerHTML =
 
-`<div class="info">
+ `<div class="info">
 
-<b>👤 ስም:</b>
-${escapeHTML(employee.name)}
+ <b>👤 ስም:</b>
+ ${escapeHTML(employee.name)}
 
-<br>
+ <br>
 
-<b>🆔 ID:</b>
-${escapeHTML(employee.id)}
+ <b>🆔 Employee ID:</b>
+ ${escapeHTML(employee.id)}
 
-<br>
+ <br>
 
-📱 Offline Mode
+ <span class="badge">
+ 📱 Offline Verified
+ </span>
 
-</div>`;
+ </div>`;
 
-render();
+ render();
 
-return true;
+ return true;
 
 }
 
@@ -815,12 +845,12 @@ return true;
 
 function escapeHTML(value){
 
-return String(value||"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+ return String(value||"")
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#039;");
 
 }
 
@@ -829,90 +859,89 @@ return String(value||"")
 
 function hasGPS(){
 
-return currentLocation.latitude!==""
-&&
-currentLocation.longitude!=="";
+ return currentLocation.latitude!=="" &&
+        currentLocation.longitude!=="";
 
 }
 
 
 function getLocation(){
 
-if(!navigator.geolocation){
+ if(!navigator.geolocation){
 
-showStatus(
-"❌ GPS በዚህ ስልክ አይደገፍም።",
-"err"
-);
+  showStatus(
+   "❌ GPS በዚህ ስልክ አይደገፍም።",
+   "err"
+  );
 
-return;
+  return;
 
-}
+ }
 
-showStatus(
-"📍 GPS እየፈለገ ነው...",
-"ok"
-);
+ showStatus(
+  "📍 GPS እየፈለገ ነው...",
+  "ok"
+ );
 
-navigator.geolocation.getCurrentPosition(
+ navigator.geolocation.getCurrentPosition(
 
-position=>{
+  position => {
 
-currentLocation.latitude=
-position.coords.latitude;
+   currentLocation.latitude =
+   position.coords.latitude;
 
-currentLocation.longitude=
-position.coords.longitude;
+   currentLocation.longitude =
+   position.coords.longitude;
 
-document.getElementById("gpsInfo")
-.innerHTML=
+   document.getElementById("gpsInfo")
+   .innerHTML =
 
-`<div class="info">
+   `<div class="info">
 
-📍 <b>GPS ተረጋግጧል</b>
+   📍 <b>GPS ተረጋግጧል</b>
 
-<br>
+   <br>
 
-Latitude:
-${position.coords.latitude.toFixed(6)}
+   Latitude:
+   ${position.coords.latitude.toFixed(6)}
 
-<br>
+   <br>
 
-Longitude:
-${position.coords.longitude.toFixed(6)}
+   Longitude:
+   ${position.coords.longitude.toFixed(6)}
 
-<br>
+   <br>
 
-Accuracy:
-${Math.round(position.coords.accuracy)} m
+   Accuracy:
+   ${Math.round(position.coords.accuracy)} m
 
-</div>`;
+   </div>`;
 
-showStatus(
-"📍 GPS ተረጋግጧል።",
-"ok"
-);
+   showStatus(
+    "📍 GPS ተረጋግጧል።",
+    "ok"
+   );
 
-},
+  },
 
-error=>{
+  error => {
 
-console.error(error);
+   console.error(error);
 
-showStatus(
-"❌ GPS Location ፈቃድ ይስጡ እና GPS ክፈቱ።",
-"err"
-);
+   showStatus(
+    "❌ GPS Location ፈቃድ ይስጡ እና GPS ክፈቱ።",
+    "err"
+   );
 
-},
+  },
 
-{
-enableHighAccuracy:true,
-timeout:15000,
-maximumAge:0
-}
+  {
+   enableHighAccuracy:true,
+   timeout:15000,
+   maximumAge:0
+  }
 
-);
+ );
 
 }
 
@@ -921,23 +950,23 @@ maximumAge:0
 
 function createRecord(employee){
 
-return{
+ return {
 
-date:today(),
+  date:today(),
 
-id:employee.id,
+  id:employee.id,
 
-name:employee.name,
+  name:employee.name,
 
-checkIn:"",
+  checkIn:"",
 
-checkOut:"",
+  checkOut:"",
 
-latitude:"",
+  latitude:"",
 
-longitude:""
+  longitude:""
 
-};
+ };
 
 }
 
@@ -946,100 +975,107 @@ longitude:""
 
 function checkIn(){
 
-if(!currentEmployee){
+ if(!currentEmployee){
 
-const valid=verifyEmployee();
+  const valid = verifyEmployee();
 
-if(!valid)
-return;
+  if(!valid) return;
 
-}
+ }
 
-if(!hasGPS()){
+ if(!hasGPS()){
 
-showStatus(
-"📍 መጀመሪያ GPS አረጋግጥ።",
-"err"
-);
+  showStatus(
+   "📍 መጀመሪያ GPS አረጋግጥ።",
+   "err"
+  );
 
-return;
+  return;
 
-}
+ }
 
-if(!workingDay()){
 
-showStatus(
-"❌ ዛሬ የሥራ ቀን አይደለም።",
-"err"
-);
+ if(!workingDay()){
 
-return;
+  showStatus(
+   "❌ ዛሬ የሥራ ቀን አይደለም።",
+   "err"
+  );
 
-}
+  return;
 
-if(!checkInTime()){
+ }
 
-showStatus(
-"⏰ Check-in ከ 2:30 እስከ 3:00 የኢትዮጵያ ሰዓት ብቻ ነው።",
-"err"
-);
 
-return;
+ const timeMessage =
+ checkInTimeMessage();
 
-}
+ if(timeMessage){
 
-let r=
-records.find(
-x=>
-x.id===currentEmployee.id
-&&
-x.date===today()
-);
+  showStatus(
+   "❌ "+timeMessage,
+   "err"
+  );
 
-if(r && r.checkIn){
+  return;
 
-showStatus(
-"❌ ዛሬ Check-in ቀድሞ ተመዝግቧል።",
-"err"
-);
+ }
 
-return;
 
-}
+ let r = records.find(
+  x =>
+   x.id===currentEmployee.id &&
+   x.date===today()
+ );
 
-if(!r){
 
-r=createRecord(currentEmployee);
+ if(r && r.checkIn){
 
-records.push(r);
+  showStatus(
+   "❌ ዛሬ Check-in ቀድሞ ተመዝግቧል።",
+   "err"
+  );
 
-}
+  return;
 
-r.checkIn=
-ethiopiaDate()
-.toLocaleTimeString(
-"en-GB",
-{
-hour:"2-digit",
-minute:"2-digit",
-second:"2-digit"
-}
-);
+ }
 
-r.latitude=
-currentLocation.latitude;
 
-r.longitude=
-currentLocation.longitude;
+ if(!r){
 
-save();
+  r = createRecord(currentEmployee);
 
-render();
+  records.push(r);
 
-showStatus(
-"✅ Check-in በስልኩ ተመዝግቧል።",
-"ok"
-);
+ }
+
+
+ r.checkIn =
+ ethiopiaDate()
+ .toLocaleTimeString(
+  "en-GB",
+  {
+   hour:"2-digit",
+   minute:"2-digit",
+   second:"2-digit"
+  }
+ );
+
+ r.latitude =
+ currentLocation.latitude;
+
+ r.longitude =
+ currentLocation.longitude;
+
+
+ save();
+
+ render();
+
+ showStatus(
+  "✅ Check-in በስኬት ተመዝግቧል።",
+  "ok"
+ );
 
 }
 
@@ -1048,103 +1084,110 @@ showStatus(
 
 function checkOut(){
 
-if(!currentEmployee){
+ if(!currentEmployee){
 
-const valid=verifyEmployee();
+  const valid = verifyEmployee();
 
-if(!valid)
-return;
+  if(!valid) return;
 
-}
+ }
 
-if(!hasGPS()){
+ if(!hasGPS()){
 
-showStatus(
-"📍 መጀመሪያ GPS አረጋግጥ።",
-"err"
-);
+  showStatus(
+   "📍 መጀመሪያ GPS አረጋግጥ።",
+   "err"
+  );
 
-return;
+  return;
 
-}
+ }
 
-if(!workingDay()){
 
-showStatus(
-"❌ ዛሬ የሥራ ቀን አይደለም።",
-"err"
-);
+ if(!workingDay()){
 
-return;
+  showStatus(
+   "❌ ዛሬ የሥራ ቀን አይደለም።",
+   "err"
+  );
 
-}
+  return;
 
-if(!checkOutTime()){
+ }
 
-showStatus(
-"⏰ Check-out ከ 11:00 እስከ 11:30 የኢትዮጵያ ሰዓት ብቻ ነው።",
-"err"
-);
 
-return;
+ const timeMessage =
+ checkOutTimeMessage();
 
-}
+ if(timeMessage){
 
-let r=
-records.find(
-x=>
-x.id===currentEmployee.id
-&&
-x.date===today()
-);
+  showStatus(
+   "❌ "+timeMessage,
+   "err"
+  );
 
-if(!r || !r.checkIn){
+  return;
 
-showStatus(
-"❌ መጀመሪያ Check-in ያድርጉ።",
-"err"
-);
+ }
 
-return;
 
-}
+ let r = records.find(
+  x =>
+   x.id===currentEmployee.id &&
+   x.date===today()
+ );
 
-if(r.checkOut){
 
-showStatus(
-"❌ ዛሬ Check-out ቀድሞ ተመዝግቧል።",
-"err"
-);
+ if(!r || !r.checkIn){
 
-return;
+  showStatus(
+   "❌ መጀመሪያ Check-in ያድርጉ።",
+   "err"
+  );
 
-}
+  return;
 
-r.checkOut=
-ethiopiaDate()
-.toLocaleTimeString(
-"en-GB",
-{
-hour:"2-digit",
-minute:"2-digit",
-second:"2-digit"
-}
-);
+ }
 
-r.latitude=
-currentLocation.latitude;
 
-r.longitude=
-currentLocation.longitude;
+ if(r.checkOut){
 
-save();
+  showStatus(
+   "❌ ዛሬ Check-out ቀድሞ ተመዝግቧል።",
+   "err"
+  );
 
-render();
+  return;
 
-showStatus(
-"✅ Check-out በስልኩ ተመዝግቧል።",
-"ok"
-);
+ }
+
+
+ r.checkOut =
+ ethiopiaDate()
+ .toLocaleTimeString(
+  "en-GB",
+  {
+   hour:"2-digit",
+   minute:"2-digit",
+   second:"2-digit"
+  }
+ );
+
+ r.latitude =
+ currentLocation.latitude;
+
+ r.longitude =
+ currentLocation.longitude;
+
+
+ save();
+
+ render();
+
+ showStatus(
+  "✅ Check-out በስኬት ተመዝግቧል።",
+  "ok"
+ );
 
 }
 
@@ -1153,15 +1196,15 @@ showStatus(
 
 function save(){
 
-localStorage.setItem(
-"smartAttendanceRecords",
-JSON.stringify(records)
-);
+ localStorage.setItem(
+  "smartAttendanceRecords",
+  JSON.stringify(records)
+ );
 
-localStorage.setItem(
-"smartLeaveRequests",
-JSON.stringify(leaveRequests)
-);
+ localStorage.setItem(
+  "smartLeaveRequests",
+  JSON.stringify(leaveRequests)
+ );
 
 }
 
@@ -1170,79 +1213,79 @@ JSON.stringify(leaveRequests)
 
 function render(){
 
-if(!currentEmployee){
+ if(!currentEmployee){
 
-document.getElementById("history")
-.innerHTML=
-'<tr><td colspan="6">Employee ID ያስገቡ።</td></tr>';
+  document.getElementById("history")
+  .innerHTML =
+  '<tr><td colspan="6">Employee ID ያስገቡ።</td></tr>';
 
-return;
+  return;
 
-}
+ }
 
-const mine=
-records.filter(
-x=>x.id===currentEmployee.id
-);
 
-const r=
-mine.find(
-x=>x.date===today()
-);
+ const mine =
+ records.filter(
+  x=>x.id===currentEmployee.id
+ );
 
-document.getElementById("todayCount")
-.textContent=mine.length;
+ const r =
+ mine.find(
+  x=>x.date===today()
+ );
 
-document.getElementById("cin")
-.textContent=
-r?.checkIn || "--";
 
-document.getElementById("cout")
-.textContent=
-r?.checkOut || "--";
+ document.getElementById("todayCount")
+ .textContent = mine.length;
 
-if(!mine.length){
+ document.getElementById("cin")
+ .textContent =
+ r?.checkIn || "--";
 
-document.getElementById("history")
-.innerHTML=
-'<tr><td colspan="6">ምንም መዝገብ የለም።</td></tr>';
+ document.getElementById("cout")
+ .textContent =
+ r?.checkOut || "--";
 
-return;
 
-}
+ if(!mine.length){
 
-document.getElementById("history")
-.innerHTML=
+  document.getElementById("history")
+  .innerHTML =
+  '<tr><td colspan="6">ምንም መዝገብ የለም።</td></tr>';
 
-mine
-.slice()
-.reverse()
-.map(r=>`
+  return;
 
-<tr>
+ }
 
-<td>${escapeHTML(r.date)}</td>
 
-<td>${escapeHTML(r.id)}</td>
+ document.getElementById("history")
+ .innerHTML =
 
-<td>${escapeHTML(r.name)}</td>
+ mine
+ .slice()
+ .reverse()
+ .map(r => `
 
-<td>${escapeHTML(r.checkIn||"--")}</td>
+ <tr>
 
-<td>${escapeHTML(r.checkOut||"--")}</td>
+ <td>${escapeHTML(r.date)}</td>
 
-<td>
-${r.latitude
-?
-"📍 GPS"
-:
-"--"}
-</td>
+ <td>${escapeHTML(r.id)}</td>
 
-</tr>
+ <td>${escapeHTML(r.name)}</td>
 
-`)
-.join("");
+ <td>${escapeHTML(r.checkIn||"--")}</td>
+
+ <td>${escapeHTML(r.checkOut||"--")}</td>
+
+ <td>
+ ${r.latitude ? "📍 GPS" : "--"}
+ </td>
+
+ </tr>
+
+ `)
+ .join("");
 
 }
 
@@ -1251,13 +1294,13 @@ ${r.latitude
 
 function showStatus(text,type){
 
-const status=
-document.getElementById("status");
+ const status =
+ document.getElementById("status");
 
-status.className=
-"msg "+type;
+ status.className =
+ "msg "+type;
 
-status.innerHTML=text;
+ status.innerHTML = text;
 
 }
 
@@ -1266,66 +1309,68 @@ status.innerHTML=text;
 
 function scanQR(){
 
-if(typeof Html5Qrcode==="undefined"){
+ if(typeof Html5Qrcode==="undefined"){
 
-showStatus(
-"⏳ QR Scanner እየተጫነ ነው። እባክዎ ጥቂት ሰከንድ ይጠብቁ።",
-"err"
-);
+  showStatus(
+   "⏳ QR Scanner እየተጫነ ነው። ጥቂት ሰከንድ ይጠብቁ።",
+   "err"
+  );
 
-return;
+  return;
 
-}
+ }
 
-if(qrScanner)
-return;
 
-qrScanner=
-new Html5Qrcode("reader");
+ if(qrScanner) return;
 
-qrScanner.start(
 
-{facingMode:"environment"},
+ qrScanner =
+ new Html5Qrcode("reader");
 
-{
-fps:10,
-qrbox:250
-},
 
-decodedText=>{
+ qrScanner.start(
 
-const id=
-decodedText.trim();
+  {facingMode:"environment"},
 
-document.getElementById("employeeID")
-.value=id;
+  {
+   fps:10,
+   qrbox:250
+  },
 
-verifyEmployee();
+  decodedText => {
 
-showStatus(
-"📷 QR Code ተነቧል።",
-"ok"
-);
+   const id =
+   decodedText.trim();
 
-stopQR();
+   document.getElementById("employeeID")
+   .value = id;
 
-},
+   verifyEmployee();
 
-errorMessage=>{}
+   showStatus(
+    "📷 QR Code ተነቧል።",
+    "ok"
+   );
 
-)
-.catch(error=>{
+   stopQR();
 
-console.error(error);
+  },
 
-qrScanner=null;
+  errorMessage => {}
 
-showStatus(
-"❌ Camera ፈቃድ ይስጡ።",
-"err"
-);
+ )
+ .catch(error => {
 
-});
+  console.error(error);
+
+  qrScanner=null;
+
+  showStatus(
+   "❌ Camera ፈቃድ ይስጡ።",
+   "err"
+  );
+
+ });
 
 }
 
@@ -1334,25 +1379,24 @@ showStatus(
 
 function stopQR(){
 
-if(!qrScanner)
-return;
+ if(!qrScanner) return;
 
-qrScanner
-.stop()
-.then(()=>{
+ qrScanner
+ .stop()
+ .then(() => {
 
-try{
-qrScanner.clear();
-}catch(e){}
+  try{
+   qrScanner.clear();
+  }catch(e){}
 
-qrScanner=null;
+  qrScanner=null;
 
-})
-.catch(()=>{
+ })
+ .catch(() => {
 
-qrScanner=null;
+  qrScanner=null;
 
-});
+ });
 
 }
 
@@ -1361,87 +1405,110 @@ qrScanner=null;
 
 function leave(){
 
-if(!currentEmployee){
+ if(!currentEmployee){
 
-showStatus(
-"❌ መጀመሪያ Employee ID ያረጋግጡ።",
-"err"
-);
+  showStatus(
+   "❌ መጀመሪያ Employee ID ያረጋግጡ።",
+   "err"
+  );
 
-return;
+  return;
 
-}
+ }
 
-const days=
-document.getElementById("leaveDays")
-.value;
 
-const type=
-document.getElementById("leaveType")
-.value;
+ const days =
+ document.getElementById("leaveDays")
+ .value;
 
-const reason=
-document.getElementById("leaveReason")
-.value
-.trim();
+ const type =
+ document.getElementById("leaveType")
+ .value;
 
-if(!days || days<1){
+ const reason =
+ document.getElementById("leaveReason")
+ .value.trim();
 
-document.getElementById("leaveMsg")
-.innerHTML=
-'<div class="msg err">የቀናት ብዛት ያስገቡ።</div>';
 
-return;
+ if(!days || days<1){
 
-}
+  document.getElementById("leaveMsg")
+  .innerHTML =
+  '<div class="msg err">የቀናት ብዛት ያስገቡ።</div>';
 
-const request={
+  return;
 
-id:Date.now(),
+ }
 
-employeeId:currentEmployee.id,
 
-employeeName:currentEmployee.name,
+ const request = {
 
-type:type,
+  id:Date.now(),
 
-days:Number(days),
+  employeeId:
+  currentEmployee.id,
 
-reason:reason,
+  employeeName:
+  currentEmployee.name,
 
-date:today(),
+  type:type,
 
-status:"Pending"
+  days:Number(days),
 
-};
+  reason:reason,
 
-leaveRequests.push(request);
+  date:today(),
 
-save();
+  status:"Pending"
 
-document.getElementById("leaveMsg")
-.innerHTML=
+ };
 
-`<div class="msg ok">
 
-✅ የፈቃድ ጥያቄ ተመዝግቧል።
+ leaveRequests.push(request);
 
-<br>
-ዓይነት: ${escapeHTML(type)}
+ save();
 
-<br>
-ቀናት: ${days}
 
-<br>
-ሁኔታ: Pending
+ document.getElementById("leaveMsg")
+ .innerHTML =
 
-</div>`;
+ `<div class="msg ok">
 
-document.getElementById("leaveDays")
-.value="";
+ ✅ የፈቃድ ጥያቄ ተመዝግቧል።
 
-document.getElementById("leaveReason")
-.value="";
+ <br>
+
+ 👤 ሠራተኛ:
+ ${escapeHTML(currentEmployee.name)}
+
+ <br>
+
+ 🆔 ID:
+ ${escapeHTML(currentEmployee.id)}
+
+ <br>
+
+ ዓይነት:
+ ${escapeHTML(type)}
+
+ <br>
+
+ ቀናት:
+ ${days}
+
+ <br>
+
+ ሁኔታ:
+ Pending
+
+ </div>`;
+
+
+ document.getElementById("leaveDays")
+ .value="";
+
+ document.getElementById("leaveReason")
+ .value="";
 
 }
 
@@ -1450,28 +1517,29 @@ document.getElementById("leaveReason")
 
 function adminLogin(){
 
-const password=
-document.getElementById("adminPassword")
-.value;
+ const password =
+ document.getElementById("adminPassword")
+ .value;
 
-if(password===ADMIN_PIN){
 
-document.getElementById("adminPanel")
-.classList.remove("hidden");
+ if(password===ADMIN_PIN){
 
-showStatus(
-"🔐 Admin Dashboard ተከፍቷል።",
-"ok"
-);
+  document.getElementById("adminPanel")
+  .classList.remove("hidden");
 
-}else{
+  showStatus(
+   "🔐 Admin Dashboard ተከፍቷል።",
+   "ok"
+  );
 
-showStatus(
-"❌ Admin Password ትክክል አይደለም።",
-"err"
-);
+ }else{
 
-}
+  showStatus(
+   "❌ Admin Password ትክክል አይደለም።",
+   "err"
+  );
+
+ }
 
 }
 
@@ -1480,48 +1548,48 @@ showStatus(
 
 function showAllRecords(){
 
-if(!records.length){
+ if(!records.length){
 
-alert("Attendance መዝገብ የለም።");
+  alert(
+   "Attendance መዝገብ የለም።"
+  );
 
-return;
+  return;
 
-}
+ }
 
-const history=
-document.getElementById("history");
 
-history.innerHTML=
+ const history =
+ document.getElementById("history");
 
-records
-.slice()
-.reverse()
-.map(r=>`
 
-<tr>
+ history.innerHTML =
 
-<td>${escapeHTML(r.date)}</td>
+ records
+ .slice()
+ .reverse()
+ .map(r => `
 
-<td>${escapeHTML(r.id)}</td>
+ <tr>
 
-<td>${escapeHTML(r.name)}</td>
+ <td>${escapeHTML(r.date)}</td>
 
-<td>${escapeHTML(r.checkIn||"--")}</td>
+ <td>${escapeHTML(r.id)}</td>
 
-<td>${escapeHTML(r.checkOut||"--")}</td>
+ <td>${escapeHTML(r.name)}</td>
 
-<td>
-${r.latitude
-?
-"📍 GPS"
-:
-"--"}
-</td>
+ <td>${escapeHTML(r.checkIn||"--")}</td>
 
-</tr>
+ <td>${escapeHTML(r.checkOut||"--")}</td>
 
-`)
-.join("");
+ <td>
+ ${r.latitude ? "📍 GPS" : "--"}
+ </td>
+
+ </tr>
+
+ `)
+ .join("");
 
 }
 
@@ -1530,59 +1598,67 @@ ${r.latitude
 
 function downloadReport(){
 
-if(!records.length){
+ if(!records.length){
 
-alert(
-"Attendance መዝገብ የለም።"
-);
+  alert(
+   "Attendance መዝገብ የለም።"
+  );
 
-return;
+  return;
 
-}
+ }
 
-let csv=
-"Date,Employee ID,Name,Check In,Check Out,Latitude,Longitude\n";
 
-records.forEach(r=>{
+ let csv =
+ "Date,Employee ID,Name,Check In,Check Out,Latitude,Longitude\n";
 
-csv+=
-csvSafe(r.date)+","+
-csvSafe(r.id)+","+
-`"${csvSafe(r.name)}",`+
-csvSafe(r.checkIn)+","+
-csvSafe(r.checkOut)+","+
-csvSafe(r.latitude)+","+
-csvSafe(r.longitude)+
-"\n";
 
-});
+ records.forEach(r => {
 
-const blob=
-new Blob(
-["\ufeff"+csv],
-{
-type:"text/csv;charset=utf-8"
-}
-);
+  csv +=
 
-const url=
-URL.createObjectURL(blob);
+  csvSafe(r.date)+","+
+  csvSafe(r.id)+","+
+  `"${csvSafe(r.name)}",`+
+  csvSafe(r.checkIn)+","+
+  csvSafe(r.checkOut)+","+
+  csvSafe(r.latitude)+","+
+  csvSafe(r.longitude)+
+  "\n";
 
-const a=
-document.createElement("a");
+ });
 
-a.href=url;
 
-a.download=
-"SMART_Attendance_Report.csv";
+ const blob =
+ new Blob(
+  ["\ufeff"+csv],
+  {
+   type:"text/csv;charset=utf-8"
+  }
+ );
 
-document.body.appendChild(a);
 
-a.click();
+ const url =
+ URL.createObjectURL(blob);
 
-a.remove();
 
-URL.revokeObjectURL(url);
+ const a =
+ document.createElement("a");
+
+
+ a.href=url;
+
+ a.download =
+ "SMART_Attendance_Report.csv";
+
+
+ document.body.appendChild(a);
+
+ a.click();
+
+ a.remove();
+
+ URL.revokeObjectURL(url);
 
 }
 
@@ -1591,8 +1667,8 @@ URL.revokeObjectURL(url);
 
 function csvSafe(value){
 
-return String(value??"")
-.replace(/"/g,'""');
+ return String(value??"")
+ .replace(/"/g,'""');
 
 }
 
@@ -1601,24 +1677,25 @@ return String(value??"")
 
 function clearRecords(){
 
-if(!confirm(
-"⚠️ በዚህ ስልክ ያሉትን Attendance መዝገቦች ማጥፋት ይፈልጋሉ?"
-)){
+ if(!confirm(
+  "⚠️ በዚህ ስልክ ያሉትን Attendance መዝገቦች ማጥፋት ይፈልጋሉ?"
+ )){
 
-return;
+  return;
 
-}
+ }
 
-records=[];
 
-save();
+ records=[];
 
-render();
+ save();
 
-showStatus(
-"🗑️ Attendance መዝገብ ተሰርዟል።",
-"ok"
-);
+ render();
+
+ showStatus(
+  "🗑️ Attendance መዝገብ ተሰርዟል።",
+  "ok"
+ );
 
 }
 
@@ -1627,32 +1704,33 @@ showStatus(
 
 function logout(){
 
-stopQR();
+ stopQR();
 
-currentEmployee=null;
+ currentEmployee=null;
 
-currentLocation={
-latitude:"",
-longitude:""
-};
+ currentLocation={
+  latitude:"",
+  longitude:""
+ };
 
-document.getElementById("employeeID")
-.value="";
 
-document.getElementById("employeeInfo")
-.innerHTML="";
+ document.getElementById("employeeID")
+ .value="";
 
-document.getElementById("gpsInfo")
-.innerHTML="";
+ document.getElementById("employeeInfo")
+ .innerHTML="";
 
-document.getElementById("status")
-.innerHTML="";
+ document.getElementById("gpsInfo")
+ .innerHTML="";
 
-document.getElementById("app")
-.classList.add("hidden");
+ document.getElementById("status")
+ .innerHTML="";
 
-document.getElementById("cover")
-.classList.remove("hidden");
+ document.getElementById("app")
+ .classList.add("hidden");
+
+ document.getElementById("cover")
+ .classList.remove("hidden");
 
 }
 
