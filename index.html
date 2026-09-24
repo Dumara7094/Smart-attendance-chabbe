@@ -4,23 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1769aa">
-
 <title>SMART Attendance + Payroll</title>
 
 <script src="https://unpkg.com/html5-qrcode" defer></script>
 
 <style>
 *{box-sizing:border-box}
-
 body{
  margin:0;
  font-family:Arial,"Noto Sans Ethiopic",sans-serif;
  background:#f3f6f9;
  color:#17212b;
 }
-
 .hidden{display:none!important}
-
 .cover{
  min-height:100vh;
  display:flex;
@@ -31,15 +27,9 @@ body{
  background:linear-gradient(135deg,#1769aa,#0d47a1);
  color:white;
 }
-
-.coverBox{
- width:100%;
- max-width:600px;
-}
-
+.coverBox{width:100%;max-width:600px}
 .cover h1{font-size:38px;margin:10px 0}
 .cover h2{font-size:28px}
-
 .cover button{
  background:white;
  color:#0d47a1;
@@ -50,19 +40,12 @@ body{
  font-weight:bold;
  cursor:pointer;
 }
-
 header{
  background:linear-gradient(135deg,#1769aa,#0d47a1);
  color:white;
  padding:20px;
 }
-
-.container{
- max-width:1100px;
- margin:auto;
- padding:18px;
-}
-
+.container{max-width:1100px;margin:auto;padding:18px}
 .card{
  background:white;
  border-radius:18px;
@@ -70,7 +53,6 @@ header{
  margin:14px 0;
  box-shadow:0 4px 18px #00000012;
 }
-
 .clock{
  font-size:30px;
  font-weight:bold;
@@ -80,14 +62,12 @@ header{
  border-radius:14px;
  margin:12px 0;
 }
-
 .info{
  background:#eef6ff;
  padding:13px;
  border-radius:12px;
  margin:10px 0;
 }
-
 button{
  border:0;
  border-radius:12px;
@@ -96,18 +76,13 @@ button{
  cursor:pointer;
  margin:4px;
 }
-
-button:disabled{
- opacity:.55;
- cursor:not-allowed;
-}
-
+button:disabled{opacity:.55;cursor:not-allowed}
 .primary{background:#1769aa;color:white}
 .success{background:#159447;color:white}
 .danger{background:#c62828;color:white}
+.warning{background:#f59e0b;color:white}
 .light{background:#e8eef5;color:#17212b}
-
-input,select{
+input,select,textarea{
  width:100%;
  padding:13px;
  border:1px solid #ccd6df;
@@ -115,69 +90,49 @@ input,select{
  margin:7px 0;
  font-size:16px;
 }
-
-table{
- width:100%;
- border-collapse:collapse;
-}
-
+textarea{min-height:100px;resize:vertical}
+table{width:100%;border-collapse:collapse}
 th,td{
  padding:10px;
  border-bottom:1px solid #e7ebef;
  text-align:left;
  white-space:nowrap;
 }
-
 th{background:#eef6ff}
-
 .msg{
  padding:12px;
  border-radius:10px;
  margin-top:10px;
  background:#fff4d6;
 }
-
-.ok{
- background:#e7f6ea;
- color:#167b2c;
-}
-
-.err{
- background:#fdecec;
- color:#b42318;
-}
-
+.ok{background:#e7f6ea;color:#167b2c}
+.err{background:#fdecec;color:#b42318}
 .grid{
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
  gap:12px;
  margin:14px 0;
 }
-
 .stat{
  background:#eef6ff;
  border-radius:15px;
  padding:15px;
 }
-
 .stat b{
  display:block;
  font-size:24px;
  margin-top:5px;
 }
-
 #reader{
  width:100%;
  max-width:400px;
  margin:15px auto;
 }
-
 footer{
  text-align:center;
  padding:25px;
  color:#71808f;
 }
-
 .badge{
  padding:5px 9px;
  border-radius:20px;
@@ -185,134 +140,94 @@ footer{
  color:#167b2c;
  font-size:13px;
 }
-
 .payrollTotal{
  background:#e8f5e9;
  border-radius:15px;
  padding:18px;
  margin:12px 0;
 }
-
-.net{
- font-weight:bold;
- font-size:18px;
+.leavePending{
+ background:#fff7df;
+ border-left:5px solid #f59e0b;
+ padding:12px;
+ margin:8px 0;
+ border-radius:8px;
 }
-
+.leaveApproved{
+ background:#e7f6ea;
+ border-left:5px solid #159447;
+ padding:12px;
+ margin:8px 0;
+ border-radius:8px;
+}
+.leaveRejected{
+ background:#fdecec;
+ border-left:5px solid #c62828;
+ padding:12px;
+ margin:8px 0;
+ border-radius:8px;
+}
+.net{font-weight:bold;font-size:18px}
 @media(max-width:600px){
  .cover h1{font-size:30px}
  .cover h2{font-size:23px}
  .clock{font-size:25px}
-
- button{
-  width:100%;
-  margin:5px 0;
- }
-
- th,td{
-  font-size:13px;
-  padding:8px;
- }
+ button{width:100%;margin:5px 0}
+ th,td{font-size:13px;padding:8px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= COVER ================= -->
-
 <section id="cover" class="cover">
-
 <div class="coverBox">
-
 <h1>እንኳን ደህና መጡ</h1>
+<h2>SMART Attendance + Payroll</h2>
+<p>የሠራተኞች መግቢያና መውጫ መቆጣጠሪያ</p>
+<p>📷 QR Scan + 📍 GPS + 💰 Payroll</p>
 
-<h2>SMART Attendance</h2>
-
-<p>
-የሠራተኞች መግቢያና መውጫ መቆጣጠሪያ
-</p>
-
-<p>
-📷 QR Scan + 📍 GPS + 💰 Payroll
-</p>
-
-<button onclick="openApp()">
-App ይክፈቱ
-</button>
+<button onclick="openApp()">App ይክፈቱ</button>
 
 <p style="margin-top:30px">
 የተዘጋጀው በ<strong>ዱማራ ዱዌ</strong>
 </p>
-
 </div>
 </section>
-
-
-<!-- ================= APP ================= -->
 
 <div id="app" class="hidden">
 
 <header>
 <div class="container">
-
-<h1>SMART Attendance</h1>
-
-<p>የሠራተኞች መገኘት እና Payroll አስተዳደር</p>
-
+<h1>SMART Attendance + Payroll</h1>
+<p>የሠራተኞች መገኘት፣ ፈቃድ እና Payroll አስተዳደር</p>
 <p>የተዘጋጀው በዱማራ ዱዌ</p>
-
 </div>
 </header>
 
-
 <main class="container">
 
-
-<!-- ================= CLOCK ================= -->
-
 <div class="card">
-
 <h2>🕐 የአሁኑ ሰዓት</h2>
-
 <div id="clock" class="clock">--:--:--</div>
-
 <div id="dateText" style="text-align:center">--</div>
-
 </div>
 
-
-<!-- ================= WORKING TIME ================= -->
-
 <div class="card">
-
 <h2>📅 የሥራ ቀናት</h2>
-
-<p>
-ሰኞ • ማክሰኞ • ረቡዕ • ሐሙስ • ዓርብ
-</p>
-
+<p>ሰኞ • ማክሰኞ • ረቡዕ • ሐሙስ • ዓርብ</p>
 <hr>
-
 <p>🟢 <b>Check-in:</b> 2:30 – 3:00</p>
-
 <p>🔴 <b>Check-out:</b> 11:00 – 11:30</p>
-
 <p>የሰዓቱ ቁጥጥር በኢትዮጵያ ሰዓት ነው።</p>
-
 </div>
 
-
-<!-- ================= EMPLOYEE ================= -->
-
 <div class="card">
-
 <h2>👤 የሠራተኛ መግቢያ</h2>
 
-<input
- id="employeeID"
+<input id="employeeID"
  placeholder="Employee ID ለምሳሌ EMP001"
- autocomplete="off"
->
+ autocomplete="off">
 
 <button class="primary" onclick="verifyEmployee()">
 🔎 ሠራተኛ ፈልግ
@@ -328,14 +243,9 @@ App ይክፈቱ
 
 <div id="reader"></div>
 <div id="employeeInfo"></div>
-
 </div>
 
-
-<!-- ================= ATTENDANCE ================= -->
-
 <div class="card">
-
 <h2>📝 Attendance</h2>
 
 <button id="checkInBtn"
@@ -356,14 +266,9 @@ App ይክፈቱ
 
 <div id="gpsInfo"></div>
 <div id="status"></div>
-
 </div>
 
-
-<!-- ================= STATS ================= -->
-
 <div class="grid">
-
 <div class="stat">
 ዛሬ
 <b id="todayCount">0</b>
@@ -379,20 +284,12 @@ Check In
 Check Out
 <b id="cout">--</b>
 </div>
-
 </div>
 
-
-<!-- ================= HISTORY ================= -->
-
 <div class="card">
-
 <h2>📊 Attendance History</h2>
-
 <div style="overflow-x:auto">
-
 <table>
-
 <thead>
 <tr>
 <th>ቀን</th>
@@ -403,40 +300,91 @@ Check Out
 <th>GPS</th>
 </tr>
 </thead>
-
 <tbody id="history">
-
 <tr>
-<td colspan="6">
-Employee ID ያስገቡ።
-</td>
+<td colspan="6">Employee ID ያስገቡ።</td>
 </tr>
-
 </tbody>
-
 </table>
-
 </div>
 </div>
 
-
-<!-- ================= ADMIN ================= -->
+<!-- LEAVE REQUEST -->
 
 <div class="card">
+<h2>🏖️ የፈቃድ መጠየቂያ</h2>
 
+<p>
+የሠራተኛውን Employee ID ካስገቡ በኋላ የፈቃድ ጥያቄ ይላኩ።
+</p>
+
+<label>Employee ID</label>
+<input id="leaveEmployeeID"
+ placeholder="EMP001">
+
+<label>የፈቃድ አይነት</label>
+<select id="leaveType">
+<option value="Annual">ዓመታዊ ፈቃድ</option>
+<option value="Sick">የሕመም ፈቃድ</option>
+<option value="Special">ልዩ ፈቃድ</option>
+<option value="Other">ሌላ</option>
+</select>
+
+<label>ከቀን</label>
+<input id="leaveStart" type="date">
+
+<label>እስከ ቀን</label>
+<input id="leaveEnd" type="date">
+
+<label>የፈቃድ ምክንያት</label>
+<textarea id="leaveReason"
+ placeholder="የፈቃድ ምክንያት ያስገቡ..."></textarea>
+
+<button class="success" onclick="submitLeave()">
+📤 የፈቃድ ጥያቄ ላክ
+</button>
+
+<div id="leaveStatus"></div>
+</div>
+
+<div class="card">
+<h2>📋 የእኔ የፈቃድ ጥያቄዎች</h2>
+
+<div style="overflow-x:auto">
+<table>
+<thead>
+<tr>
+<th>Employee</th>
+<th>ዓይነት</th>
+<th>ከ</th>
+<th>እስከ</th>
+<th>ምክንያት</th>
+<th>ሁኔታ</th>
+</tr>
+</thead>
+<tbody id="myLeaves">
+<tr>
+<td colspan="6">Employee ID ያስገቡ።</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ADMIN -->
+
+<div class="card">
 <h2>🔐 Admin</h2>
 
 <input
  type="password"
  id="adminPassword"
  placeholder="Admin Password"
- autocomplete="off"
->
+ autocomplete="off">
 
 <button class="primary" onclick="adminLogin()">
 Admin Login
 </button>
-
 
 <div id="adminPanel" class="hidden">
 
@@ -458,31 +406,24 @@ Admin Login
 
 <hr>
 
-<!-- ================= PAYROLL ================= -->
+<h2>🏖️ Leave Requests</h2>
+<div id="adminLeaves"></div>
+
+<hr>
 
 <h2>💰 Payroll</h2>
 
-<p>
-የኢትዮጵያ ዓመትና ወር ይምረጡ።
-</p>
+<p>የኢትዮጵያ ዓመትና ወር ይምረጡ።</p>
 
 <div class="grid">
-
 <div>
 <label>የኢትዮጵያ ዓመት</label>
-<input
- id="payYear"
- type="number"
- min="2000"
- max="2100"
->
+<input id="payYear" type="number" min="2000" max="2100">
 </div>
 
 <div>
 <label>ወር</label>
-
 <select id="payMonth">
-
 <option value="1">መስከረም</option>
 <option value="2">ጥቅምት</option>
 <option value="3">ኅዳር</option>
@@ -496,11 +437,8 @@ Admin Login
 <option value="11">ሐምሌ</option>
 <option value="12">ነሐሴ</option>
 <option value="13">ጳጉሜን</option>
-
 </select>
-
 </div>
-
 </div>
 
 <button class="success" onclick="calculatePayroll()">
@@ -511,22 +449,12 @@ Admin Login
 📊 Payroll CSV
 </button>
 
-
 <div id="payrollSummary"></div>
-
-
-<!-- ================= SALARY SETTINGS ================= -->
 
 <h3>💵 የሠራተኛ ደመወዝ</h3>
 
-<p>
-የወሩን Salary እዚህ መቀየር ይቻላል።
-</p>
-
 <div style="overflow-x:auto">
-
 <table>
-
 <thead>
 <tr>
 <th>Employee ID</th>
@@ -534,11 +462,8 @@ Admin Login
 <th>Salary</th>
 </tr>
 </thead>
-
 <tbody id="salaryTable"></tbody>
-
 </table>
-
 </div>
 
 <button class="success" onclick="saveSalaries()">
@@ -548,56 +473,51 @@ Admin Login
 </div>
 </div>
 
-
-<button class="light" onclick="logout()">
-ውጣ
-</button>
+<button class="light" onclick="logout()">ውጣ</button>
 
 </main>
 
-
 <footer>
-
 SMART Attendance + Payroll
-
 <br>
-
 የተዘጋጀው በዱማራ ዱዌ
-
 </footer>
 
 </div>
-
-
 <script>
 
 /* =====================================================
    DATA
 ===================================================== */
 
-let currentEmployee=null;
+let currentEmployee = null;
 
-let currentLocation={
+let currentLocation = {
  latitude:"",
  longitude:""
 };
 
-let records=JSON.parse(
- localStorage.getItem("smartAttendanceRecords")||"[]"
+let records = JSON.parse(
+ localStorage.getItem("smartAttendanceRecords") || "[]"
 );
 
-let salaries=JSON.parse(
- localStorage.getItem("smartAttendanceSalaries")||"{}"
+let salaries = JSON.parse(
+ localStorage.getItem("smartAttendanceSalaries") || "{}"
 );
 
-let qrScanner=null;
+let leaveRequests = JSON.parse(
+ localStorage.getItem("smartAttendanceLeaves") || "[]"
+);
+
+let qrScanner = null;
+let lastPayroll = [];
 
 
 /* =====================================================
    EMPLOYEES
 ===================================================== */
 
-const employees=[
+const employees = [
 
 {id:"EMP001",name:"ዱማራ ዱዌ",qr:"EMP001"},
 {id:"EMP002",name:"መስቀል ሳሙኤል",qr:"EMP002"},
@@ -628,20 +548,20 @@ const employees=[
 ===================================================== */
 
 if(!salaries.EMP001)
- salaries.EMP001=17439;
+ salaries.EMP001 = 17439;
 
 if(!salaries.EMP002)
- salaries.EMP002=15739;
+ salaries.EMP002 = 15739;
 
 if(!salaries.EMP003)
- salaries.EMP003=19645;
+ salaries.EMP003 = 19645;
 
 
 /* =====================================================
    ADMIN
 ===================================================== */
 
-const ADMIN_PIN="12345678";
+const ADMIN_PIN = "12345678";
 
 
 /* =====================================================
@@ -653,7 +573,9 @@ function ethiopiaDate(){
  return new Date(
   new Date().toLocaleString(
    "en-US",
-   {timeZone:"Africa/Addis_Ababa"}
+   {
+    timeZone:"Africa/Addis_Ababa"
+   }
   )
  );
 
@@ -666,9 +588,9 @@ function ethiopiaDate(){
 
 function updateClock(){
 
- const d=ethiopiaDate();
+ const d = ethiopiaDate();
 
- document.getElementById("clock").textContent=
+ document.getElementById("clock").textContent =
  d.toLocaleTimeString(
   "en-GB",
   {
@@ -678,7 +600,7 @@ function updateClock(){
   }
  );
 
- document.getElementById("dateText").textContent=
+ document.getElementById("dateText").textContent =
  d.toLocaleDateString(
   "am-ET",
   {
@@ -700,7 +622,7 @@ setInterval(updateClock,1000);
 
 function today(){
 
- const d=ethiopiaDate();
+ const d = ethiopiaDate();
 
  return d.getFullYear()+"-"+
  String(d.getMonth()+1).padStart(2,"0")+"-"+
@@ -715,7 +637,7 @@ function today(){
 
 function minutesNow(){
 
- const d=ethiopiaDate();
+ const d = ethiopiaDate();
 
  return d.getHours()*60+d.getMinutes();
 
@@ -728,7 +650,7 @@ function minutesNow(){
 
 function workingDay(){
 
- const day=ethiopiaDate().getDay();
+ const day = ethiopiaDate().getDay();
 
  return day>=1 && day<=5;
 
@@ -736,17 +658,17 @@ function workingDay(){
 
 
 /* =====================================================
-   CHECK IN TIME
+   CHECK-IN TIME
 ===================================================== */
 
 function checkInTimeMessage(){
 
- const m=minutesNow();
+ const m = minutesNow();
 
- if(m<150)
+ if(m < 150)
   return "⏰ የCheck-in ሰዓት አልደረሰም። 2:30–3:00 ነው።";
 
- if(m>180)
+ if(m > 180)
   return "⏰ የCheck-in ሰዓት አልቋል። 2:30–3:00 ብቻ ነው።";
 
  return "";
@@ -755,17 +677,17 @@ function checkInTimeMessage(){
 
 
 /* =====================================================
-   CHECK OUT TIME
+   CHECK-OUT TIME
 ===================================================== */
 
 function checkOutTimeMessage(){
 
- const m=minutesNow();
+ const m = minutesNow();
 
- if(m<660)
+ if(m < 660)
   return "⏰ የCheck-out ሰዓት አልደረሰም። 11:00–11:30 ነው።";
 
- if(m>690)
+ if(m > 690)
   return "⏰ የCheck-out ሰዓት አልቋል። 11:00–11:30 ብቻ ነው።";
 
  return "";
@@ -779,26 +701,28 @@ function checkOutTimeMessage(){
 
 function findEmployee(id){
 
- if(!id)return null;
+ if(!id) return null;
 
- const value=String(id).trim().toUpperCase();
+ const value = String(id)
+  .trim()
+  .toUpperCase();
 
  return employees.find(
-  e=>
-   e.id.toUpperCase()===value ||
-   e.qr.toUpperCase()===value
- )||null;
+  e =>
+   e.id.toUpperCase() === value ||
+   e.qr.toUpperCase() === value
+ ) || null;
 
 }
 
 
 /* =====================================================
-   VERIFY
+   VERIFY EMPLOYEE
 ===================================================== */
 
 function verifyEmployee(){
 
- const input=
+ const input =
  document.getElementById("employeeID").value.trim();
 
  if(!input){
@@ -811,21 +735,21 @@ function verifyEmployee(){
   return false;
  }
 
- const employee=findEmployee(input);
+ const employee = findEmployee(input);
 
  if(!employee){
 
-  currentEmployee=null;
+  currentEmployee = null;
 
-  document.getElementById("employeeInfo").innerHTML=
+  document.getElementById("employeeInfo").innerHTML =
   '<div class="msg err">❌ Employee ID አልተገኘም።</div>';
 
   return false;
  }
 
- currentEmployee=employee;
+ currentEmployee = employee;
 
- document.getElementById("employeeInfo").innerHTML=
+ document.getElementById("employeeInfo").innerHTML =
 
  `<div class="info">
 
@@ -843,7 +767,11 @@ function verifyEmployee(){
 
  </div>`;
 
+ document.getElementById("leaveEmployeeID").value =
+ employee.id;
+
  render();
+ renderMyLeaves();
 
  return true;
 
@@ -851,17 +779,17 @@ function verifyEmployee(){
 
 
 /* =====================================================
-   ESCAPE
+   ESCAPE HTML
 ===================================================== */
 
 function escapeHTML(value){
 
- return String(value||"")
- .replace(/&/g,"&amp;")
- .replace(/</g,"&lt;")
- .replace(/>/g,"&gt;")
- .replace(/"/g,"&quot;")
- .replace(/'/g,"&#039;");
+ return String(value || "")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
 
 }
 
@@ -872,8 +800,8 @@ function escapeHTML(value){
 
 function hasGPS(){
 
- return currentLocation.latitude!=="" &&
- currentLocation.longitude!=="";
+ return currentLocation.latitude !== "" &&
+        currentLocation.longitude !== "";
 
 }
 
@@ -897,15 +825,15 @@ function getLocation(){
 
  navigator.geolocation.getCurrentPosition(
 
-  position=>{
+  position => {
 
-   currentLocation.latitude=
-   position.coords.latitude;
+   currentLocation.latitude =
+    position.coords.latitude;
 
-   currentLocation.longitude=
-   position.coords.longitude;
+   currentLocation.longitude =
+    position.coords.longitude;
 
-   document.getElementById("gpsInfo").innerHTML=
+   document.getElementById("gpsInfo").innerHTML =
 
    `<div class="info">
 
@@ -935,7 +863,7 @@ function getLocation(){
 
   },
 
-  error=>{
+  error => {
 
    console.error(error);
 
@@ -958,19 +886,27 @@ function getLocation(){
 
 
 /* =====================================================
-   CREATE RECORD
+   CREATE ATTENDANCE RECORD
 ===================================================== */
 
 function createRecord(employee){
 
  return {
+
   date:today(),
+
   id:employee.id,
+
   name:employee.name,
+
   checkIn:"",
+
   checkOut:"",
+
   latitude:"",
+
   longitude:""
+
  };
 
 }
@@ -984,7 +920,7 @@ function checkIn(){
 
  if(!currentEmployee){
 
-  if(!verifyEmployee())return;
+  if(!verifyEmployee()) return;
 
  }
 
@@ -1008,19 +944,22 @@ function checkIn(){
   return;
  }
 
- const msg=checkInTimeMessage();
+ const msg = checkInTimeMessage();
 
  if(msg){
 
-  showStatus("❌ "+msg,"err");
+  showStatus(
+   "❌ "+msg,
+   "err"
+  );
 
   return;
  }
 
- let r=records.find(
-  x=>
-   x.id===currentEmployee.id &&
-   x.date===today()
+ let r = records.find(
+  x =>
+   x.id === currentEmployee.id &&
+   x.date === today()
  );
 
  if(r && r.checkIn){
@@ -1035,15 +974,17 @@ function checkIn(){
 
  if(!r){
 
-  r=createRecord(currentEmployee);
+  r = createRecord(currentEmployee);
+
   records.push(r);
 
  }
 
- r.id=currentEmployee.id;
- r.name=currentEmployee.name;
+ r.id = currentEmployee.id;
 
- r.checkIn=
+ r.name = currentEmployee.name;
+
+ r.checkIn =
  ethiopiaDate().toLocaleTimeString(
   "en-GB",
   {
@@ -1053,10 +994,14 @@ function checkIn(){
   }
  );
 
- r.latitude=currentLocation.latitude;
- r.longitude=currentLocation.longitude;
+ r.latitude =
+  currentLocation.latitude;
+
+ r.longitude =
+  currentLocation.longitude;
 
  save();
+
  render();
 
  showStatus(
@@ -1075,7 +1020,7 @@ function checkOut(){
 
  if(!currentEmployee){
 
-  if(!verifyEmployee())return;
+  if(!verifyEmployee()) return;
 
  }
 
@@ -1099,19 +1044,22 @@ function checkOut(){
   return;
  }
 
- const msg=checkOutTimeMessage();
+ const msg = checkOutTimeMessage();
 
  if(msg){
 
-  showStatus("❌ "+msg,"err");
+  showStatus(
+   "❌ "+msg,
+   "err"
+  );
 
   return;
  }
 
- let r=records.find(
-  x=>
-   x.id===currentEmployee.id &&
-   x.date===today()
+ let r = records.find(
+  x =>
+   x.id === currentEmployee.id &&
+   x.date === today()
  );
 
  if(!r || !r.checkIn){
@@ -1134,10 +1082,11 @@ function checkOut(){
   return;
  }
 
- r.id=currentEmployee.id;
- r.name=currentEmployee.name;
+ r.id = currentEmployee.id;
 
- r.checkOut=
+ r.name = currentEmployee.name;
+
+ r.checkOut =
  ethiopiaDate().toLocaleTimeString(
   "en-GB",
   {
@@ -1147,10 +1096,14 @@ function checkOut(){
   }
  );
 
- r.latitude=currentLocation.latitude;
- r.longitude=currentLocation.longitude;
+ r.latitude =
+  currentLocation.latitude;
+
+ r.longitude =
+  currentLocation.longitude;
 
  save();
+
  render();
 
  showStatus(
@@ -1162,7 +1115,7 @@ function checkOut(){
 
 
 /* =====================================================
-   SAVE
+   SAVE ATTENDANCE
 ===================================================== */
 
 function save(){
@@ -1176,47 +1129,47 @@ function save(){
 
 
 /* =====================================================
-   RENDER
+   RENDER ATTENDANCE
 ===================================================== */
 
 function render(){
 
  if(!currentEmployee){
 
-  document.getElementById("history").innerHTML=
+  document.getElementById("history").innerHTML =
   '<tr><td colspan="6">Employee ID ያስገቡ።</td></tr>';
 
   return;
  }
 
- const mine=records.filter(
-  x=>x.id===currentEmployee.id
+ const mine = records.filter(
+  x => x.id === currentEmployee.id
  );
 
- const r=mine.find(
-  x=>x.date===today()
+ const r = mine.find(
+  x => x.date === today()
  );
 
- document.getElementById("todayCount").textContent=
+ document.getElementById("todayCount").textContent =
  mine.length;
 
- document.getElementById("cin").textContent=
- r?.checkIn||"--";
+ document.getElementById("cin").textContent =
+ r?.checkIn || "--";
 
- document.getElementById("cout").textContent=
- r?.checkOut||"--";
+ document.getElementById("cout").textContent =
+ r?.checkOut || "--";
 
  if(!mine.length){
 
-  document.getElementById("history").innerHTML=
+  document.getElementById("history").innerHTML =
   '<tr><td colspan="6">ምንም Attendance History የለም።</td></tr>';
 
   return;
  }
 
- document.getElementById("history").innerHTML=
+ document.getElementById("history").innerHTML =
 
- mine.slice().reverse().map(r=>`
+ mine.slice().reverse().map(r => `
 
  <tr>
 
@@ -1224,11 +1177,11 @@ function render(){
 
  <td><b>${escapeHTML(r.id)}</b></td>
 
- <td><b>${escapeHTML(r.name||"--")}</b></td>
+ <td><b>${escapeHTML(r.name || "--")}</b></td>
 
- <td>${escapeHTML(r.checkIn||"--")}</td>
+ <td>${escapeHTML(r.checkIn || "--")}</td>
 
- <td>${escapeHTML(r.checkOut||"--")}</td>
+ <td>${escapeHTML(r.checkOut || "--")}</td>
 
  <td>${r.latitude ? "📍 GPS" : "--"}</td>
 
@@ -1245,22 +1198,24 @@ function render(){
 
 function showStatus(text,type){
 
- const status=document.getElementById("status");
+ const status =
+ document.getElementById("status");
 
- status.className="msg "+type;
+ status.className =
+ "msg " + type;
 
- status.innerHTML=text;
+ status.innerHTML = text;
 
 }
 
 
 /* =====================================================
-   QR
+   QR SCANNER
 ===================================================== */
 
 function scanQR(){
 
- if(typeof Html5Qrcode==="undefined"){
+ if(typeof Html5Qrcode === "undefined"){
 
   showStatus(
    "⏳ QR Scanner እየተጫነ ነው።",
@@ -1270,21 +1225,27 @@ function scanQR(){
   return;
  }
 
- if(qrScanner)return;
+ if(qrScanner) return;
 
- qrScanner=new Html5Qrcode("reader");
+ qrScanner =
+  new Html5Qrcode("reader");
 
  qrScanner.start(
 
   {facingMode:"environment"},
 
-  {fps:10,qrbox:250},
+  {
+   fps:10,
+   qrbox:250
+  },
 
-  decodedText=>{
+  decodedText => {
 
-   const id=decodedText.trim();
+   const id =
+    decodedText.trim();
 
-   document.getElementById("employeeID").value=id;
+   document.getElementById("employeeID").value =
+    id;
 
    verifyEmployee();
 
@@ -1297,14 +1258,14 @@ function scanQR(){
 
   },
 
-  errorMessage=>{}
+  errorMessage => {}
 
  )
- .catch(error=>{
+ .catch(error => {
 
   console.error(error);
 
-  qrScanner=null;
+  qrScanner = null;
 
   showStatus(
    "❌ Camera ፈቃድ ይስጡ።",
@@ -1318,21 +1279,21 @@ function scanQR(){
 
 function stopQR(){
 
- if(!qrScanner)return;
+ if(!qrScanner) return;
 
  qrScanner.stop()
- .then(()=>{
+ .then(() => {
 
   try{
    qrScanner.clear();
   }catch(e){}
 
-  qrScanner=null;
+  qrScanner = null;
 
  })
- .catch(()=>{
+ .catch(() => {
 
-  qrScanner=null;
+  qrScanner = null;
 
  });
 
@@ -1340,21 +1301,227 @@ function stopQR(){
 
 
 /* =====================================================
+   LEAVE REQUEST
+===================================================== */
+
+function submitLeave(){
+
+ const employeeID =
+  document.getElementById("leaveEmployeeID")
+   .value.trim()
+   .toUpperCase();
+
+ const employee =
+  findEmployee(employeeID);
+
+ if(!employee){
+
+  document.getElementById("leaveStatus").innerHTML =
+  '<div class="msg err">❌ Employee ID አልተገኘም።</div>';
+
+  return;
+ }
+
+ const type =
+  document.getElementById("leaveType").value;
+
+ const start =
+  document.getElementById("leaveStart").value;
+
+ const end =
+  document.getElementById("leaveEnd").value;
+
+ const reason =
+  document.getElementById("leaveReason").value.trim();
+
+ if(!start || !end){
+
+  document.getElementById("leaveStatus").innerHTML =
+  '<div class="msg err">❌ የፈቃድ መጀመሪያና መጨረሻ ቀን ያስገቡ።</div>';
+
+  return;
+ }
+
+ if(new Date(end) < new Date(start)){
+
+  document.getElementById("leaveStatus").innerHTML =
+  '<div class="msg err">❌ የመጨረሻ ቀን ከመጀመሪያ ቀን በፊት መሆን አይችልም።</div>';
+
+  return;
+ }
+
+ if(!reason){
+
+  document.getElementById("leaveStatus").innerHTML =
+  '<div class="msg err">❌ የፈቃድ ምክንያት ያስገቡ።</div>';
+
+  return;
+ }
+
+ const request = {
+
+  id:Date.now(),
+
+  employeeID:employee.id,
+
+  employeeName:employee.name,
+
+  type:type,
+
+  start:start,
+
+  end:end,
+
+  reason:reason,
+
+  status:"Pending",
+
+  createdAt:today()
+
+ };
+
+ leaveRequests.push(request);
+
+ saveLeaves();
+
+ document.getElementById("leaveStatus").innerHTML =
+ '<div class="msg ok">✅ የፈቃድ ጥያቄዎ በስኬት ተልኳል። የAdmin ማጽደቂያ ይጠብቁ።</div>';
+
+ document.getElementById("leaveStart").value = "";
+
+ document.getElementById("leaveEnd").value = "";
+
+ document.getElementById("leaveReason").value = "";
+
+ renderMyLeaves();
+
+ if(!document.getElementById("adminPanel").classList.contains("hidden")){
+
+  renderAdminLeaves();
+
+ }
+
+}
+
+
+/* =====================================================
+   SAVE LEAVES
+===================================================== */
+
+function saveLeaves(){
+
+ localStorage.setItem(
+  "smartAttendanceLeaves",
+  JSON.stringify(leaveRequests)
+ );
+
+}
+
+
+/* =====================================================
+   MY LEAVE REQUESTS
+===================================================== */
+
+function renderMyLeaves(){
+
+ const tbody =
+  document.getElementById("myLeaves");
+
+ const employeeID =
+  document.getElementById("leaveEmployeeID").value
+   .trim()
+   .toUpperCase();
+
+ if(!employeeID){
+
+  tbody.innerHTML =
+  '<tr><td colspan="6">Employee ID ያስገቡ።</td></tr>';
+
+  return;
+ }
+
+ const mine =
+  leaveRequests.filter(
+   r => r.employeeID === employeeID
+  );
+
+ if(!mine.length){
+
+  tbody.innerHTML =
+  '<tr><td colspan="6">ምንም የፈቃድ ጥያቄ የለም።</td></tr>';
+
+  return;
+ }
+
+ tbody.innerHTML =
+  mine.slice().reverse().map(r => `
+
+  <tr>
+
+  <td>
+   <b>${escapeHTML(r.employeeID)}</b>
+   <br>
+   ${escapeHTML(r.employeeName)}
+  </td>
+
+  <td>${escapeHTML(r.type)}</td>
+
+  <td>${escapeHTML(r.start)}</td>
+
+  <td>${escapeHTML(r.end)}</td>
+
+  <td>${escapeHTML(r.reason)}</td>
+
+  <td>
+   ${leaveStatusBadge(r.status)}
+  </td>
+
+  </tr>
+
+  `).join("");
+
+}
+
+
+/* =====================================================
+   LEAVE STATUS BADGE
+===================================================== */
+
+function leaveStatusBadge(status){
+
+ if(status === "Approved"){
+
+  return '<span class="badge">✅ Approved</span>';
+
+ }
+
+ if(status === "Rejected"){
+
+  return '<span class="badge" style="background:#fdecec;color:#b42318">❌ Rejected</span>';
+
+ }
+
+ return '<span class="badge" style="background:#fff4d6;color:#946200">⏳ Pending</span>';
+
+}
+ /* =====================================================
    ADMIN LOGIN
 ===================================================== */
 
 function adminLogin(){
 
- const password=
- document.getElementById("adminPassword").value;
+ const password =
+  document.getElementById("adminPassword").value;
 
- if(password===ADMIN_PIN){
+ if(password === ADMIN_PIN){
 
   document
-  .getElementById("adminPanel")
-  .classList.remove("hidden");
+   .getElementById("adminPanel")
+   .classList.remove("hidden");
 
   renderSalaryTable();
+
+  renderAdminLeaves();
 
   showStatus(
    "🔐 Admin Dashboard ተከፍቷል።",
@@ -1374,40 +1541,207 @@ function adminLogin(){
 
 
 /* =====================================================
+   ADMIN LEAVE REQUESTS
+===================================================== */
+
+function renderAdminLeaves(){
+
+ const box =
+  document.getElementById("adminLeaves");
+
+ if(!leaveRequests.length){
+
+  box.innerHTML =
+  '<div class="msg">📋 የፈቃድ ጥያቄ የለም።</div>';
+
+  return;
+ }
+
+ box.innerHTML =
+  leaveRequests.slice().reverse().map(r => {
+
+   let className = "leavePending";
+
+   if(r.status === "Approved")
+    className = "leaveApproved";
+
+   if(r.status === "Rejected")
+    className = "leaveRejected";
+
+   return `
+
+   <div class="${className}">
+
+   <b>👤 ${escapeHTML(r.employeeName)}</b>
+
+   <br>
+
+   🆔 Employee ID:
+   ${escapeHTML(r.employeeID)}
+
+   <br>
+
+   🏖️ የፈቃድ አይነት:
+   ${escapeHTML(r.type)}
+
+   <br>
+
+   📅 ${escapeHTML(r.start)}
+   → ${escapeHTML(r.end)}
+
+   <br>
+
+   📝 ምክንያት:
+   ${escapeHTML(r.reason)}
+
+   <br>
+
+   📌 ሁኔታ:
+   <b>${escapeHTML(r.status)}</b>
+
+   <br><br>
+
+   ${
+    r.status === "Pending"
+    ?
+
+    `
+    <button
+     class="success"
+     onclick="approveLeave(${r.id})">
+     ✅ Approve
+    </button>
+
+    <button
+     class="danger"
+     onclick="rejectLeave(${r.id})">
+     ❌ Reject
+    </button>
+    `
+
+    :
+
+    `
+    <span class="badge">
+     ${r.status === "Approved"
+       ? "✅ ፈቃዱ ጸድቋል"
+       : "❌ ፈቃዱ ውድቅ ሆኗል"}
+    </span>
+    `
+   }
+
+   </div>
+
+   `;
+
+  }).join("");
+
+}
+
+
+/* =====================================================
+   APPROVE LEAVE
+===================================================== */
+
+function approveLeave(id){
+
+ const request =
+  leaveRequests.find(
+   r => r.id === id
+  );
+
+ if(!request) return;
+
+ if(!confirm(
+  "ይህን የፈቃድ ጥያቄ ማጽደቅ ይፈልጋሉ?"
+ )) return;
+
+ request.status = "Approved";
+
+ saveLeaves();
+
+ renderAdminLeaves();
+
+ renderMyLeaves();
+
+ showStatus(
+  "✅ የፈቃድ ጥያቄው ጸድቋል።",
+  "ok"
+ );
+
+}
+
+
+/* =====================================================
+   REJECT LEAVE
+===================================================== */
+
+function rejectLeave(id){
+
+ const request =
+  leaveRequests.find(
+   r => r.id === id
+  );
+
+ if(!request) return;
+
+ if(!confirm(
+  "ይህን የፈቃድ ጥያቄ ውድቅ ማድረግ ይፈልጋሉ?"
+ )) return;
+
+ request.status = "Rejected";
+
+ saveLeaves();
+
+ renderAdminLeaves();
+
+ renderMyLeaves();
+
+ showStatus(
+  "❌ የፈቃድ ጥያቄው ውድቅ ሆኗል።",
+  "ok"
+ );
+
+}
+
+
+/* =====================================================
    SALARY TABLE
 ===================================================== */
 
 function renderSalaryTable(){
 
- const table=document.getElementById("salaryTable");
+ const table =
+  document.getElementById("salaryTable");
 
- table.innerHTML=employees.map(e=>`
+ table.innerHTML =
+  employees.map(e => `
 
- <tr>
+  <tr>
 
- <td>
- <b>${escapeHTML(e.id)}</b>
- </td>
+  <td>
+   <b>${escapeHTML(e.id)}</b>
+  </td>
 
- <td>
- ${escapeHTML(e.name)}
- </td>
+  <td>
+   ${escapeHTML(e.name)}
+  </td>
 
- <td>
+  <td>
 
- <input
-  id="salary_${e.id}"
-  type="number"
-  min="0"
-  step="0.01"
-  value="${Number(salaries[e.id]||0)}"
- >
+   <input
+    id="salary_${e.id}"
+    type="number"
+    min="0"
+    step="0.01"
+    value="${Number(salaries[e.id] || 0)}"
+   >
 
- </td>
+  </td>
 
- </tr>
+  </tr>
 
- `).join("");
+  `).join("");
 
 }
 
@@ -1418,15 +1752,17 @@ function renderSalaryTable(){
 
 function saveSalaries(){
 
- employees.forEach(e=>{
+ employees.forEach(e => {
 
-  const input=
-  document.getElementById("salary_"+e.id);
+  const input =
+   document.getElementById(
+    "salary_"+e.id
+   );
 
   if(input){
 
-   salaries[e.id]=
-   Number(input.value)||0;
+   salaries[e.id] =
+    Number(input.value) || 0;
 
   }
 
@@ -1437,7 +1773,9 @@ function saveSalaries(){
   JSON.stringify(salaries)
  );
 
- alert("✅ የሠራተኞች Salary ተቀምጧል።");
+ alert(
+  "✅ የሠራተኞች Salary ተቀምጧል።"
+ );
 
 }
 
@@ -1447,108 +1785,144 @@ function saveSalaries(){
 ===================================================== */
 
 /*
-  Gregorian -> Ethiopian
+ Gregorian → Julian Day
+*/
+
+function gregorianToJD(y,m,d){
+
+ let a =
+  Math.floor((14-m)/12);
+
+ let yy =
+  y + 4800 - a;
+
+ let mm =
+  m + 12*a - 3;
+
+ return d +
+  Math.floor((153*mm+2)/5) +
+  365*yy +
+  Math.floor(yy/4) -
+  Math.floor(yy/100) +
+  Math.floor(yy/400) -
+  32045;
+
+}
+
+
+/*
+ Gregorian → Ethiopian
 */
 
 function gregorianToEthiopian(date){
 
- const jd=gregorianToJD(
-  date.getFullYear(),
-  date.getMonth()+1,
-  date.getDate()
- );
+ const jd =
+  gregorianToJD(
+   date.getFullYear(),
+   date.getMonth()+1,
+   date.getDate()
+  );
 
  return jdToEthiopian(jd);
 
 }
 
 
-function gregorianToJD(y,m,d){
-
- let a=Math.floor((14-m)/12);
-
- let yy=y+4800-a;
-
- let mm=m+12*a-3;
-
- return d+
- Math.floor((153*mm+2)/5)+
- 365*yy+
- Math.floor(yy/4)-
- Math.floor(yy/100)+
- Math.floor(yy/400)-
- 32045;
-
-}
-
-
 /*
-  Ethiopian -> Gregorian
+ Ethiopian → Gregorian
 */
 
 function ethiopianToGregorian(y,m,d){
 
- const jd=
- 1723856+
- 365*(y-1)+
- Math.floor(y/4)+
- 30*(m-1)+
- d-1;
+ const jd =
+  1723856 +
+  365*(y-1) +
+  Math.floor(y/4) +
+  30*(m-1) +
+  d - 1;
 
  return jdToGregorian(jd);
 
 }
 
 
+/*
+ Julian Day → Gregorian
+*/
+
 function jdToGregorian(jd){
 
- let a=jd+32044;
+ let a =
+  jd + 32044;
 
- let b=Math.floor((4*a+3)/146097);
+ let b =
+  Math.floor((4*a+3)/146097);
 
- let c=a-Math.floor(146097*b/4);
+ let c =
+  a - Math.floor(146097*b/4);
 
- let d=Math.floor((4*c+3)/1461);
+ let d =
+  Math.floor((4*c+3)/1461);
 
- let e=c-Math.floor(1461*d/4);
+ let e =
+  c - Math.floor(1461*d/4);
 
- let m=Math.floor((5*e+2)/153);
+ let m =
+  Math.floor((5*e+2)/153);
 
- let day=e-Math.floor((153*m+2)/5)+1;
+ let day =
+  e - Math.floor((153*m+2)/5) + 1;
 
- let month=m+3-12*Math.floor(m/10);
+ let month =
+  m + 3 -
+  12*Math.floor(m/10);
 
- let year=100*b+d-4800+Math.floor(m/10);
+ let year =
+  100*b +
+  d - 4800 +
+  Math.floor(m/10);
 
- return new Date(year,month-1,day);
+ return new Date(
+  year,
+  month-1,
+  day
+ );
 
 }
 
 
+/*
+ Julian Day → Ethiopian
+*/
+
 function jdToEthiopian(jd){
 
- const year=
- Math.floor((4*(jd-1723856)+1463)/1461);
+ const year =
+  Math.floor(
+   (4*(jd-1723856)+1463)/1461
+  );
 
- const month=
- 1+
- Math.floor(
-  (jd-
-   (1723856+
-    365*(year-1)+
-    Math.floor(year/4)
-   )
-  )/30
- );
+ const month =
+  1 +
+  Math.floor(
+   (
+    jd -
+    (
+     1723856 +
+     365*(year-1) +
+     Math.floor(year/4)
+    )
+   ) / 30
+  );
 
- const day=
- jd-
- (
- 1723856+
- 365*(year-1)+
- Math.floor(year/4)+
- 30*(month-1)
- )+1;
+ const day =
+  jd -
+  (
+   1723856 +
+   365*(year-1) +
+   Math.floor(year/4) +
+   30*(month-1)
+  ) + 1;
 
  return {
   year:year,
@@ -1565,8 +1939,10 @@ function jdToEthiopian(jd){
 
 function ethMonthName(month){
 
- const names=[
+ const names = [
+
   "",
+
   "መስከረም",
   "ጥቅምት",
   "ኅዳር",
@@ -1580,67 +1956,30 @@ function ethMonthName(month){
   "ሐምሌ",
   "ነሐሴ",
   "ጳጉሜን"
+
  ];
 
- return names[month]||"";
+ return names[month] || "";
 
 }
 
 
 /* =====================================================
-   GET CURRENT ETHIOPIAN YEAR
+   CURRENT ETHIOPIAN PAYROLL DATE
 ===================================================== */
 
 function setCurrentPayrollDate(){
 
- const eth=
- gregorianToEthiopian(
-  ethiopiaDate()
- );
-
- document.getElementById("payYear").value=
- eth.year;
-
- document.getElementById("payMonth").value=
- eth.month;
-
-}
-
-
-/* =====================================================
-   GET DATES IN ETHIOPIAN MONTH
-===================================================== */
-
-function getEthiopianMonthDates(year,month){
-
- const days=
- month===13
- ? (
-   isEthiopianLeapYear(year)
-   ? 6
-   : 5
- )
- : 30;
-
- const dates=[];
-
- for(let day=1;day<=days;day++){
-
-  const g=
-  ethiopianToGregorian(
-   year,
-   month,
-   day
+ const eth =
+  gregorianToEthiopian(
+   ethiopiaDate()
   );
 
-  dates.push({
-   ethDay:day,
-   date:g
-  });
+ document.getElementById("payYear").value =
+  eth.year;
 
- }
-
- return dates;
+ document.getElementById("payMonth").value =
+  eth.month;
 
 }
 
@@ -1651,7 +1990,61 @@ function getEthiopianMonthDates(year,month){
 
 function isEthiopianLeapYear(year){
 
- return year%4===3;
+ return year % 4 === 3;
+
+}
+
+
+/* =====================================================
+   GET ETHIOPIAN MONTH DATES
+===================================================== */
+
+function getEthiopianMonthDates(
+ year,
+ month
+){
+
+ const days =
+  month === 13
+
+  ?
+
+   (
+    isEthiopianLeapYear(year)
+    ? 6
+    : 5
+   )
+
+  :
+
+   30;
+
+ const dates = [];
+
+ for(
+  let day=1;
+  day<=days;
+  day++
+ ){
+
+  const g =
+   ethiopianToGregorian(
+    year,
+    month,
+    day
+   );
+
+  dates.push({
+
+   ethDay:day,
+
+   date:g
+
+  });
+
+ }
+
+ return dates;
 
 }
 
@@ -1663,8 +2056,10 @@ function isEthiopianLeapYear(year){
 function dateKey(date){
 
  return date.getFullYear()+"-"+
- String(date.getMonth()+1).padStart(2,"0")+"-"+
- String(date.getDate()).padStart(2,"0");
+ String(date.getMonth()+1)
+  .padStart(2,"0")+"-"+
+ String(date.getDate())
+  .padStart(2,"0");
 
 }
 
@@ -1673,102 +2068,109 @@ function dateKey(date){
    PAYROLL CALCULATION
 ===================================================== */
 
-let lastPayroll=[];
-
-
 function calculatePayroll(){
 
  saveSalariesSilent();
 
- const year=
- Number(document.getElementById("payYear").value);
+ const year =
+  Number(
+   document.getElementById("payYear").value
+  );
 
- const month=
- Number(document.getElementById("payMonth").value);
+ const month =
+  Number(
+   document.getElementById("payMonth").value
+  );
 
  if(!year || !month){
 
-  alert("የኢትዮጵያ ዓመትና ወር ይምረጡ።");
+  alert(
+   "የኢትዮጵያ ዓመትና ወር ይምረጡ።"
+  );
 
   return;
  }
 
- const dates=
- getEthiopianMonthDates(
-  year,
-  month
- );
-
- /*
-   Monday-Friday are working days.
- */
-
- const workingDates=
- dates.filter(x=>{
-
-  const day=x.date.getDay();
-
-  return day>=1 && day<=5;
-
- });
-
-
- const workingDays=
- workingDates.length;
-
- lastPayroll=[];
-
- employees.forEach(employee=>{
-
-  const salary=
-  Number(salaries[employee.id]||0);
-
-  const dailySalary=
-  workingDays>0
-  ? salary/workingDays
-  : 0;
-
-  let worked=0;
-  let absent=0;
-  let lateMinutes=0;
-
-  const employeeRecords=
-  records.filter(
-   r=>r.id===employee.id
+ const dates =
+  getEthiopianMonthDates(
+   year,
+   month
   );
 
-  workingDates.forEach(item=>{
+ const workingDates =
+  dates.filter(x => {
 
-   const key=dateKey(item.date);
+   const day =
+    x.date.getDay();
 
-   const r=
-   employeeRecords.find(
-    x=>x.date===key
+   return day>=1 && day<=5;
+
+  });
+
+ const workingDays =
+  workingDates.length;
+
+ lastPayroll = [];
+
+ employees.forEach(employee => {
+
+  const salary =
+   Number(
+    salaries[employee.id] || 0
    );
+
+  const dailySalary =
+   workingDays > 0
+   ? salary / workingDays
+   : 0;
+
+  let worked = 0;
+
+  let absent = 0;
+
+  let lateMinutes = 0;
+
+  const employeeRecords =
+   records.filter(
+    r => r.id === employee.id
+   );
+
+  workingDates.forEach(item => {
+
+   const key =
+    dateKey(item.date);
+
+   const r =
+    employeeRecords.find(
+     x => x.date === key
+    );
 
    if(r && r.checkIn){
 
     worked++;
 
     /*
-      Late is calculated from 2:30.
-      2:30 = 150 minutes.
+     2:30 = 150 minutes
     */
 
-    const parts=
-    r.checkIn.split(":");
+    const parts =
+     r.checkIn.split(":");
 
-    if(parts.length>=2){
+    if(parts.length >= 2){
 
-     const h=Number(parts[0]);
-     const m=Number(parts[1]);
+     const h =
+      Number(parts[0]);
 
-     const total=h*60+m;
+     const m =
+      Number(parts[1]);
 
-     if(total>150){
+     const total =
+      h*60+m;
 
-      lateMinutes+=
-      total-150;
+     if(total > 150){
+
+      lateMinutes +=
+       total - 150;
 
      }
 
@@ -1783,37 +2185,37 @@ function calculatePayroll(){
   });
 
 
-  /*
-    Absence deduction
-  */
+  /* =================================================
+     ABSENCE DEDUCTION
+  ================================================= */
 
-  const absenceDeduction=
-  absent*dailySalary;
-
-
-  /*
-    Late deduction:
-    hourly salary = daily salary / 8
-  */
-
-  const hourlySalary=
-  dailySalary/8;
-
-  const lateDeduction=
-  (lateMinutes/60)*hourlySalary;
+  const absenceDeduction =
+   absent * dailySalary;
 
 
-  const deduction=
-  absenceDeduction+
-  lateDeduction;
+  /* =================================================
+     LATE DEDUCTION
+  ================================================= */
+
+  const hourlySalary =
+   dailySalary / 8;
+
+  const lateDeduction =
+   (lateMinutes/60) *
+   hourlySalary;
 
 
-  let netSalary=
-  salary-deduction;
+  const deduction =
+   absenceDeduction +
+   lateDeduction;
 
 
-  if(netSalary<0)
-   netSalary=0;
+  let netSalary =
+   salary - deduction;
+
+
+  if(netSalary < 0)
+   netSalary = 0;
 
 
   lastPayroll.push({
@@ -1832,13 +2234,17 @@ function calculatePayroll(){
 
    lateMinutes:lateMinutes,
 
-   absenceDeduction:absenceDeduction,
+   absenceDeduction:
+    absenceDeduction,
 
-   lateDeduction:lateDeduction,
+   lateDeduction:
+    lateDeduction,
 
-   deduction:deduction,
+   deduction:
+    deduction,
 
-   netSalary:netSalary
+   netSalary:
+    netSalary
 
   });
 
@@ -1860,15 +2266,17 @@ function calculatePayroll(){
 
 function saveSalariesSilent(){
 
- employees.forEach(e=>{
+ employees.forEach(e => {
 
-  const input=
-  document.getElementById("salary_"+e.id);
+  const input =
+   document.getElementById(
+    "salary_"+e.id
+   );
 
   if(input){
 
-   salaries[e.id]=
-   Number(input.value)||0;
+   salaries[e.id] =
+    Number(input.value) || 0;
 
   }
 
@@ -1883,101 +2291,80 @@ function saveSalariesSilent(){
 
 
 /* =====================================================
-   RENDER PAYROLL
+   MONEY
 ===================================================== */
 
-function renderPayroll(
- year,
- month,
- workingDays
-){
+function money(value){
 
- const totalSalary=
- lastPayroll.reduce(
-  (sum,r)=>sum+r.salary,
-  0
- );
+ return Number(value || 0)
+  .toLocaleString(
+   "en-US",
+   {
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+   }
+  );
 
- const totalDeduction=
- lastPayroll.reduce(
-  (sum,r)=>sum+r.deduction,
-  0
- );
+}
+ /* =====================================================
+   PAYROLL RENDER
+===================================================== */
 
- const totalNet=
- lastPayroll.reduce(
-  (sum,r)=>sum+r.netSalary,
-  0
- );
+function renderPayroll(year, month, workingDays){
 
- const totalAbsent=
- lastPayroll.reduce(
-  (sum,r)=>sum+r.absent,
-  0
- );
+ const box =
+  document.getElementById("payrollResult");
 
- const totalWorked=
- lastPayroll.reduce(
-  (sum,r)=>sum+r.worked,
-  0
- );
+ if(!box) return;
 
 
- let html=`
+ let html = `
 
- <div class="payrollTotal">
+ <div class="payrollHeader">
 
- <h3>
- 💰 Payroll:
- ${year} ዓ.ም - ${ethMonthName(month)}
- </h3>
+  <h3>
+   💰 SMART Attendance Payroll
+  </h3>
 
- <p>
- የሥራ ቀናት:
- <b>${workingDays}</b>
- </p>
+  <p>
+   📅 ${ethMonthName(month)} ${year}
+  </p>
 
- <p>
- ጠቅላላ Salary:
- <b>${money(totalSalary)}</b> ብር
- </p>
-
- <p>
- ጠቅላላ Worked:
- <b>${totalWorked}</b>
- </p>
-
- <p>
- ጠቅላላ Absent:
- <b>${totalAbsent}</b>
- </p>
-
- <p>
- ጠቅላላ Deduction:
- <b>${money(totalDeduction)}</b> ብር
- </p>
-
- <p class="net">
- ጠቅላላ Net Salary:
- ${money(totalNet)} ብር
- </p>
+  <p>
+   🗓️ የሥራ ቀናት:
+   <b>${workingDays}</b>
+  </p>
 
  </div>
 
- <div style="overflow-x:auto">
+ <div class="tableWrap">
 
- <table>
+ <table class="payrollTable">
 
  <thead>
 
  <tr>
- <th>Employee</th>
- <th>Salary</th>
- <th>Worked</th>
- <th>Absent</th>
- <th>Late</th>
- <th>Deduction</th>
- <th>Net Salary</th>
+
+  <th>Employee ID</th>
+
+  <th>ሠራተኛ</th>
+
+  <th>Salary</th>
+
+  <th>Worked</th>
+
+  <th>Absent</th>
+
+  <th>Late</th>
+
+  <th>Absence Deduction</th>
+
+  <th>Late Deduction</th>
+
+  <th>Total Deduction</th>
+
+  <th>Net Salary</th>
+
  </tr>
 
  </thead>
@@ -1987,41 +2374,57 @@ function renderPayroll(
  `;
 
 
- lastPayroll.forEach(r=>{
+ lastPayroll.forEach(p => {
 
-  html+=`
+  html += `
 
   <tr>
 
-  <td>
-  <b>${escapeHTML(r.id)}</b>
-  <br>
-  ${escapeHTML(r.name)}
-  </td>
+   <td>
+    <b>${escapeHTML(p.id)}</b>
+   </td>
 
-  <td>
-  ${money(r.salary)}
-  </td>
+   <td>
+    ${escapeHTML(p.name)}
+   </td>
 
-  <td>
-  ${r.worked}
-  </td>
+   <td>
+    ${money(p.salary)}
+   </td>
 
-  <td>
-  ${r.absent}
-  </td>
+   <td>
+    ${p.worked}
+   </td>
 
-  <td>
-  ${r.lateMinutes} min
-  </td>
+   <td>
+    <span class="dangerText">
+     ${p.absent}
+    </span>
+   </td>
 
-  <td>
-  ${money(r.deduction)}
-  </td>
+   <td>
+    ${p.lateMinutes} min
+   </td>
 
-  <td class="net">
-  ${money(r.netSalary)}
-  </td>
+   <td>
+    ${money(p.absenceDeduction)}
+   </td>
+
+   <td>
+    ${money(p.lateDeduction)}
+   </td>
+
+   <td>
+    <b>
+     ${money(p.deduction)}
+    </b>
+   </td>
+
+   <td>
+    <strong>
+     ${money(p.netSalary)}
+    </strong>
+   </td>
 
   </tr>
 
@@ -2030,7 +2433,7 @@ function renderPayroll(
  });
 
 
- html+=`
+ html += `
 
  </tbody>
 
@@ -2041,225 +2444,321 @@ function renderPayroll(
  `;
 
 
- document.getElementById("payrollSummary").innerHTML=
- html;
+ box.innerHTML = html;
 
 }
 
 
 /* =====================================================
-   MONEY
+   PRINT PAYROLL
 ===================================================== */
 
-function money(value){
-
- return Number(value||0).toLocaleString(
-  "en-US",
-  {
-   minimumFractionDigits:2,
-   maximumFractionDigits:2
-  }
- );
-
-}
-
-
-/* =====================================================
-   PAYROLL CSV
-===================================================== */
-
-function downloadPayroll(){
+function printPayroll(){
 
  if(!lastPayroll.length){
 
   alert(
-   "መጀመሪያ Calculate Payroll ያድርጉ።"
+   "📋 መጀመሪያ Payroll ያስሉ።"
   );
 
   return;
  }
 
- const year=
- document.getElementById("payYear").value;
 
- const month=
- document.getElementById("payMonth").value;
-
-
- let csv=
- "Employee ID,Full Name,Salary,Working Days,Worked,Absent,Late Minutes,Absence Deduction,Late Deduction,Total Deduction,Net Salary\n";
+ const year =
+  document.getElementById(
+   "payYear"
+  ).value;
 
 
- lastPayroll.forEach(r=>{
-
-  csv+=
-   csvSafe(r.id)+","+
-   `"${csvSafe(r.name)}",`+
-   r.salary+","+
-   r.workingDays+","+
-   r.worked+","+
-   r.absent+","+
-   r.lateMinutes+","+
-   r.absenceDeduction.toFixed(2)+","+
-   r.lateDeduction.toFixed(2)+","+
-   r.deduction.toFixed(2)+","+
-   r.netSalary.toFixed(2)+
-   "\n";
-
- });
+ const month =
+  document.getElementById(
+   "payMonth"
+  ).value;
 
 
- const blob=
- new Blob(
-  ["\ufeff"+csv],
-  {type:"text/csv;charset=utf-8"}
- );
+ const printWindow =
+  window.open(
+   "",
+   "_blank"
+  );
 
 
- const url=
- URL.createObjectURL(blob);
+ if(!printWindow){
 
- const a=document.createElement("a");
-
- a.href=url;
-
- a.download=
- "Payroll_"+year+"_"+ethMonthName(Number(month))+".csv";
-
- document.body.appendChild(a);
-
- a.click();
-
- a.remove();
-
- URL.revokeObjectURL(url);
-
-}
-
-
-/* =====================================================
-   SHOW ALL RECORDS
-===================================================== */
-
-function showAllRecords(){
-
- if(!records.length){
-
-  alert("Attendance መዝገብ የለም።");
+  alert(
+   "⚠️ Popup ተከልክሏል።"
+  );
 
   return;
  }
 
- document.getElementById("history").innerHTML=
 
- records.slice().reverse().map(r=>`
+ let rows = "";
+
+
+ lastPayroll.forEach(p => {
+
+  rows += `
+
+  <tr>
+
+   <td>${escapeHTML(p.id)}</td>
+
+   <td>${escapeHTML(p.name)}</td>
+
+   <td>${money(p.salary)}</td>
+
+   <td>${p.worked}</td>
+
+   <td>${p.absent}</td>
+
+   <td>${p.lateMinutes}</td>
+
+   <td>${money(p.deduction)}</td>
+
+   <td>${money(p.netSalary)}</td>
+
+  </tr>
+
+  `;
+
+ });
+
+
+ printWindow.document.write(`
+
+ <!DOCTYPE html>
+
+ <html>
+
+ <head>
+
+ <meta charset="UTF-8">
+
+ <title>
+  SMART Attendance Payroll
+ </title>
+
+ <style>
+
+ body{
+  font-family:Arial,sans-serif;
+  padding:30px;
+ }
+
+ h2{
+  text-align:center;
+ }
+
+ p{
+  text-align:center;
+ }
+
+ table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+ }
+
+ th,td{
+  border:1px solid #333;
+  padding:8px;
+  text-align:center;
+ }
+
+ th{
+  font-weight:bold;
+ }
+
+ .footer{
+  margin-top:30px;
+  text-align:right;
+ }
+
+ @media print{
+
+  button{
+   display:none;
+  }
+
+ }
+
+ </style>
+
+ </head>
+
+ <body>
+
+ <h2>
+  SMART Attendance Payroll
+ </h2>
+
+ <p>
+  ${ethMonthName(Number(month))}
+  ${year}
+ </p>
+
+ <table>
+
+ <thead>
 
  <tr>
 
- <td>${escapeHTML(r.date)}</td>
-
- <td><b>${escapeHTML(r.id)}</b></td>
-
- <td><b>${escapeHTML(r.name||"--")}</b></td>
-
- <td>${escapeHTML(r.checkIn||"--")}</td>
-
- <td>${escapeHTML(r.checkOut||"--")}</td>
-
- <td>${r.latitude ? "📍 GPS" : "--"}</td>
+  <th>Employee ID</th>
+  <th>Name</th>
+  <th>Salary</th>
+  <th>Worked</th>
+  <th>Absent</th>
+  <th>Late Minutes</th>
+  <th>Deduction</th>
+  <th>Net Salary</th>
 
  </tr>
 
- `).join("");
+ </thead>
+
+ <tbody>
+
+ ${rows}
+
+ </tbody>
+
+ </table>
+
+ <div class="footer">
+
+  <p>
+   Approved By: Dumara Duwe
+  </p>
+
+  <p>
+   SMART Attendance – Chabe
+  </p>
+
+ </div>
+
+ <script>
+
+  window.onload = function(){
+
+   window.print();
+
+  };
+
+ <\/script>
+
+ </body>
+
+ </html>
+
+ `);
+
+
+ printWindow.document.close();
 
 }
 
 
 /* =====================================================
-   ATTENDANCE CSV
+   EXPORT PAYROLL CSV
 ===================================================== */
 
-function downloadReport(){
+function exportPayrollCSV(){
 
- if(!records.length){
+ if(!lastPayroll.length){
 
-  alert("Attendance መዝገብ የለም።");
+  alert(
+   "📋 መጀመሪያ Payroll ያስሉ።"
+  );
 
   return;
  }
 
- let csv=
- "Date,Employee ID,Full Name,Check In,Check Out,Latitude,Longitude\n";
+
+ const headers = [
+
+  "Employee ID",
+  "Employee Name",
+  "Salary",
+  "Working Days",
+  "Worked Days",
+  "Absent Days",
+  "Late Minutes",
+  "Absence Deduction",
+  "Late Deduction",
+  "Total Deduction",
+  "Net Salary"
+
+ ];
 
 
- records.forEach(r=>{
+ const rows =
+  lastPayroll.map(p => [
 
-  csv+=
-   csvSafe(r.date)+","+
-   csvSafe(r.id)+","+
-   `"${csvSafe(r.name)}",`+
-   csvSafe(r.checkIn)+","+
-   csvSafe(r.checkOut)+","+
-   csvSafe(r.latitude)+","+
-   csvSafe(r.longitude)+
-   "\n";
+   csvSafe(p.id),
+   csvSafe(p.name),
+   csvSafe(p.salary),
+   csvSafe(p.workingDays),
+   csvSafe(p.worked),
+   csvSafe(p.absent),
+   csvSafe(p.lateMinutes),
+   csvSafe(p.absenceDeduction),
+   csvSafe(p.lateDeduction),
+   csvSafe(p.deduction),
+   csvSafe(p.netSalary)
+
+  ]);
+
+
+ let csv =
+  headers.join(",") + "\n";
+
+
+ rows.forEach(row => {
+
+  csv +=
+   row.join(",") + "\n";
 
  });
 
 
- const blob=
- new Blob(
-  ["\ufeff"+csv],
-  {type:"text/csv;charset=utf-8"}
- );
+ const blob =
+  new Blob(
+   ["\uFEFF" + csv],
+   {
+    type:
+     "text/csv;charset=utf-8;"
+   }
+  );
 
- const url=
- URL.createObjectURL(blob);
 
- const a=document.createElement("a");
+ const url =
+  URL.createObjectURL(blob);
 
- a.href=url;
 
- a.download=
- "SMART_Attendance_Report.csv";
+ const a =
+  document.createElement("a");
+
+
+ a.href = url;
+
+ a.download =
+  "SMART_Attendance_Payroll.csv";
+
 
  document.body.appendChild(a);
 
  a.click();
 
- a.remove();
+ document.body.removeChild(a);
+
 
  URL.revokeObjectURL(url);
 
-}
-
-
-function csvSafe(value){
-
- return String(value??"")
- .replace(/"/g,'""');
-
-}
-
-
-/* =====================================================
-   CLEAR
-===================================================== */
-
-function clearRecords(){
-
- if(!confirm(
-  "⚠️ በዚህ ስልክ ያሉትን Attendance መዝገቦች ማጥፋት ይፈልጋሉ?"
- ))return;
-
- records=[];
-
- save();
-
- render();
 
  showStatus(
-  "🗑️ Attendance መዝገብ ተሰርዟል።",
+  "💰 Payroll CSV በተሳካ ሁኔታ Export ተደርጓል።",
   "ok"
  );
 
@@ -2267,72 +2766,1058 @@ function clearRecords(){
 
 
 /* =====================================================
-   LOGOUT
+   DOWNLOAD ATTENDANCE CSV
 ===================================================== */
 
-function logout(){
+function downloadAttendanceCSV(){
 
- stopQR();
+ exportCSV();
 
- currentEmployee=null;
+}
 
- currentLocation={
-  latitude:"",
-  longitude:""
+
+/* =====================================================
+   BACKUP ALL DATA
+===================================================== */
+
+function backupData(){
+
+ const backup = {
+
+  employees:
+   employees,
+
+  records:
+   records,
+
+  salaries:
+   salaries,
+
+  leaveRequests:
+   leaveRequests,
+
+  exportDate:
+   new Date().toISOString()
+
  };
 
- document.getElementById("employeeID").value="";
 
- document.getElementById("employeeInfo").innerHTML="";
+ const blob =
+  new Blob(
+   [
+    JSON.stringify(
+     backup,
+     null,
+     2
+    )
+   ],
+   {
+    type:
+     "application/json"
+   }
+  );
 
- document.getElementById("gpsInfo").innerHTML="";
 
- document.getElementById("status").innerHTML="";
+ const url =
+  URL.createObjectURL(blob);
 
- document.getElementById("adminPassword").value="";
 
- document.getElementById("adminPanel")
- .classList.add("hidden");
+ const a =
+  document.createElement("a");
 
- document.getElementById("payrollSummary").innerHTML="";
 
- document.getElementById("app")
- .classList.add("hidden");
+ a.href = url;
 
- document.getElementById("cover")
- .classList.remove("hidden");
+ a.download =
+  "SMART_Attendance_Backup.json";
+
+
+ document.body.appendChild(a);
+
+ a.click();
+
+ document.body.removeChild(a);
+
+
+ URL.revokeObjectURL(url);
+
+
+ showStatus(
+  "💾 Backup በተሳካ ሁኔታ ተዘጋጅቷል።",
+  "ok"
+ );
 
 }
 
 
 /* =====================================================
-   OPEN APP
+   RESTORE DATA
 ===================================================== */
 
-function openApp(){
+function restoreData(event){
 
- document.getElementById("cover")
- .classList.add("hidden");
+ const file =
+  event.target.files[0];
 
- document.getElementById("app")
- .classList.remove("hidden");
 
- setCurrentPayrollDate();
+ if(!file) return;
 
- updateClock();
 
- render();
+ const reader =
+  new FileReader();
+
+
+ reader.onload =
+  function(e){
+
+   try{
+
+    const data =
+     JSON.parse(
+      e.target.result
+     );
+
+
+    if(
+     Array.isArray(
+      data.records
+     )
+    ){
+
+     records =
+      data.records;
+
+     localStorage.setItem(
+      "smartAttendanceRecords",
+      JSON.stringify(records)
+     );
+
+    }
+
+
+    if(
+     data.salaries &&
+     typeof data.salaries === "object"
+    ){
+
+     salaries =
+      data.salaries;
+
+     localStorage.setItem(
+      "smartAttendanceSalaries",
+      JSON.stringify(salaries)
+     );
+
+    }
+
+
+    if(
+     Array.isArray(
+      data.leaveRequests
+     )
+    ){
+
+     leaveRequests =
+      data.leaveRequests;
+
+     localStorage.setItem(
+      "smartAttendanceLeaves",
+      JSON.stringify(
+       leaveRequests
+      )
+     );
+
+    }
+
+
+    renderRecords();
+
+    renderMyLeaves();
+
+
+    showStatus(
+     "✅ Backup Data በተሳካ ሁኔታ Restored ሆኗል።",
+     "ok"
+    );
+
+
+   }catch(error){
+
+    console.error(
+     "Restore error:",
+     error
+    );
+
+
+    showStatus(
+     "❌ Backup File ትክክል አይደለም።",
+     "err"
+    );
+
+   }
+
+  };
+
+
+ reader.readAsText(file);
 
 }
 
 
 /* =====================================================
-   START
+   RESET APPLICATION
 ===================================================== */
 
-updateClock();
+function resetApplication(){
 
-</script>
+ if(!confirm(
+  "⚠️ ሁሉንም Local App Data ማጥፋት ይፈልጋሉ?\n\nይህ ተግባር ሊመለስ አይችልም።"
+ )){
+
+  return;
+ }
+
+
+ localStorage.removeItem(
+  "smartAttendanceRecords"
+ );
+
+
+ localStorage.removeItem(
+  "smartAttendanceSalaries"
+ );
+
+
+ localStorage.removeItem(
+  "smartAttendanceLeaves"
+ );
+
+
+ location.reload();
+
+}
+
+
+/* =====================================================
+   ONLINE / OFFLINE STATUS
+===================================================== */
+
+function updateNetworkStatus(){
+
+ const indicator =
+  document.getElementById(
+   "networkStatus"
+  );
+
+
+ if(!indicator) return;
+
+
+ if(navigator.onLine){
+
+  indicator.innerHTML =
+   "🟢 Online";
+
+  indicator.className =
+   "online";
+
+ }else{
+
+  indicator.innerHTML =
+   "🔴 Offline";
+
+  indicator.className =
+   "offline";
+
+ }
+
+}
+
+
+window.addEventListener(
+ "online",
+ updateNetworkStatus
+);
+
+
+window.addEventListener(
+ "offline",
+ updateNetworkStatus
+);
+
+
+/* =====================================================
+   INITIAL NETWORK STATUS
+===================================================== */
+
+document.addEventListener(
+ "DOMContentLoaded",
+ function(){
+
+  updateNetworkStatus();
+
+ }
+);
+ /* =====================================================
+   5/5
+   FINAL FUNCTIONS
+===================================================== */
+
+
+/* =====================================================
+   SERVICE WORKER / PWA
+===================================================== */
+
+function registerServiceWorker(){
+
+ if(
+  "serviceWorker" in navigator
+ ){
+
+  window.addEventListener(
+   "load",
+   function(){
+
+    navigator.serviceWorker
+     .register("./sw.js")
+     .then(
+      function(registration){
+
+       console.log(
+        "✅ Service Worker registered:",
+        registration.scope
+       );
+
+      }
+     )
+     .catch(
+      function(error){
+
+       console.log(
+        "Service Worker error:",
+        error
+       );
+
+      }
+     );
+
+   }
+  );
+
+ }
+
+}
+
+
+/* =====================================================
+   INSTALL APP
+===================================================== */
+
+let deferredPrompt = null;
+
+
+window.addEventListener(
+ "beforeinstallprompt",
+ function(event){
+
+  event.preventDefault();
+
+  deferredPrompt = event;
+
+
+  const installButton =
+   document.getElementById(
+    "installAppBtn"
+   );
+
+
+  if(installButton){
+
+   installButton.classList.remove(
+    "hidden"
+   );
+
+  }
+
+ });
+
+
+async function installApp(){
+
+ if(!deferredPrompt){
+
+  showStatus(
+   "ℹ️ App ለመጫን አሁን አይገኝም።",
+   "err"
+  );
+
+  return;
+ }
+
+
+ deferredPrompt.prompt();
+
+
+ const result =
+  await deferredPrompt.userChoice;
+
+
+ console.log(
+  "Install result:",
+  result.outcome
+ );
+
+
+ deferredPrompt = null;
+
+
+ const button =
+  document.getElementById(
+   "installAppBtn"
+  );
+
+
+ if(button){
+
+  button.classList.add(
+   "hidden"
+  );
+
+ }
+
+}
+
+
+/* =====================================================
+   APP INSTALLED
+===================================================== */
+
+window.addEventListener(
+ "appinstalled",
+ function(){
+
+  showStatus(
+   "📱 SMART Attendance App በተሳካ ሁኔታ ተጫኗል።",
+   "ok"
+  );
+
+ });
+
+
+/* =====================================================
+   SHOW / HIDE ELEMENT
+===================================================== */
+
+function toggleElement(id){
+
+ const element =
+  document.getElementById(id);
+
+ if(!element) return;
+
+
+ element.classList.toggle(
+  "hidden"
+ );
+
+}
+
+
+/* =====================================================
+   SAFE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+ if(
+  value === null ||
+  value === undefined
+ ){
+
+  return "";
+
+ }
+
+
+ return String(value)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   STATUS MESSAGE
+===================================================== */
+
+function showStatus(
+ message,
+ type="ok"
+){
+
+ const status =
+  document.getElementById(
+   "status"
+  );
+
+
+ if(!status){
+
+  console.log(message);
+
+  return;
+ }
+
+
+ status.innerHTML =
+  message;
+
+
+ status.className =
+  "status " + type;
+
+
+ clearTimeout(
+  window.statusTimer
+ );
+
+
+ window.statusTimer =
+  setTimeout(
+   function(){
+
+    status.innerHTML = "";
+
+    status.className =
+     "status";
+
+   },
+   5000
+  );
+
+}
+
+
+/* =====================================================
+   CLOCK
+===================================================== */
+
+function updateClock(){
+
+ const clock =
+  document.getElementById(
+   "liveClock"
+  );
+
+
+ if(!clock) return;
+
+
+ const now =
+  ethiopiaDate();
+
+
+ const hours =
+  String(
+   now.getHours()
+  ).padStart(2,"0");
+
+
+ const minutes =
+  String(
+   now.getMinutes()
+  ).padStart(2,"0");
+
+
+ const seconds =
+  String(
+   now.getSeconds()
+  ).padStart(2,"0");
+
+
+ clock.innerHTML =
+  `🕐 ${hours}:${minutes}:${seconds}`;
+
+}
+
+
+/* =====================================================
+   ETHIOPIA DATE
+===================================================== */
+
+function ethiopiaDate(){
+
+ const now =
+  new Date();
+
+
+ /*
+  Ethiopia uses UTC+3.
+  Create an Ethiopia-local Date
+  without changing the user's
+  computer timezone.
+ */
+
+ const utc =
+  now.getTime() +
+  (
+   now.getTimezoneOffset()
+   * 60000
+  );
+
+
+ return new Date(
+  utc +
+  (3 * 60 * 60000)
+ );
+
+}
+
+
+/* =====================================================
+   TODAY ETHIOPIAN DATE DISPLAY
+===================================================== */
+
+function displayEthiopianDate(){
+
+ const element =
+  document.getElementById(
+   "ethiopianDate"
+  );
+
+
+ if(!element) return;
+
+
+ const eth =
+  gregorianToEthiopian(
+   ethiopiaDate()
+  );
+
+
+ element.innerHTML =
+  `📅 ${eth.day} ${ethMonthName(eth.month)} ${eth.year}`;
+
+}
+
+
+/* =====================================================
+   CURRENT EMPLOYEE
+===================================================== */
+
+function getCurrentEmployee(){
+
+ const idInput =
+  document.getElementById(
+   "employeeID"
+  );
+
+
+ if(!idInput){
+
+  return null;
+
+ }
+
+
+ const id =
+  idInput.value.trim();
+
+
+ if(!id){
+
+  return null;
+
+ }
+
+
+ return employees.find(
+  e => e.id === id
+ ) || null;
+
+}
+
+
+/* =====================================================
+   EMPLOYEE SEARCH
+===================================================== */
+
+function searchEmployee(){
+
+ const input =
+  document.getElementById(
+   "employeeID"
+  );
+
+
+ const result =
+  document.getElementById(
+   "employeeSearchResult"
+  );
+
+
+ if(!input || !result)
+  return;
+
+
+ const id =
+  input.value.trim();
+
+
+ if(!id){
+
+  result.innerHTML = "";
+
+  return;
+
+ }
+
+
+ const employee =
+  employees.find(
+   e => e.id === id
+  );
+
+
+ if(employee){
+
+  result.innerHTML =
+   `👤 ${escapeHTML(employee.name)}`;
+
+ }else{
+
+  result.innerHTML =
+   "❌ Employee ID አልተገኘም።";
+
+ }
+
+}
+
+
+/* =====================================================
+   CLEAR EMPLOYEE INPUT
+===================================================== */
+
+function clearEmployeeInput(){
+
+ const input =
+  document.getElementById(
+   "employeeID"
+  );
+
+
+ const result =
+  document.getElementById(
+   "employeeSearchResult"
+  );
+
+
+ if(input)
+  input.value = "";
+
+
+ if(result)
+  result.innerHTML = "";
+
+}
+
+
+/* =====================================================
+   LEAVE REQUEST FORM RESET
+===================================================== */
+
+function clearLeaveForm(){
+
+ const fields = [
+
+  "leaveType",
+  "leaveStart",
+  "leaveEnd",
+  "leaveReason"
+
+ ];
+
+
+ fields.forEach(
+  function(id){
+
+   const element =
+    document.getElementById(id);
+
+   if(element){
+
+    element.value = "";
+
+   }
+
+  }
+ );
+
+}
+
+
+/* =====================================================
+   GENERATE UNIQUE ID
+===================================================== */
+
+function generateID(){
+
+ return Date.now() +
+  Math.floor(
+   Math.random() * 1000
+  );
+
+}
+
+
+/* =====================================================
+   BACKUP BEFORE RESET
+===================================================== */
+
+function backupBeforeReset(){
+
+ try{
+
+  backupData();
+
+  return true;
+
+ }catch(error){
+
+  console.error(
+   "Backup error:",
+   error
+  );
+
+  return false;
+
+ }
+
+}
+
+
+/* =====================================================
+   KEYBOARD SHORTCUT
+===================================================== */
+
+document.addEventListener(
+ "keydown",
+ function(event){
+
+  /*
+   Ctrl + Shift + A
+   → Admin Panel
+  */
+
+  if(
+   event.ctrlKey &&
+   event.shiftKey &&
+   event.key.toLowerCase() === "a"
+  ){
+
+   const admin =
+    document.getElementById(
+     "adminPanel"
+    );
+
+   if(admin){
+
+    admin.classList.remove(
+     "hidden"
+    );
+
+   }
+
+  }
+
+
+  /*
+   Escape
+   → Close hidden/modal panels
+  */
+
+  if(
+   event.key === "Escape"
+  ){
+
+   document
+    .querySelectorAll(
+     ".modal"
+    )
+    .forEach(
+     function(element){
+
+      element.classList.add(
+       "hidden"
+      );
+
+     }
+    );
+
+  }
+
+ });
+
+
+/* =====================================================
+   INITIAL APP STARTUP
+===================================================== */
+
+document.addEventListener(
+ "DOMContentLoaded",
+ function(){
+
+  /*
+   Network
+  */
+
+  updateNetworkStatus();
+
+
+  /*
+   Ethiopian date
+  */
+
+  displayEthiopianDate();
+
+
+  /*
+   Live clock
+  */
+
+  updateClock();
+
+
+  setInterval(
+   updateClock,
+   1000
+  );
+
+
+  /*
+   Service Worker
+  */
+
+  registerServiceWorker();
+
+
+  /*
+   Employee search
+  */
+
+  const employeeInput =
+   document.getElementById(
+    "employeeID"
+   );
+
+
+  if(employeeInput){
+
+   employeeInput.addEventListener(
+    "input",
+    searchEmployee
+   );
+
+  }
+
+
+  /*
+   Existing records
+  */
+
+  try{
+
+   if(
+    typeof renderRecords ===
+    "function"
+   ){
+
+    renderRecords();
+
+   }
+
+  }catch(error){
+
+   console.error(
+    "Records startup error:",
+    error
+   );
+
+  }
+
+
+  /*
+   Leave requests
+  */
+
+  try{
+
+   if(
+    typeof renderMyLeaves ===
+    "function"
+   ){
+
+    renderMyLeaves();
+
+   }
+
+  }catch(error){
+
+   console.error(
+    "Leave startup error:",
+    error
+   );
+
+  }
+
+
+  /*
+   Payroll date
+  */
+
+  try{
+
+   if(
+    typeof setCurrentPayrollDate ===
+    "function"
+   ){
+
+    setCurrentPayrollDate();
+
+   }
+
+  }catch(error){
+
+   console.error(
+    "Payroll startup error:",
+    error
+   );
+
+  }
+
+ });
+
+
+/* =====================================================
+   FINAL APP MESSAGE
+===================================================== */
+
+console.log(
+ "✅ SMART Attendance – Chabe loaded successfully."
+);
+
+console.log(
+ "📱 Offline Attendance + Payroll + Leave Management"
+);
+
+
+/* =====================================================
+   END OF JAVASCRIPT
+===================================================== */
+ </script>
 
 </body>
 </html>
