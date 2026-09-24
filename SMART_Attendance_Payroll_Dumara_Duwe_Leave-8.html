@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1769aa">
+<title>SMART Attendance + Payroll</title>
+<script src="https://unpkg.com/html5-qrcode" defer></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Ethiopic",sans-serif;background:#f3f6f9;color:#17212b}
+.hidden{display:none!important}.cover{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:linear-gradient(135deg,#1769aa,#0d47a1);color:#fff}
+.coverBox{width:100%;max-width:600px}.cover h1{font-size:38px;margin:10px 0}.cover h2{font-size:28px}.cover button{background:#fff;color:#0d47a1;border:0;border-radius:14px;padding:15px 28px;font-size:18px;font-weight:bold;cursor:pointer}
+header{background:linear-gradient(135deg,#1769aa,#0d47a1);color:#fff;padding:20px}.container{max-width:1100px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 4px 18px #00000012}.clock{font-size:30px;font-weight:bold;text-align:center;padding:15px;background:#eef6ff;border-radius:14px;margin:12px 0}
+.info{background:#eef6ff;padding:13px;border-radius:12px;margin:10px 0}button{border:0;border-radius:12px;padding:13px 18px;font-size:16px;cursor:pointer;margin:4px}button:disabled{opacity:.55;cursor:not-allowed}
+.primary{background:#1769aa;color:#fff}.success{background:#159447;color:#fff}.danger{background:#c62828;color:#fff}.light{background:#e8eef5;color:#17212b}
+input,select,textarea{width:100%;padding:13px;border:1px solid #ccd6df;border-radius:10px;margin:7px 0;font-size:16px}
+table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #e7ebef;text-align:left;white-space:nowrap}th{background:#eef6ff}
+.msg{padding:12px;border-radius:10px;margin-top:10px;background:#fff4d6}.ok{background:#e7f6ea;color:#167b2c}.err{background:#fdecec;color:#b42318}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}.stat{background:#eef6ff;border-radius:15px;padding:15px}.stat b{display:block;font-size:24px;margin-top:5px}
+#reader{width:100%;max-width:400px;margin:15px auto}footer{text-align:center;padding:25px;color:#71808f}.badge{padding:5px 9px;border-radius:20px;background:#e7f6ea;color:#167b2c;font-size:13px}
+.payrollTotal{background:#e8f5e9;border-radius:15px;padding:18px;margin:12px 0}.net{font-weight:bold;font-size:18px}
+@media(max-width:600px){.cover h1{font-size:30px}.cover h2{font-size:23px}.clock{font-size:25px}button{width:100%;margin:5px 0}th,td{font-size:13px;padding:8px}}
+</style>
+</head>
+<body>
+
+<section id="cover" class="cover">
+<div class="coverBox">
+<h1>እንኳን ደህና መጡ</h1>
+<h2>SMART Attendance</h2>
+<p>የሠራተኞች መግቢያና መውጫ መቆጣጠሪያ</p>
+<p>📷 QR Scan + 📍 GPS + 📝 Leave + 💰 Payroll</p>
+<button onclick="openApp()">App ይክፈቱ</button>
+<p style="margin-top:30px">የተዘጋጀው በ<strong>ዱማራ ዱዌ</strong></p>
+</div>
+</section>
+
+<div id="app" class="hidden">
+<header><div class="container">
+<h1>SMART Attendance + Payroll</h1>
+<p>የሠራተኞች መገኘት፣ ፈቃድ እና Payroll አስተዳደር</p>
+<p>የተዘጋጀው በዱማራ ዱዌ</p>
+</div></header>
+
+<main class="container">
+<div class="card">
+<h2>🕐 የአሁኑ ሰዓት</h2><div id="clock" class="clock">--:--:--</div>
+<div id="dateText" style="text-align:center">--</div>
+</div>
+
+<div class="card">
+<h2>📅 የሥራ ቀናት</h2>
+<p>ሰኞ • ማክሰኞ • ረቡዕ • ሐሙስ • ዓርብ</p><hr>
+<p>🟢 <b>Check-in:</b> 2:30 – 3:00</p><p>🔴 <b>Check-out:</b> 11:00 – 11:30</p>
+<p>የሰዓቱ ቁጥጥር በኢትዮጵያ ሰዓት ነው።</p>
+</div>
+
+<div class="card">
+<h2>👤 የሠራተኛ መግቢያ</h2>
+<input id="employeeID" placeholder="Employee ID ለምሳሌ EMP001" autocomplete="off">
+<button class="primary" onclick="verifyEmployee()">🔎 ሠራተኛ ፈልግ</button>
+<button class="primary" onclick="scanQR()">📷 QR Scan</button>
+<button class="light" onclick="stopQR()">⏹ QR Stop</button>
+<div id="reader"></div><div id="employeeInfo"></div>
+</div>
+
+<div class="card">
+<h2>📝 Attendance</h2>
+<button id="checkInBtn" class="success" onclick="checkIn()">🟢 Check In</button>
+<button id="checkOutBtn" class="danger" onclick="checkOut()">🔴 Check Out</button>
+<button class="light" onclick="getLocation()">📍 GPS አረጋግጥ</button>
+<div id="gpsInfo"></div><div id="status"></div>
+</div>
+
+<div class="grid">
+<div class="stat">ዛሬ<b id="todayCount">0</b>መዝገብ</div>
+<div class="stat">Check In<b id="cin">--</b></div>
+<div class="stat">Check Out<b id="cout">--</b></div>
+</div>
+
+<div class="card">
+<h2>📊 Attendance History</h2><div style="overflow-x:auto"><table>
+<thead><tr><th>ቀን</th><th>Employee ID</th><th>ሙሉ ስም</th><th>Check In</th><th>Check Out</th><th>GPS</th></tr></thead>
+<tbody id="history"><tr><td colspan="6">Employee ID ያስገቡ።</td></tr></tbody>
+</table></div>
+</div>
+
+<div class="card">
+<h2>🏖️ የፈቃድ መጠየቂያ</h2>
+<p>ሠራተኛው የፈቃድ ጥያቄ ለAdmin ይልካል።</p>
+<select id="leaveType">
+<option value="">የፈቃድ ዓይነት ይምረጡ</option>
+<option value="Annual Leave">Annual Leave / ዓመታዊ ፈቃድ</option>
+<option value="Sick Leave">Sick Leave / የሕመም ፈቃድ</option>
+<option value="Emergency Leave">Emergency Leave / የአስቸኳይ ጊዜ</option>
+<option value="Maternity Leave">Maternity Leave / የእናቶች ፈቃድ</option>
+<option value="Paternity Leave">Paternity Leave / የአባቶች ፈቃድ</option>
+<option value="Other">Other / ሌላ</option>
+</select>
+<label>መጀመሪያ ቀን</label><input id="leaveStart" type="date">
+<label>መጨረሻ ቀን</label><input id="leaveEnd" type="date">
+<textarea id="leaveReason" placeholder="የፈቃድ ምክንያት"></textarea>
+<button class="primary" onclick="submitLeaveRequest()">📤 ፈቃድ ጠይቅ</button>
+<div id="leaveMessage"></div>
+</div>
+
+<div class="card">
+<h2>📋 የእኔ ፈቃድ ታሪክ</h2><div style="overflow-x:auto"><table>
+<thead><tr><th>ዓይነት</th><th>ከ</th><th>እስከ</th><th>ምክንያት</th><th>ሁኔታ</th></tr></thead>
+<tbody id="myLeaveHistory"><tr><td colspan="5">Employee ID ያስገቡ።</td></tr></tbody>
+</table></div>
+</div>
+
+<div class="card">
+<h2>🔐 Admin</h2>
+<input type="password" id="adminPassword" placeholder="Admin Password" autocomplete="off">
+<button class="primary" onclick="adminLogin()">Admin Login</button>
+
+<div id="adminPanel" class="hidden">
+<hr><h3>Admin Dashboard</h3>
+<button class="primary" onclick="downloadReport()">📄 Attendance CSV</button>
+<button class="primary" onclick="showAllRecords()">👥 ሁሉንም Attendance አሳይ</button>
+<button class="danger" onclick="clearRecords()">🗑️ Attendance አጥፋ</button>
+
+<hr><h2>🏖️ Leave Management</h2>
+<div style="overflow-x:auto"><table>
+<thead><tr><th>ID</th><th>ስም</th><th>ዓይነት</th><th>ከ</th><th>እስከ</th><th>ምክንያት</th><th>ሁኔታ</th><th>Action</th></tr></thead>
+<tbody id="adminLeaveTable"><tr><td colspan="8">ምንም የፈቃድ ጥያቄ የለም።</td></tr></tbody>
+</table></div>
+
+<hr><h2>💰 Payroll</h2><p>የኢትዮጵያ ዓመትና ወር ይምረጡ።</p>
+<div class="grid">
+<div><label>የኢትዮጵያ ዓመት</label><input id="payYear" type="number" min="2000" max="2100"></div>
+<div><label>ወር</label><select id="payMonth">
+<option value="1">መስከረም</option><option value="2">ጥቅምት</option><option value="3">ኅዳር</option><option value="4">ታኅሣሥ</option>
+<option value="5">ጥር</option><option value="6">የካቲት</option><option value="7">መጋቢት</option><option value="8">ሚያዝያ</option>
+<option value="9">ግንቦት</option><option value="10">ሰኔ</option><option value="11">ሐምሌ</option><option value="12">ነሐሴ</option><option value="13">ጳጉሜን</option>
+</select></div></div>
+<button class="success" onclick="calculatePayroll()">🧮 Calculate Payroll</button>
+<button class="primary" onclick="downloadPayroll()">📊 Payroll CSV</button>
+<div id="payrollSummary"></div>
+
+<h3>💵 የሠራተኛ ደመወዝ</h3>
+<div style="overflow-x:auto"><table><thead><tr><th>Employee ID</th><th>ሙሉ ስም</th><th>Salary</th></tr></thead><tbody id="salaryTable"></tbody></table></div>
+<button class="success" onclick="saveSalaries()">💾 Salary አስቀምጥ</button>
+</div>
+</div>
+
+<button class="light" onclick="logout()">ውጣ</button>
+</main>
+<footer>SMART Attendance + Payroll<br>የተዘጋጀው በዱማራ ዱዌ</footer>
+</div>
+
+<script>
+let currentEmployee=null,currentLocation={latitude:"",longitude:""};
+let records=JSON.parse(localStorage.getItem("smartAttendanceRecords")||"[]");
+let salaries=JSON.parse(localStorage.getItem("smartAttendanceSalaries")||"{}");
+let leaveRequests=JSON.parse(localStorage.getItem("smartAttendanceLeaveRequests")||"[]");
+let qrScanner=null,lastPayroll=[];
+const ADMIN_PIN="12345678";
+
+const employees=[
+{id:"EMP001",name:"ዱማራ ዱዌ",qr:"EMP001"},{id:"EMP002",name:"መስቀል ሳሙኤል",qr:"EMP002"},
+{id:"EMP003",name:"ማቴዎስ መንግቱ",qr:"EMP003"},{id:"EMP004",name:"አሸናፍ ኢንድራስ",qr:"EMP004"},
+{id:"EMP005",name:"አክልሉ አባዬ",qr:"EMP005"},{id:"EMP006",name:"አየለ አባ",qr:"EMP006"},
+{id:"EMP007",name:"ሻሻሞ ሻላ",qr:"EMP007"},{id:"EMP008",name:"ዳዊት ቦርሳሞ",qr:"EMP008"},
+{id:"EMP009",name:"አሥራት አመሎ",qr:"EMP009"},{id:"EMP010",name:"ህሩት ሀላላ",qr:"EMP010"},
+{id:"EMP011",name:"ታደሠ ጉጆላ",qr:"EMP011"},{id:"EMP012",name:"ደስታ ዳኩራ",qr:"EMP012"},
+{id:"EMP013",name:"አጥናፉ ሀሮ",qr:"EMP013"},{id:"EMP014",name:"አገኘ በየኔ",qr:"EMP014"},
+{id:"EMP015",name:"አብነት ላሚሶ",qr:"EMP015"},{id:"EMP016",name:"አበራ አስረስ",qr:"EMP016"},
+{id:"EMP017",name:"ገናለ ጋጋ",qr:"EMP017"},{id:"EMP018",name:"ሎተር ጌታቸው",qr:"EMP018"},
+{id:"EMP019",name:"ወንድሙ የተራ",qr:"EMP019"},{id:"EMP020",name:"አሸኛፍ ማጃ",qr:"EMP020"}
+];
+if(!salaries.EMP001)salaries.EMP001=17439;
+if(!salaries.EMP002)salaries.EMP002=15739;
+if(!salaries.EMP003)salaries.EMP003=19645;
+
+function ethiopiaDate(){return new Date(new Date().toLocaleString("en-US",{timeZone:"Africa/Addis_Ababa"}));}
+function today(){const d=ethiopiaDate();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function minutesNow(){const d=ethiopiaDate();return d.getHours()*60+d.getMinutes();}
+function workingDay(){const d=ethiopiaDate().getDay();return d>=1&&d<=5;}
+function escapeHTML(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+function money(v){return Number(v||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function csvSafe(v){return String(v??"").replace(/"/g,'""');}
+
+function updateClock(){
+ const d=ethiopiaDate();
+ document.getElementById("clock").textContent=d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+ document.getElementById("dateText").textContent=d.toLocaleDateString("am-ET",{year:"numeric",month:"long",day:"numeric",weekday:"long"});
+}
+setInterval(updateClock,1000);
+
+function showStatus(t,type){const x=document.getElementById("status");x.className="msg "+type;x.innerHTML=t;}
+function showLeaveMessage(t,type){const x=document.getElementById("leaveMessage");x.className="msg "+type;x.innerHTML=t;}
+function findEmployee(id){if(!id)return null;const v=String(id).trim().toUpperCase();return employees.find(e=>e.id===v||e.qr.toUpperCase()===v)||null;}
+
+function verifyEmployee(){
+ const input=document.getElementById("employeeID").value.trim();
+ if(!input){showStatus("❌ Employee ID ያስገቡ።","err");return false;}
+ const e=findEmployee(input);
+ if(!e){currentEmployee=null;document.getElementById("employeeInfo").innerHTML='<div class="msg err">❌ Employee ID አልተገኘም።</div>';return false;}
+ currentEmployee=e;
+ document.getElementById("employeeInfo").innerHTML=`<div class="info"><b>👤 ሙሉ ስም:</b> ${escapeHTML(e.name)}<br><b>🆔 Employee ID:</b> ${escapeHTML(e.id)}<br><br><span class="badge">📱 Verified</span></div>`;
+ render();renderMyLeave();return true;
+}
+
+function getLocation(){
+ if(!navigator.geolocation){showStatus("❌ GPS አይደገፍም።","err");return;}
+ showStatus("📍 GPS እየፈለገ ነው...","ok");
+ navigator.geolocation.getCurrentPosition(p=>{
+ currentLocation.latitude=p.coords.latitude;currentLocation.longitude=p.coords.longitude;
+ document.getElementById("gpsInfo").innerHTML=`<div class="info">📍 <b>GPS ተረጋግጧል</b><br>Latitude: ${p.coords.latitude.toFixed(6)}<br>Longitude: ${p.coords.longitude.toFixed(6)}<br>Accuracy: ${Math.round(p.coords.accuracy)} m</div>`;
+ showStatus("📍 GPS ተረጋግጧል።","ok");
+ },()=>showStatus("❌ GPS Location ፈቃድ ይስጡ እና GPS ክፈቱ።","err"),{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+}
+function hasGPS(){return currentLocation.latitude!==""&&currentLocation.longitude!=="";}
+function createRecord(e){return{date:today(),id:e.id,name:e.name,checkIn:"",checkOut:"",latitude:"",longitude:""};}
+function isEmployeeOnLeave(id,date){return leaveRequests.some(r=>r.employeeID===id&&r.status==="Approved"&&date>=r.start&&date<=r.end);}
+
+function checkIn(){
+ if(!currentEmployee&&!verifyEmployee())return;
+ if(isEmployeeOnLeave(currentEmployee.id,today())){showStatus("🏖️ ዛሬ Approved Leave ላይ ነዎት። Check-in አያስፈልግም።","ok");return;}
+ if(!hasGPS()){showStatus("📍 መጀመሪያ GPS አረጋግጥ።","err");return;}
+ if(!workingDay()){showStatus("❌ ዛሬ የሥራ ቀን አይደለም።","err");return;}
+ const m=minutesNow();if(m<150||m>180){showStatus("❌ የCheck-in ሰዓት 2:30–3:00 ነው።","err");return;}
+ let r=records.find(x=>x.id===currentEmployee.id&&x.date===today());
+ if(r&&r.checkIn){showStatus("❌ ዛሬ Check-in ቀድሞ ተመዝግቧል።","err");return;}
+ if(!r){r=createRecord(currentEmployee);records.push(r);}
+ r.checkIn=ethiopiaDate().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+ r.latitude=currentLocation.latitude;r.longitude=currentLocation.longitude;save();render();showStatus("✅ Check-in በስኬት ተመዝግቧል።","ok");
+}
+function checkOut(){
+ if(!currentEmployee&&!verifyEmployee())return;
+ if(isEmployeeOnLeave(currentEmployee.id,today())){showStatus("🏖️ ዛሬ Approved Leave ላይ ነዎት።","ok");return;}
+ if(!hasGPS()){showStatus("📍 መጀመሪያ GPS አረጋግጥ።","err");return;}
+ if(!workingDay()){showStatus("❌ ዛሬ የሥራ ቀን አይደለም።","err");return;}
+ const m=minutesNow();if(m<660||m>690){showStatus("❌ የCheck-out ሰዓት 11:00–11:30 ነው።","err");return;}
+ const r=records.find(x=>x.id===currentEmployee.id&&x.date===today());
+ if(!r||!r.checkIn){showStatus("❌ መጀመሪያ Check-in ያድርጉ።","err");return;}
+ if(r.checkOut){showStatus("❌ ዛሬ Check-out ቀድሞ ተመዝግቧል።","err");return;}
+ r.checkOut=ethiopiaDate().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+ r.latitude=currentLocation.latitude;r.longitude=currentLocation.longitude;save();render();showStatus("✅ Check-out በስኬት ተመዝግቧል።","ok");
+}
+function save(){localStorage.setItem("smartAttendanceRecords",JSON.stringify(records));}
+
+function render(){
+ const h=document.getElementById("history");
+ if(!currentEmployee){h.innerHTML='<tr><td colspan="6">Employee ID ያስገቡ።</td></tr>';return;}
+ const mine=records.filter(x=>x.id===currentEmployee.id),r=mine.find(x=>x.date===today());
+ document.getElementById("todayCount").textContent=mine.length;document.getElementById("cin").textContent=r?.checkIn||"--";document.getElementById("cout").textContent=r?.checkOut||"--";
+ if(!mine.length){h.innerHTML='<tr><td colspan="6">ምንም Attendance History የለም።</td></tr>';return;}
+ h.innerHTML=mine.slice().reverse().map(r=>{
+ const lv=isEmployeeOnLeave(r.id,r.date);
+ return `<tr><td>${escapeHTML(r.date)}</td><td><b>${escapeHTML(r.id)}</b></td><td><b>${escapeHTML(r.name)}</b></td><td>${lv?'<span class="badge">🏖️ On Leave</span>':escapeHTML(r.checkIn||"--")}</td><td>${escapeHTML(r.checkOut||"--")}</td><td>${r.latitude?"📍 GPS":"--"}</td></tr>`;
+ }).join("");
+}
+
+function scanQR(){
+ if(typeof Html5Qrcode==="undefined"){showStatus("⏳ QR Scanner እየተጫነ ነው።","err");return;}
+ if(qrScanner)return;qrScanner=new Html5Qrcode("reader");
+ qrScanner.start({facingMode:"environment"},{fps:10,qrbox:250},decoded=>{
+ document.getElementById("employeeID").value=decoded.trim();verifyEmployee();showStatus("📷 QR Code ተነቧል።","ok");stopQR();
+ },()=>{}).catch(()=>{qrScanner=null;showStatus("❌ Camera ፈቃድ ይስጡ።","err");});
+}
+function stopQR(){if(!qrScanner)return;qrScanner.stop().then(()=>{try{qrScanner.clear()}catch(e){}qrScanner=null}).catch(()=>qrScanner=null);}
+
+function saveLeaveRequests(){localStorage.setItem("smartAttendanceLeaveRequests",JSON.stringify(leaveRequests));}
+function leaveStatus(s){
+ if(s==="Approved")return '<span class="badge">✅ Approved</span>';
+ if(s==="Rejected")return '<span class="badge" style="background:#fdecec;color:#b42318">❌ Rejected</span>';
+ return '<span class="badge" style="background:#fff4d6;color:#9a6700">⏳ Pending</span>';
+}
+function submitLeaveRequest(){
+ if(!currentEmployee&&!verifyEmployee())return;
+ const type=document.getElementById("leaveType").value,start=document.getElementById("leaveStart").value,end=document.getElementById("leaveEnd").value,reason=document.getElementById("leaveReason").value.trim();
+ if(!type||!start||!end||!reason){showLeaveMessage("❌ ሁሉንም የፈቃድ መረጃ ይሙሉ።","err");return;}
+ if(end<start){showLeaveMessage("❌ የመጨረሻ ቀን ከመጀመሪያው ቀን በፊት አይሆንም።","err");return;}
+ if(leaveRequests.some(r=>r.employeeID===currentEmployee.id&&r.start===start&&r.end===end&&r.status==="Pending")){showLeaveMessage("⚠️ ተመሳሳይ ጥያቄ ቀድሞ ተልኳል።","err");return;}
+ leaveRequests.push({id:Date.now(),employeeID:currentEmployee.id,name:currentEmployee.name,type,start,end,reason,status:"Pending",createdAt:today()});
+ saveLeaveRequests();document.getElementById("leaveType").value="";document.getElementById("leaveStart").value="";document.getElementById("leaveEnd").value="";document.getElementById("leaveReason").value="";
+ renderMyLeave();renderAdminLeave();showLeaveMessage("✅ የፈቃድ ጥያቄዎ ተልኳል። Admin ማጽደቂያ ይጠብቁ።","ok");
+}
+function renderMyLeave(){
+ const t=document.getElementById("myLeaveHistory");if(!currentEmployee){t.innerHTML='<tr><td colspan="5">Employee ID ያስገቡ።</td></tr>';return;}
+ const a=leaveRequests.filter(r=>r.employeeID===currentEmployee.id).slice().reverse();
+ t.innerHTML=a.length?a.map(r=>`<tr><td>${escapeHTML(r.type)}</td><td>${escapeHTML(r.start)}</td><td>${escapeHTML(r.end)}</td><td>${escapeHTML(r.reason)}</td><td>${leaveStatus(r.status)}</td></tr>`).join(""):'<tr><td colspan="5">የፈቃድ ታሪክ የለም።</td></tr>';
+}
+function renderAdminLeave(){
+ const t=document.getElementById("adminLeaveTable");if(!leaveRequests.length){t.innerHTML='<tr><td colspan="8">ምንም የፈቃድ ጥያቄ የለም።</td></tr>';return;}
+ t.innerHTML=leaveRequests.slice().reverse().map(r=>`<tr><td><b>${escapeHTML(r.employeeID)}</b></td><td>${escapeHTML(r.name)}</td><td>${escapeHTML(r.type)}</td><td>${escapeHTML(r.start)}</td><td>${escapeHTML(r.end)}</td><td>${escapeHTML(r.reason)}</td><td>${leaveStatus(r.status)}</td><td>${r.status==="Pending"?`<button class="success" onclick="approveLeave(${r.id})">✅ Approve</button><button class="danger" onclick="rejectLeave(${r.id})">❌ Reject</button>`:`<button class="light" onclick="deleteLeave(${r.id})">🗑️ Delete</button>`}</td></tr>`).join("");
+}
+function approveLeave(id){const r=leaveRequests.find(x=>x.id===id);if(!r)return;r.status="Approved";saveLeaveRequests();renderAdminLeave();renderMyLeave();showStatus("✅ የፈቃድ ጥያቄው Approved ተደርጓል።","ok");}
+function rejectLeave(id){const r=leaveRequests.find(x=>x.id===id);if(!r)return;r.status="Rejected";saveLeaveRequests();renderAdminLeave();renderMyLeave();showStatus("❌ የፈቃድ ጥያቄው Rejected ተደርጓል።","err");}
+function deleteLeave(id){if(!confirm("የፈቃድ መዝገቡን ማጥፋት ይፈልጋሉ?"))return;leaveRequests=leaveRequests.filter(r=>r.id!==id);saveLeaveRequests();renderAdminLeave();renderMyLeave();}
+
+function adminLogin(){
+ if(document.getElementById("adminPassword").value!==ADMIN_PIN){showStatus("❌ Admin Password ትክክል አይደለም።","err");return;}
+ document.getElementById("adminPanel").classList.remove("hidden");renderSalaryTable();renderAdminLeave();showStatus("🔐 Admin Dashboard ተከፍቷል።","ok");
+}
+function renderSalaryTable(){document.getElementById("salaryTable").innerHTML=employees.map(e=>`<tr><td><b>${escapeHTML(e.id)}</b></td><td>${escapeHTML(e.name)}</td><td><input id="salary_${e.id}" type="number" min="0" step="0.01" value="${Number(salaries[e.id]||0)}"></td></tr>`).join("");}
+function saveSalaries(){employees.forEach(e=>{const x=document.getElementById("salary_"+e.id);if(x)salaries[e.id]=Number(x.value)||0;});localStorage.setItem("smartAttendanceSalaries",JSON.stringify(salaries));alert("✅ Salary ተቀምጧልፍ");}
+function saveSalariesSilent(){employees.forEach(e=>{const x=document.getElementById("salary_"+e.id);if(x)salaries[e.id]=Number(x.value)||0;});localStorage.setItem("smartAttendanceSalaries",JSON.stringify(salaries));}
+
+function gregorianToJD(y,m,d){let a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;}
+function jdToEthiopian(jd){const y=Math.floor((4*(jd-1723856)+1463)/1461),m=1+Math.floor((jd-(1723856+365*(y-1)+Math.floor(y/4)))/30),d=jd-(1723856+365*(y-1)+Math.floor(y/4)+30*(m-1))+1;return{year:y,month:m,day:d};}
+function gregorianToEthiopian(date){return jdToEthiopian(gregorianToJD(date.getFullYear(),date.getMonth()+1,date.getDate()));}
+function ethiopianToGregorian(y,m,d){const jd=1723856+365*(y-1)+Math.floor(y/4)+30*(m-1)+d-1;let a=jd+32044,b=Math.floor((4*a+3)/146097),c=a-Math.floor(146097*b/4),dy=Math.floor((4*c+3)/1461),e=c-Math.floor(1461*dy/4),mm=Math.floor((5*e+2)/153),day=e-Math.floor((153*mm+2)/5)+1,month=mm+3-12*Math.floor(mm/10),year=100*b+dy-4800+Math.floor(mm/10);return new Date(year,month-1,day);}
+function isEthiopianLeapYear(y){return y%4===3;}
+function ethMonthName(m){return["","መስከረም","ጥቅምት","ኅዳር","ታኅሣሥ","ጥር","የካቲት","መጋቢት","ሚያዝያ","ግንቦት","ሰኔ","ሐምሌ","ነሐሴ","ጳጉሜን"][m]||"";}
+function setCurrentPayrollDate(){const e=gregorianToEthiopian(ethiopiaDate());document.getElementById("payYear").value=e.year;document.getElementById("payMonth").value=e.month;}
+function dateKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+
+function getEthiopianMonthDates(y,m){
+ const days=m===13?(isEthiopianLeapYear(y)?6:5):30,a=[];for(let i=1;i<=days;i++)a.push({ethDay:i,date:ethiopianToGregorian(y,m,i)});return a;
+}
+function calculatePayroll(){
+ saveSalariesSilent();const year=Number(document.getElementById("payYear").value),month=Number(document.getElementById("payMonth").value);if(!year||!month){alert("ዓመትና ወር ይምረጡ።");return;}
+ const dates=getEthiopianMonthDates(year,month),workingDates=dates.filter(x=>x.date.getDay()>=1&&x.date.getDay()<=5),workingDays=workingDates.length;lastPayroll=[];
+ employees.forEach(e=>{
+  const salary=Number(salaries[e.id]||0),daily=workingDays?salary/workingDays:0;let worked=0,absent=0,leaveDays=0,lateMinutes=0;
+  const ers=records.filter(r=>r.id===e.id);
+  workingDates.forEach(item=>{
+   const key=dateKey(item.date);
+   if(isEmployeeOnLeave(e.id,key)){leaveDays++;return;}
+   const r=ers.find(x=>x.date===key);
+   if(r&&r.checkIn){worked++;const p=r.checkIn.split(":");const mins=Number(p[0])*60+Number(p[1]);if(mins>150)lateMinutes+=mins-150;}else absent++;
+  });
+  const absenceDeduction=absent*daily,lateDeduction=(lateMinutes/60)*(daily/8),deduction=absenceDeduction+lateDeduction,net=Math.max(0,salary-deduction);
+  lastPayroll.push({id:e.id,name:e.name,salary,workingDays,worked,absent,leaveDays,lateMinutes,absenceDeduction,lateDeduction,deduction,netSalary:net});
+ });
+ renderPayroll(year,month,workingDays);
+}
+function renderPayroll(year,month,workingDays){
+ const totalSalary=lastPayroll.reduce((s,r)=>s+r.salary,0),totalDed=lastPayroll.reduce((s,r)=>s+r.deduction,0),totalNet=lastPayroll.reduce((s,r)=>s+r.netSalary,0),totalAbsent=lastPayroll.reduce((s,r)=>s+r.absent,0),totalWorked=lastPayroll.reduce((s,r)=>s+r.worked,0),totalLeave=lastPayroll.reduce((s,r)=>s+r.leaveDays,0);
+ let h=`<div class="payrollTotal"><h3>💰 Payroll: ${year} ዓ.ም - ${ethMonthName(month)}</h3><p>የሥራ ቀናት: <b>${workingDays}</b></p><p>ጠቅላላ Salary: <b>${money(totalSalary)}</b> ብር</p><p>ጠቅላላ Worked: <b>${totalWorked}</b></p><p>ጠቅላላ On Leave: <b>${totalLeave}</b></p><p>ጠቅላላ Absent: <b>${totalAbsent}</b></p><p>ጠቅላላ Deduction: <b>${money(totalDed)}</b> ብር</p><p class="net">ጠቅላላ Net Salary: ${money(totalNet)} ብር</p></div><div style="overflow-x:auto"><table><thead><tr><th>Employee</th><th>Salary</th><th>Worked</th><th>Leave</th><th>Absent</th><th>Late</th><th>Deduction</th><th>Net</th></tr></thead><tbody>`;
+ lastPayroll.forEach(r=>h+=`<tr><td><b>${escapeHTML(r.id)}</b><br>${escapeHTML(r.name)}</td><td>${money(r.salary)}</td><td>${r.worked}</td><td>${r.leaveDays}</td><td>${r.absent}</td><td>${r.lateMinutes} min</td><td>${money(r.deduction)}</td><td class="net">${money(r.netSalary)}</td></tr>`);
+ document.getElementById("payrollSummary").innerHTML=h+"</tbody></table></div>";
+}
+function downloadPayroll(){
+ if(!lastPayroll.length){alert("መጀመሪያ Calculate Payroll ያድርጉ።");return;}
+ const year=document.getElementById("payYear").value,month=document.getElementById("payMonth").value;
+ let csv="Employee ID,Full Name,Salary,Working Days,Worked,On Leave,Absent,Late Minutes,Absence Deduction,Late Deduction,Total Deduction,Net Salary\n";
+ lastPayroll.forEach(r=>csv+=`${csvSafe(r.id)},"${csvSafe(r.name)}",${r.salary},${r.workingDays},${r.worked},${r.leaveDays},${r.absent},${r.lateMinutes},${r.absenceDeduction.toFixed(2)},${r.lateDeduction.toFixed(2)},${r.deduction.toFixed(2)},${r.netSalary.toFixed(2)}\n`);
+ downloadBlob("\ufeff"+csv,"Payroll_"+year+"_"+ethMonthName(Number(month))+".csv");
+}
+function downloadReport(){
+ if(!records.length){alert("Attendance መዝገብ የለም።");return;}
+ let csv="Date,Employee ID,Full Name,Check In,Check Out,Latitude,Longitude\n";records.forEach(r=>csv+=`${csvSafe(r.date)},${csvSafe(r.id)},"${csvSafe(r.name)}",${csvSafe(r.checkIn)},${csvSafe(r.checkOut)},${csvSafe(r.latitude)},${csvSafe(r.longitude)}\n`);downloadBlob("\ufeff"+csv,"SMART_Attendance_Report.csv");
+}
+function downloadBlob(content,name){const u=URL.createObjectURL(new Blob([content],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);}
+function showAllRecords(){if(!records.length){alert("Attendance መዝገብ የለም።");return;}document.getElementById("history").innerHTML=records.slice().reverse().map(r=>`<tr><td>${escapeHTML(r.date)}</td><td><b>${escapeHTML(r.id)}</b></td><td><b>${escapeHTML(r.name)}</b></td><td>${escapeHTML(r.checkIn||"--")}</td><td>${escapeHTML(r.checkOut||"--")}</td><td>${r.latitude?"📍 GPS":"--"}</td></tr>`).join("");}
+function clearRecords(){if(!confirm("በዚህ ስልክ ያሉትን Attendance መዝገቦች ማጥፋት ይፈልጋሉ?"))return;records=[];save();render();showStatus("🗑️ Attendance መዝገብ ተሰርዟል።","ok");}
+function logout(){stopQR();currentEmployee=null;currentLocation={latitude:"",longitude:""};document.getElementById("employeeID").value="";document.getElementById("employeeInfo").innerHTML="";document.getElementById("gpsInfo").innerHTML="";document.getElementById("status").innerHTML="";document.getElementById("adminPassword").value="";document.getElementById("adminPanel").classList.add("hidden");document.getElementById("payrollSummary").innerHTML="";document.getElementById("app").classList.add("hidden");document.getElementById("cover").classList.remove("hidden");}
+function openApp(){document.getElementById("cover").classList.add("hidden");document.getElementById("app").classList.remove("hidden");setCurrentPayrollDate();updateClock();render();renderMyLeave();}
+updateClock();
+</script>
+</body>
+</html>
