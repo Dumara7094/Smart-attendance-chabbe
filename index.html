@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1769aa">
+<meta name="description" content="SMART Attendance + Payroll">
 <title>SMART Attendance + Payroll</title>
 
-<script src="https://unpkg.com/html5-qrcode" defer></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
@@ -41,8 +42,15 @@ header{
  border:5px solid #ffd43b;
 }
 
-h1{margin:10px 0 5px;font-size:26px}
-.subtitle{font-size:14px;opacity:.95}
+h1{
+ margin:10px 0 5px;
+ font-size:26px;
+}
+
+.subtitle{
+ font-size:14px;
+ opacity:.95;
+}
 
 .container{
  max-width:1000px;
@@ -81,7 +89,9 @@ button{
  margin:4px;
 }
 
-button:hover{opacity:.9}
+button:hover{
+ opacity:.9;
+}
 
 .green{background:#159957}
 .yellow{background:#e0a800}
@@ -96,6 +106,7 @@ input,select{
  margin-top:5px;
  margin-bottom:10px;
  font-size:15px;
+ background:white;
 }
 
 label{
@@ -149,6 +160,16 @@ th{
  margin:10px 0;
 }
 
+.success{
+ background:#e9f8ef;
+ border-left:5px solid #159957;
+}
+
+.error{
+ background:#ffe9e9;
+ border-left:5px solid #dc3545;
+}
+
 footer{
  text-align:center;
  padding:25px 10px;
@@ -156,13 +177,37 @@ footer{
  font-size:13px;
 }
 
-.hidden{display:none!important}
+.hidden{
+ display:none!important;
+}
+
+.small{
+ font-size:12px;
+ color:#667;
+}
 
 @media(max-width:600px){
- h1{font-size:22px}
- button{width:100%;margin:4px 0}
- table{font-size:11px}
- th,td{padding:6px}
+
+ h1{
+  font-size:22px;
+ }
+
+ button{
+  width:100%;
+  margin:4px 0;
+ }
+
+ table{
+  font-size:11px;
+ }
+
+ th,td{
+  padding:6px;
+ }
+
+ .card{
+  padding:14px;
+ }
 }
 </style>
 </head>
@@ -170,452 +215,1267 @@ footer{
 <body>
 
 <header>
- <div class="logo">SA</div>
- <h1>SMART Attendance + Payroll</h1>
- <div class="subtitle">ችግርን በቴክኖሎጂ ወደ መፍትሔ መቀየር</div>
- <div class="subtitle">በዱማራ ዱዌ</div>
+
+<div class="logo">SA</div>
+
+<h1>SMART Attendance + Payroll</h1>
+
+<div class="subtitle">
+ችግርን በቴክኖሎጂ ወደ መፍትሔ መቀየር
+</div>
+
+<div class="subtitle">
+በዱማራ ዱዌ
+</div>
+
 </header>
+
 
 <div class="container">
 
-<div class="card">
- <h2>እንኳን ደህና መጡ!</h2>
-
- <div class="grid">
-  <div class="stat">
-   <b id="today">--</b>
-   ዛሬ
-  </div>
-
-  <div class="stat">
-   <b id="presentCount">0</b>
-   የገቡ
-  </div>
-
-  <div class="stat">
-   <b id="leaveCount">0</b>
-   ፈቃድ
-  </div>
- </div>
-</div>
+<!-- DASHBOARD -->
 
 <div class="card">
- <h2>👤 Employee Attendance</h2>
 
- <label>Employee ID</label>
- <select id="employee">
-  <option value="EMP001">EMP001</option>
-  <option value="EMP002">EMP002</option>
-  <option value="EMP003">EMP003</option>
-  <option value="EMP004">EMP004</option>
-  <option value="EMP005">EMP005</option>
-  <option value="EMP006">EMP006</option>
-  <option value="EMP007">EMP007</option>
-  <option value="EMP008">EMP008</option>
-  <option value="EMP009">EMP009</option>
-  <option value="EMP010">EMP010</option>
-  <option value="EMP011">EMP011</option>
-  <option value="EMP012">EMP012</option>
-  <option value="EMP013">EMP013</option>
-  <option value="EMP014">EMP014</option>
-  <option value="EMP015">EMP015</option>
-  <option value="EMP016">EMP016</option>
-  <option value="EMP017">EMP017</option>
-  <option value="EMP018">EMP018</option>
-  <option value="EMP019">EMP019</option>
-  <option value="EMP020">EMP020</option>
- </select>
+<h2>እንኳን ደህና መጡ!</h2>
 
- <button onclick="checkIn()">🟢 Check In</button>
- <button class="red" onclick="checkOut()">🔴 Check Out</button>
- <button class="green" onclick="getLocation()">📍 GPS Location</button>
+<div class="grid">
 
- <div id="location" class="notice">
-  GPS: አልተጀመረም
- </div>
+<div class="stat">
+<b id="today">--</b>
+ዛሬ
 </div>
+
+<div class="stat">
+<b id="presentCount">0</b>
+የገቡ
+</div>
+
+<div class="stat">
+<b id="leaveCount">0</b>
+ፈቃድ
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ATTENDANCE -->
 
 <div class="card">
- <h2>📷 QR Code Scan</h2>
 
- <div id="reader"></div>
+<h2>👤 Employee Attendance</h2>
 
- <button onclick="startQR()">Start QR Scanner</button>
- <button class="gray" onclick="stopQR()">Stop Scanner</button>
+<label>Employee ID</label>
 
- <div id="qrResult" class="notice">
-  QR ኮድ እስካሁን አልተነበበም።
- </div>
+<select id="employee">
+<option value="EMP001">EMP001</option>
+<option value="EMP002">EMP002</option>
+<option value="EMP003">EMP003</option>
+<option value="EMP004">EMP004</option>
+<option value="EMP005">EMP005</option>
+<option value="EMP006">EMP006</option>
+<option value="EMP007">EMP007</option>
+<option value="EMP008">EMP008</option>
+<option value="EMP009">EMP009</option>
+<option value="EMP010">EMP010</option>
+<option value="EMP011">EMP011</option>
+<option value="EMP012">EMP012</option>
+<option value="EMP013">EMP013</option>
+<option value="EMP014">EMP014</option>
+<option value="EMP015">EMP015</option>
+<option value="EMP016">EMP016</option>
+<option value="EMP017">EMP017</option>
+<option value="EMP018">EMP018</option>
+<option value="EMP019">EMP019</option>
+<option value="EMP020">EMP020</option>
+</select>
+
+<button onclick="checkIn()">🟢 Check In</button>
+
+<button class="red" onclick="checkOut()">🔴 Check Out</button>
+
+<button class="green" onclick="getLocation()">📍 GPS Location</button>
+
+<div id="location" class="notice">
+GPS: አልተጀመረም
 </div>
+
+</div>
+
+
+<!-- QR -->
 
 <div class="card">
- <h2>📝 Leave Management</h2>
 
- <label>Employee ID</label>
- <select id="leaveEmployee">
-  <option value="EMP001">EMP001</option>
-  <option value="EMP002">EMP002</option>
-  <option value="EMP003">EMP003</option>
-  <option value="EMP004">EMP004</option>
-  <option value="EMP005">EMP005</option>
- </select>
+<h2>📷 QR Code Scan</h2>
 
- <label>Leave Type</label>
- <select id="leaveType">
-  <option>Annual</option>
-  <option>Sick</option>
-  <option>Emergency</option>
-  <option>Maternity</option>
-  <option>Paternity</option>
-  <option>Other</option>
- </select>
+<div id="reader"></div>
 
- <label>Number of Days</label>
- <input id="leaveDays" type="number" min="1" value="1">
+<button onclick="startQR()">
+Start QR Scanner
+</button>
 
- <button class="green" onclick="addLeave()">Submit Leave</button>
+<button class="gray" onclick="stopQR()">
+Stop Scanner
+</button>
+
+<div id="qrResult" class="notice">
+QR ኮድ እስካሁን አልተነበበም።
 </div>
+
+</div>
+
+
+<!-- LEAVE -->
 
 <div class="card">
- <h2>💰 Payroll</h2>
 
- <div class="grid">
+<h2>📝 Leave Management</h2>
 
-  <div>
-   <label>Employee ID</label>
-   <select id="payEmployee">
-    <option value="EMP001">EMP001</option>
-    <option value="EMP002">EMP002</option>
-    <option value="EMP003">EMP003</option>
-    <option value="EMP004">EMP004</option>
-    <option value="EMP005">EMP005</option>
-   </select>
-  </div>
+<label>Employee ID</label>
 
-  <div>
-   <label>Monthly Salary</label>
-   <input id="salary" type="number" value="17439">
-  </div>
+<select id="leaveEmployee">
+<option value="EMP001">EMP001</option>
+<option value="EMP002">EMP002</option>
+<option value="EMP003">EMP003</option>
+<option value="EMP004">EMP004</option>
+<option value="EMP005">EMP005</option>
+<option value="EMP006">EMP006</option>
+<option value="EMP007">EMP007</option>
+<option value="EMP008">EMP008</option>
+<option value="EMP009">EMP009</option>
+<option value="EMP010">EMP010</option>
+<option value="EMP011">EMP011</option>
+<option value="EMP012">EMP012</option>
+<option value="EMP013">EMP013</option>
+<option value="EMP014">EMP014</option>
+<option value="EMP015">EMP015</option>
+<option value="EMP016">EMP016</option>
+<option value="EMP017">EMP017</option>
+<option value="EMP018">EMP018</option>
+<option value="EMP019">EMP019</option>
+<option value="EMP020">EMP020</option>
+</select>
 
-  <div>
-   <label>Absent Days</label>
-   <input id="absent" type="number" value="0" min="0">
-  </div>
+<label>Leave Type</label>
 
-  <div>
-   <label>Late Days</label>
-   <input id="late" type="number" value="0" min="0">
-  </div>
+<select id="leaveType">
+<option>Annual</option>
+<option>Sick</option>
+<option>Emergency</option>
+<option>Maternity</option>
+<option>Paternity</option>
+<option>Other</option>
+</select>
 
- </div>
+<label>Number of Days</label>
 
- <button onclick="calculatePayroll()">Calculate Payroll</button>
+<input
+id="leaveDays"
+type="number"
+min="1"
+value="1"
+>
 
- <div id="payrollResult" class="notice">
-  Payroll ለማስላት Calculate Payroll ይጫኑ።
- </div>
+<button class="green" onclick="addLeave()">
+Submit Leave
+</button>
+
 </div>
+
+
+<!-- PAYROLL -->
 
 <div class="card">
- <h2>📊 Attendance Records</h2>
 
- <button onclick="showRecords()">Refresh Records</button>
- <button class="green" onclick="downloadCSV()">Download CSV</button>
- <button class="red" onclick="clearRecords()">Clear Records</button>
+<h2>💰 Payroll</h2>
 
- <div style="overflow-x:auto">
-  <table>
-   <thead>
-    <tr>
-     <th>Employee</th>
-     <th>Date</th>
-     <th>Check In</th>
-     <th>Check Out</th>
-     <th>GPS</th>
-     <th>Status</th>
-    </tr>
-   </thead>
+<div class="grid">
 
-   <tbody id="recordsBody"></tbody>
-  </table>
- </div>
+<div>
+
+<label>Employee ID</label>
+
+<select id="payEmployee">
+
+<option value="EMP001">EMP001</option>
+<option value="EMP002">EMP002</option>
+<option value="EMP003">EMP003</option>
+<option value="EMP004">EMP004</option>
+<option value="EMP005">EMP005</option>
+<option value="EMP006">EMP006</option>
+<option value="EMP007">EMP007</option>
+<option value="EMP008">EMP008</option>
+<option value="EMP009">EMP009</option>
+<option value="EMP010">EMP010</option>
+<option value="EMP011">EMP011</option>
+<option value="EMP012">EMP012</option>
+<option value="EMP013">EMP013</option>
+<option value="EMP014">EMP014</option>
+<option value="EMP015">EMP015</option>
+<option value="EMP016">EMP016</option>
+<option value="EMP017">EMP017</option>
+<option value="EMP018">EMP018</option>
+<option value="EMP019">EMP019</option>
+<option value="EMP020">EMP020</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Monthly Salary</label>
+
+<input
+id="salary"
+type="number"
+value="17439"
+min="0"
+>
+
+</div>
+
+<div>
+
+<label>Absent Days</label>
+
+<input
+id="absent"
+type="number"
+value="0"
+min="0"
+>
+
+</div>
+
+<div>
+
+<label>Late Days</label>
+
+<input
+id="late"
+type="number"
+value="0"
+min="0"
+>
+
 </div>
 
 </div>
+
+<button onclick="calculatePayroll()">
+Calculate Payroll
+</button>
+
+<div id="payrollResult" class="notice">
+Payroll ለማስላት Calculate Payroll ይጫኑ።
+</div>
+
+</div>
+
+
+<!-- RECORDS -->
+
+<div class="card">
+
+<h2>📊 Attendance Records</h2>
+
+<button onclick="showRecords()">
+Refresh Records
+</button>
+
+<button class="green" onclick="downloadCSV()">
+Download CSV
+</button>
+
+<button class="red" onclick="clearRecords()">
+Clear Records
+</button>
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Employee</th>
+<th>Date</th>
+<th>Check In</th>
+<th>Check Out</th>
+<th>GPS</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="recordsBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- LEAVE RECORDS -->
+
+<div class="card">
+
+<h2>📋 Leave Records</h2>
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Employee</th>
+<th>Type</th>
+<th>Days</th>
+<th>Date</th>
+</tr>
+
+</thead>
+
+<tbody id="leaveBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+</div>
+
 
 <footer>
- SMART Attendance + Payroll<br>
- © 2026 Dumara Duwe
+
+SMART Attendance + Payroll<br>
+© 2026 Dumara Duwe
+
 </footer>
+
 
 <script>
 
-let records=JSON.parse(localStorage.getItem("attendanceRecords")||"[]");
-let leaves=JSON.parse(localStorage.getItem("leaveRecords")||"[]");
-let currentGPS="Not available";
-let qrScanner=null;
+/* =========================
+   DATA
+========================= */
+
+let records = JSON.parse(
+ localStorage.getItem("attendanceRecords") || "[]"
+);
+
+let leaves = JSON.parse(
+ localStorage.getItem("leaveRecords") || "[]"
+);
+
+let currentGPS = "Not available";
+
+let qrScanner = null;
+
+let qrRunning = false;
+
+
+/* =========================
+   STORAGE
+========================= */
 
 function save(){
- localStorage.setItem("attendanceRecords",JSON.stringify(records));
- localStorage.setItem("leaveRecords",JSON.stringify(leaves));
+
+ localStorage.setItem(
+  "attendanceRecords",
+  JSON.stringify(records)
+ );
+
+ localStorage.setItem(
+  "leaveRecords",
+  JSON.stringify(leaves)
+ );
+
 }
+
+
+/* =========================
+   ETHIOPIA TIME
+========================= */
 
 function now(){
+
  return new Date();
+
 }
+
 
 function dateText(){
- return now().toLocaleDateString("en-CA");
+
+ return new Intl.DateTimeFormat(
+  "en-CA",
+  {
+   timeZone:"Africa/Addis_Ababa",
+   year:"numeric",
+   month:"2-digit",
+   day:"2-digit"
+  }
+ ).format(now());
+
 }
 
+
 function timeText(){
- return now().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+
+ return new Intl.DateTimeFormat(
+  "en-US",
+  {
+   timeZone:"Africa/Addis_Ababa",
+   hour:"2-digit",
+   minute:"2-digit",
+   second:"2-digit",
+   hour12:false
+  }
+ ).format(now());
+
 }
+
+
+/* =========================
+   CHECK IN
+========================= */
 
 function checkIn(){
 
- const emp=document.getElementById("employee").value;
- const today=dateText();
+ const emp =
+ document.getElementById("employee").value;
 
- let record=records.find(x=>x.employee===emp && x.date===today);
+ const today = dateText();
+
+ let record = records.find(
+  x =>
+   x.employee === emp &&
+   x.date === today
+ );
 
  if(record){
-  alert("ይህ Employee ዛሬ Check In አድርጓል።");
+
+  alert(
+   "ይህ Employee ዛሬ Check In አድርጓል።"
+  );
+
   return;
+
  }
 
- record={
+ record = {
+
   employee:emp,
+
   date:today,
+
   checkIn:timeText(),
+
   checkOut:"",
+
   gps:currentGPS,
+
   status:"Present"
+
  };
 
  records.push(record);
+
  save();
+
  showRecords();
+
  updateStats();
 
- alert("Check In ተሳክቷል።");
+ alert(
+  "Check In በተሳካ ሁኔታ ተመዝግቧል።"
+ );
+
 }
+
+
+/* =========================
+   CHECK OUT
+========================= */
 
 function checkOut(){
 
- const emp=document.getElementById("employee").value;
- const today=dateText();
+ const emp =
+ document.getElementById("employee").value;
 
- let record=records.find(x=>x.employee===emp && x.date===today);
+ const today = dateText();
+
+ let record = records.find(
+  x =>
+   x.employee === emp &&
+   x.date === today
+ );
 
  if(!record){
-  alert("መጀመሪያ Check In ያድርጉ።");
+
+  alert(
+   "መጀመሪያ Check In ያድርጉ።"
+  );
+
   return;
+
  }
 
- record.checkOut=timeText();
+ if(record.checkOut){
+
+  alert(
+   "ይህ Employee ዛሬ Check Out አድርጓል።"
+  );
+
+  return;
+
+ }
+
+ record.checkOut = timeText();
+
  save();
+
  showRecords();
 
- alert("Check Out ተሳክቷል።");
+ alert(
+  "Check Out በተሳካ ሁኔታ ተመዝግቧል።"
+ );
+
 }
+
+
+/* =========================
+   GPS
+========================= */
 
 function getLocation(){
 
  if(!navigator.geolocation){
-  document.getElementById("location").innerText=
-  "ይህ browser GPS አይደግፍም።";
+
+  document.getElementById(
+   "location"
+  ).innerText =
+   "ይህ browser GPS አይደግፍም።";
+
   return;
+
  }
 
+ document.getElementById(
+  "location"
+ ).innerText =
+  "GPS እየፈለገ ነው...";
+
  navigator.geolocation.getCurrentPosition(
-  position=>{
 
-   const lat=position.coords.latitude.toFixed(6);
-   const lon=position.coords.longitude.toFixed(6);
+  position => {
 
-   currentGPS=lat+","+lon;
+   const lat =
+    position.coords.latitude.toFixed(6);
 
-   document.getElementById("location").innerText=
-   "GPS: "+currentGPS;
+   const lon =
+    position.coords.longitude.toFixed(6);
+
+   currentGPS =
+    lat + "," + lon;
+
+   document.getElementById(
+    "location"
+   ).innerText =
+    "GPS: " + currentGPS;
 
   },
-  error=>{
-   document.getElementById("location").innerText=
-   "GPS ለመጠቀም Location Permission ይፍቀዱ።";
+
+  error => {
+
+   currentGPS =
+    "Location permission denied";
+
+   document.getElementById(
+    "location"
+   ).innerText =
+    "GPS ለመጠቀም Location Permission ይፍቀዱ።";
+
+  },
+
+  {
+   enableHighAccuracy:true,
+   timeout:10000,
+   maximumAge:0
   }
+
  );
+
 }
+
+
+/* =========================
+   QR SCANNER
+========================= */
 
 function startQR(){
 
- if(typeof Html5Qrcode==="undefined"){
-  alert("QR Scanner library እየጫነ ነው። ጥቂት ሰከንድ ይጠብቁ።");
+ if(qrRunning){
+
+  alert(
+   "QR Scanner አስቀድሞ እየሰራ ነው።"
+  );
+
   return;
+
  }
 
- if(qrScanner) return;
+ if(typeof Html5Qrcode === "undefined"){
 
- qrScanner=new Html5Qrcode("reader");
+  alert(
+   "QR Scanner library አልተጫነም። Internet ይፈትሹ።"
+  );
+
+  return;
+
+ }
+
+ qrScanner =
+  new Html5Qrcode("reader");
 
  qrScanner.start(
-  {facingMode:"environment"},
-  {fps:10,qrbox:250},
 
-  decodedText=>{
+  {
+   facingMode:"environment"
+  },
 
-   document.getElementById("qrResult").innerText=
-   "QR Result: "+decodedText;
-
-   const emp=document.getElementById("employee");
-
-   if([...emp.options].some(o=>o.value===decodedText)){
-    emp.value=decodedText;
-    checkIn();
+  {
+   fps:10,
+   qrbox:{
+    width:250,
+    height:250
    }
   },
 
-  errorMessage=>{}
+  decodedText => {
+
+   document.getElementById(
+    "qrResult"
+   ).innerText =
+    "QR Result: " + decodedText;
+
+   const emp =
+    document.getElementById(
+     "employee"
+    );
+
+   const valid =
+    [...emp.options].some(
+     option =>
+      option.value === decodedText
+    );
+
+   if(valid){
+
+    emp.value = decodedText;
+
+    checkIn();
+
+   }else{
+
+    alert(
+     "ይህ QR Code የተመዘገበ Employee ID አይደለም።"
+    );
+
+   }
+
+  },
+
+  errorMessage => {}
+
  )
- .catch(err=>{
-  alert("Camera መክፈት አልተቻለም። Camera permission ይፍቀዱ።");
+
+ .then(() => {
+
+  qrRunning = true;
+
+ })
+
+ .catch(error => {
+
+  qrScanner = null;
+
+  qrRunning = false;
+
+  alert(
+   "Camera መክፈት አልተቻለም። Camera Permission ይፍቀዱ።"
+  );
+
  });
+
 }
+
+
+/* =========================
+   STOP QR
+========================= */
 
 function stopQR(){
 
- if(qrScanner){
+ if(!qrScanner){
 
-  qrScanner.stop()
-  .then(()=>{
-   qrScanner.clear();
-   qrScanner=null;
-  })
-  .catch(()=>{});
+  return;
 
  }
+
+ qrScanner.stop()
+
+ .then(() => {
+
+  qrScanner.clear();
+
+  qrScanner = null;
+
+  qrRunning = false;
+
+ })
+
+ .catch(() => {
+
+  qrScanner = null;
+
+  qrRunning = false;
+
+ });
+
 }
+
+
+/* =========================
+   LEAVE
+========================= */
 
 function addLeave(){
 
- const emp=document.getElementById("leaveEmployee").value;
- const type=document.getElementById("leaveType").value;
- const days=document.getElementById("leaveDays").value;
+ const emp =
+  document.getElementById(
+   "leaveEmployee"
+  ).value;
 
- if(!days || days<1){
-  alert("የቀን ብዛት ያስገቡ።");
+ const type =
+  document.getElementById(
+   "leaveType"
+  ).value;
+
+ const days =
+  Number(
+   document.getElementById(
+    "leaveDays"
+   ).value
+  );
+
+ if(!days || days < 1){
+
+  alert(
+   "የፈቃድ ቀን ብዛት ያስገቡ።"
+  );
+
   return;
+
  }
 
  leaves.push({
+
   employee:emp,
+
   type:type,
-  days:Number(days),
+
+  days:days,
+
   date:dateText()
+
  });
 
  save();
+
+ showLeaveRecords();
+
  updateStats();
 
- alert("የፈቃድ ጥያቄ ተመዝግቧል።");
+ alert(
+  "የፈቃድ ጥያቄ በተሳካ ሁኔታ ተመዝግቧል።"
+ );
+
 }
+
+
+/* =========================
+   PAYROLL
+========================= */
+
+const defaultSalary = {
+
+ EMP001:17439,
+
+ EMP002:15739,
+
+ EMP003:19645,
+
+ EMP004:15000,
+
+ EMP005:15000,
+
+ EMP006:15000,
+
+ EMP007:15000,
+
+ EMP008:15000,
+
+ EMP009:15000,
+
+ EMP010:15000,
+
+ EMP011:15000,
+
+ EMP012:15000,
+
+ EMP013:15000,
+
+ EMP014:15000,
+
+ EMP015:15000,
+
+ EMP016:15000,
+
+ EMP017:15000,
+
+ EMP018:15000,
+
+ EMP019:15000,
+
+ EMP020:15000
+
+};
+
+
+document
+ .getElementById("payEmployee")
+ .addEventListener(
+  "change",
+  function(){
+
+   const emp = this.value;
+
+   document.getElementById(
+    "salary"
+   ).value =
+    defaultSalary[emp] || 15000;
+
+  }
+ );
+
 
 function calculatePayroll(){
 
- const salary=Number(document.getElementById("salary").value)||0;
- const absent=Number(document.getElementById("absent").value)||0;
- const late=Number(document.getElementById("late").value)||0;
+ const employee =
+  document.getElementById(
+   "payEmployee"
+  ).value;
 
- const absentDeduction=(salary/30)*absent;
- const lateDeduction=(salary/30)*0.25*late;
- const totalDeduction=absentDeduction+lateDeduction;
- const net=salary-totalDeduction;
+ const salary =
+  Number(
+   document.getElementById(
+    "salary"
+   ).value
+  ) || 0;
 
- document.getElementById("payrollResult").innerHTML=
- `
- <b>Monthly Salary:</b> ${salary.toFixed(2)}<br>
- <b>Absent Deduction:</b> ${absentDeduction.toFixed(2)}<br>
- <b>Late Deduction:</b> ${lateDeduction.toFixed(2)}<br>
- <b>Total Deduction:</b> ${totalDeduction.toFixed(2)}<br>
- <b>Net Salary:</b> ${net.toFixed(2)}<br>
- <b>Approved By:</b> Dumara Duwe
- `;
+ const absent =
+  Number(
+   document.getElementById(
+    "absent"
+   ).value
+  ) || 0;
+
+ const late =
+  Number(
+   document.getElementById(
+    "late"
+   ).value
+  ) || 0;
+
+ if(salary <= 0){
+
+  alert(
+   "የወር ደመወዝ ያስገቡ።"
+  );
+
+  return;
+
+ }
+
+ const absentDeduction =
+  (salary / 30) * absent;
+
+ const lateDeduction =
+  (salary / 30) * 0.25 * late;
+
+ const totalDeduction =
+  absentDeduction +
+  lateDeduction;
+
+ let net =
+  salary -
+  totalDeduction;
+
+ if(net < 0){
+  net = 0;
+ }
+
+ document.getElementById(
+  "payrollResult"
+ ).innerHTML =
+
+  "<b>Employee:</b> " +
+  employee +
+
+  "<br><b>Monthly Salary:</b> " +
+  salary.toFixed(2) +
+
+  "<br><b>Absent Days:</b> " +
+  absent +
+
+  "<br><b>Absent Deduction:</b> " +
+  absentDeduction.toFixed(2) +
+
+  "<br><b>Late Days:</b> " +
+  late +
+
+  "<br><b>Late Deduction:</b> " +
+  lateDeduction.toFixed(2) +
+
+  "<br><b>Total Deduction:</b> " +
+  totalDeduction.toFixed(2) +
+
+  "<br><b>Net Salary:</b> " +
+  net.toFixed(2) +
+
+  "<br><b>Approved By:</b> " +
+  "Dumara Duwe";
+
 }
+
+
+/* =========================
+   ATTENDANCE RECORDS
+========================= */
 
 function showRecords(){
 
- const body=document.getElementById("recordsBody");
+ const body =
+  document.getElementById(
+   "recordsBody"
+  );
 
- body.innerHTML="";
+ body.innerHTML = "";
 
- records.forEach(r=>{
+ if(records.length === 0){
 
-  const tr=document.createElement("tr");
+  body.innerHTML =
+   "<tr><td colspan='6'>Record የለም።</td></tr>";
 
-  tr.innerHTML=`
-   <td>${r.employee}</td>
-   <td>${r.date}</td>
-   <td>${r.checkIn||"-"}</td>
-   <td>${r.checkOut||"-"}</td>
-   <td>${r.gps||"-"}</td>
-   <td>${r.status}</td>
-  `;
+  return;
+
+ }
+
+ records.forEach(record => {
+
+  const tr =
+   document.createElement("tr");
+
+  tr.innerHTML =
+
+   "<td>" +
+   escapeHTML(record.employee) +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(record.date) +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(record.checkIn || "-") +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(record.checkOut || "-") +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(record.gps || "-") +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(record.status || "-") +
+   "</td>";
 
   body.appendChild(tr);
+
  });
+
 }
+
+
+/* =========================
+   LEAVE RECORDS
+========================= */
+
+function showLeaveRecords(){
+
+ const body =
+  document.getElementById(
+   "leaveBody"
+  );
+
+ body.innerHTML = "";
+
+ if(leaves.length === 0){
+
+  body.innerHTML =
+   "<tr><td colspan='4'>Leave Record የለም።</td></tr>";
+
+  return;
+
+ }
+
+ leaves.forEach(leave => {
+
+  const tr =
+   document.createElement("tr");
+
+  tr.innerHTML =
+
+   "<td>" +
+   escapeHTML(leave.employee) +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(leave.type) +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(String(leave.days)) +
+   "</td>" +
+
+   "<td>" +
+   escapeHTML(leave.date) +
+   "</td>";
+
+  body.appendChild(tr);
+
+ });
+
+}
+
+
+/* =========================
+   CSV
+========================= */
+
+function csvEscape(value){
+
+ value = String(value ?? "");
+
+ return '"' +
+  value.replace(/"/g,'""') +
+  '"';
+
+}
+
 
 function downloadCSV(){
 
- if(records.length===0){
-  alert("የAttendance Record የለም።");
+ if(records.length === 0){
+
+  alert(
+   "የAttendance Record የለም።"
+  );
+
   return;
+
  }
 
- let csv="Employee,Date,Check In,Check Out,GPS,Status\n";
+ let csv =
+  "\uFEFFEmployee,Date,Check In,Check Out,GPS,Status\n";
 
- records.forEach(r=>{
-  csv+=
-  `${r.employee},${r.date},${r.checkIn},${r.checkOut},${r.gps},${r.status}\n`;
+ records.forEach(record => {
+
+  csv +=
+
+   csvEscape(record.employee) + "," +
+
+   csvEscape(record.date) + "," +
+
+   csvEscape(record.checkIn) + "," +
+
+   csvEscape(record.checkOut) + "," +
+
+   csvEscape(record.gps) + "," +
+
+   csvEscape(record.status) +
+
+   "\n";
+
  });
 
- const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
- const url=URL.createObjectURL(blob);
+ const blob =
+  new Blob(
+   [csv],
+   {
+    type:"text/csv;charset=utf-8;"
+   }
+  );
 
- const a=document.createElement("a");
- a.href=url;
- a.download="attendance.csv";
+ const url =
+  URL.createObjectURL(blob);
+
+ const a =
+  document.createElement("a");
+
+ a.href = url;
+
+ a.download =
+  "attendance.csv";
+
+ document.body.appendChild(a);
+
  a.click();
 
- URL.revokeObjectURL(url);
+ document.body.removeChild(a);
+
+ setTimeout(() => {
+
+  URL.revokeObjectURL(url);
+
+ },1000);
+
 }
+
+
+/* =========================
+   CLEAR RECORDS
+========================= */
 
 function clearRecords(){
 
- if(!confirm("ሁሉንም Attendance Records ማጥፋት ይፈልጋሉ?")){
+ if(records.length === 0){
+
+  alert(
+   "ለማጥፋት Record የለም።"
+  );
+
   return;
+
  }
 
- records=[];
+ if(!confirm(
+  "ሁሉንም Attendance Records ማጥፋት ይፈልጋሉ?"
+ )){
+
+  return;
+
+ }
+
+ records = [];
+
  save();
+
  showRecords();
+
  updateStats();
+
 }
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(value){
+
+ return String(value)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
 
 function updateStats(){
 
- document.getElementById("presentCount").innerText=
- records.filter(r=>r.date===dateText()).length;
+ const today =
+  dateText();
 
- document.getElementById("leaveCount").innerText=
- leaves.length;
+ document.getElementById(
+  "presentCount"
+ ).innerText =
+
+  records.filter(
+   record =>
+    record.date === today
+  ).length;
+
+ document.getElementById(
+  "leaveCount"
+ ).innerText =
+  leaves.length;
+
 }
 
-document.getElementById("today").innerText=
+
+/* =========================
+   INITIALIZE
+========================= */
+
+document.getElementById(
+ "today"
+).innerText =
  dateText();
 
 showRecords();
+
+showLeaveRecords();
+
 updateStats();
+
+
+/* =========================
+   PAGE CLOSE
+========================= */
+
+window.addEventListener(
+ "beforeunload",
+ function(){
+
+  if(qrScanner && qrRunning){
+
+   qrScanner.stop()
+   .catch(() => {});
+
+  }
+
+ }
+);
 
 </script>
 
